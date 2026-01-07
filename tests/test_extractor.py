@@ -7,7 +7,8 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
-sys.path.insert(0, str(Path(__file__).parent))
+# Adicionar src ao path para encontrar o módulo
+sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
 from extrator_contratos import ContractExtractor
 import json

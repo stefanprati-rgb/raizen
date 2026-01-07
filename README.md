@@ -12,29 +12,84 @@ Sistema para extração automatizada de dados de contratos PDF para CSV.
 - Geração de relatório HTML para revisão
 - Exportação para CSV
 
-## Estrutura
+## Estrutura do Projeto
 
 ```
-extrator_contratos/
-├── __init__.py          # Exports do módulo
-├── main.py              # Script principal de execução
-├── extractor.py         # Lógica de extração
-├── patterns.py          # Padrões regex por modelo
-├── validators.py        # Validações (CNPJ, CPF, math)
-├── table_extractor.py   # Extração de tabelas com pdfplumber
-└── report.py            # Geração de relatório HTML
+Raizen/
+├── pyproject.toml           # Configuração do projeto (PEP 517/518)
+├── requirements.txt         # Dependências
+├── README.md
+│
+├── src/                     # Código fonte
+│   └── extrator_contratos/
+│       ├── __init__.py      # Exports do módulo
+│       ├── main.py          # Script principal de execução
+│       ├── extractor.py     # Lógica de extração
+│       ├── patterns.py      # Padrões regex por modelo
+│       ├── validators.py    # Validações (CNPJ, CPF, math)
+│       ├── table_extractor.py # Extração de tabelas
+│       └── report.py        # Geração de relatório HTML
+│
+├── tests/                   # Testes automatizados
+│   ├── test_extractor.py
+│   └── test_corrections.py
+│
+├── scripts/                 # Scripts utilitários
+│   ├── analyze_pdfs.py
+│   └── debug_pdf.py
+│
+├── docs/                    # Documentação
+├── data/                    # Dados de exemplo
+└── output/                  # Saída (não versionado)
 ```
 
 ## Instalação
 
+### Desenvolvimento
+
 ```bash
-pip install pdfplumber
+# Clonar repositório
+git clone https://github.com/stefanprati-rgb/raizen.git
+cd raizen
+
+# Criar ambiente virtual
+python -m venv venv
+venv\Scripts\activate  # Windows
+# source venv/bin/activate  # Linux/Mac
+
+# Instalar dependências
+pip install -r requirements.txt
+
+# Instalar em modo desenvolvimento
+pip install -e .
+```
+
+### Produção
+
+```bash
+pip install -r requirements.txt
 ```
 
 ## Uso
 
+### Executar extração
+
 ```bash
-python -m extrator_contratos.main
+# Via módulo
+python -m src.extrator_contratos.main
+
+# Ou diretamente
+python src/extrator_contratos/main.py
+```
+
+### Executar testes
+
+```bash
+# Todos os testes
+pytest
+
+# Com cobertura
+pytest --cov=src/extrator_contratos
 ```
 
 ## Saída
@@ -42,6 +97,7 @@ python -m extrator_contratos.main
 - `output/contratos_extraidos.csv` - Registros validados
 - `output/contratos_revisao.csv` - Registros para revisão manual
 - `output/relatorio.html` - Relatório visual
+- `output/extractor.log` - Log de execução
 
 ## Campos Extraídos
 
@@ -50,7 +106,10 @@ python -m extrator_contratos.main
 | razao_social | Razão Social do cliente |
 | cnpj | CNPJ formatado |
 | email | Email de contato |
+| email_secundario | Email secundário (se houver) |
 | endereco | Endereço completo |
+| cidade | Cidade |
+| uf | Estado (UF) |
 | distribuidora | Distribuidora de energia |
 | num_instalacao | Número da instalação |
 | num_cliente | Número do cliente |
@@ -58,7 +117,20 @@ python -m extrator_contratos.main
 | valor_cota | Valor de cada cota |
 | pagamento_mensal | Valor do pagamento mensal |
 | performance_alvo | Performance alvo em kWh |
-| ... | E outros campos |
+| representante_nome | Nome do representante legal |
+| representante_nome_secundario | Nome secundário do representante |
+| representante_cpf | CPF do representante |
+| participacao_percentual | Participação no consórcio (%) |
+| confianca_score | Score de confiança (0-100) |
+
+## Configurações
+
+Editar `src/extrator_contratos/main.py`:
+
+```python
+PDF_DIR = Path(r"caminho/para/pdfs")
+OUTPUT_DIR = Path(r"caminho/para/output")
+```
 
 ## Licença
 
