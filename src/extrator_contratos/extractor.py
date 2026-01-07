@@ -1,10 +1,13 @@
 """
 Módulo principal de extração de dados de contratos PDF.
 Orquestra a extração usando regex e tabelas conforme o modelo detectado.
+
+OTIMIZADO: Abre cada PDF apenas uma vez para melhor performance.
 """
 import re
 import logging
 import traceback
+import pdfplumber
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 from dataclasses import dataclass, field
@@ -22,8 +25,11 @@ from .validators import (
 )
 from .table_extractor import (
     extract_all_text,
+    extract_all_text_from_pdf,
     extract_installations_from_anexo,
+    extract_installations_from_pdf,
     extract_modelo_2_data,
+    extract_modelo_2_data_from_pdf,
     get_pdf_page_count
 )
 
@@ -130,114 +136,127 @@ class ContractExtractor:
         """
         Extrai todos os dados de um PDF de contrato.
         
+        OTIMIZADO: Abre o PDF apenas uma vez.
+        
         Fluxo:
-        1. Extrai texto completo
-        2. Detecta tipo e modelo
-        3. Extrai dados base via regex
-        4. Se campos vazios, busca no Anexo I
-        5. Se múltiplas instalações, gera múltiplos registros
-        6. Valida e calcula score de confiança
+        1. Abre o PDF uma única vez
+        2. Extrai texto completo
+        3. Detecta tipo e modelo
+        4. Extrai dados base via regex
+        5. Se campos vazios, busca no Anexo I
+        6. Se múltiplas instalações, gera múltiplos registros
+        7. Valida e calcula score de confiança
         """
         pdf_path = Path(pdf_path)
         result = ExtractionResult(
             arquivo=pdf_path.name,
             tipo_documento='',
             modelo_detectado='',
-            paginas=get_pdf_page_count(str(pdf_path))
+            paginas=0
         )
         
-        # Extrair texto completo (até 10 páginas)
-        text = extract_all_text(str(pdf_path), max_pages=10)
-        
-        if text.startswith('ERRO:'):
-            result.alertas.append(f"Erro ao ler PDF: {text}")
-            return result
-        
-        # Detectar tipo e modelo
-        result.tipo_documento = self.detect_document_type(text)
-        result.modelo_detectado = self.detect_model(text)
-        
-        # Verificar se é contrato guarda-chuva
-        result.is_guarda_chuva = is_umbrella_contract(text)
-        if result.is_guarda_chuva:
-            result.alertas.append("Contrato Guarda-Chuva detectado - requer revisão manual")
-        
-        # Extrair dados base
-        if result.modelo_detectado == 'MODELO_2_TABULAR':
-            # Para Modelo 2: regex primeiro (mais confiável para campos-chave)
-            base_data = self.extract_base_data(text, result.modelo_detectado)
-            # Complementar com extração tabular para campos não encontrados
-            table_data = extract_modelo_2_data(str(pdf_path))
-            for key, value in table_data.items():
-                if key not in base_data or not base_data[key]:
-                    base_data[key] = value
-        else:
-            base_data = self.extract_base_data(text, result.modelo_detectado)
-        
-        # Se num_instalacao vazio, buscar no Anexo I
-        if not base_data.get('num_instalacao'):
-            installations = extract_installations_from_anexo(str(pdf_path))
-            
-            if installations:
-                # Verificar duplicatas por número de instalação
-                seen_installations = set()
+        try:
+            # Abrir PDF UMA ÚNICA VEZ
+            with pdfplumber.open(str(pdf_path)) as pdf:
+                # Obter número de páginas
+                result.paginas = len(pdf.pages)
                 
-                # Gerar um registro para cada instalação única
-                for inst in installations:
-                    num_inst = inst.get('instalacao', '')
+                # Extrair texto completo (até 10 páginas)
+                text = extract_all_text_from_pdf(pdf, max_pages=10)
+                
+                if not text:
+                    result.alertas.append("Erro ao ler PDF: texto vazio")
+                    return result
+                
+                # Detectar tipo e modelo
+                result.tipo_documento = self.detect_document_type(text)
+                result.modelo_detectado = self.detect_model(text)
+                
+                # Verificar se é contrato guarda-chuva
+                result.is_guarda_chuva = is_umbrella_contract(text)
+                if result.is_guarda_chuva:
+                    result.alertas.append("Contrato Guarda-Chuva detectado - requer revisão manual")
+                
+                # Extrair dados base
+                if result.modelo_detectado == 'MODELO_2_TABULAR':
+                    # Para Modelo 2: regex primeiro (mais confiável para campos-chave)
+                    base_data = self.extract_base_data(text, result.modelo_detectado)
+                    # Complementar com extração tabular para campos não encontrados
+                    table_data = extract_modelo_2_data_from_pdf(pdf)
+                    for key, value in table_data.items():
+                        if key not in base_data or not base_data[key]:
+                            base_data[key] = value
+                else:
+                    base_data = self.extract_base_data(text, result.modelo_detectado)
+                
+                # Se num_instalacao vazio, buscar no Anexo I
+                if not base_data.get('num_instalacao'):
+                    installations = extract_installations_from_pdf(pdf)
                     
-                    # Pular duplicatas
-                    if num_inst in seen_installations:
-                        result.alertas.append(f"Instalação duplicada ignorada: {num_inst}")
-                        continue
-                    seen_installations.add(num_inst)
+                    if installations:
+                        # Verificar duplicatas por número de instalação
+                        seen_installations = set()
+                        
+                        # Gerar um registro para cada instalação única
+                        for inst in installations:
+                            num_inst = inst.get('instalacao', '')
+                            
+                            # Pular duplicatas
+                            if num_inst in seen_installations:
+                                result.alertas.append(f"Instalação duplicada ignorada: {num_inst}")
+                                continue
+                            seen_installations.add(num_inst)
+                            
+                            record = base_data.copy()
+                            record['num_instalacao'] = num_inst
+                            record['num_cliente'] = inst.get('cliente', record.get('num_cliente', ''))
+                            record['qtd_cotas'] = inst.get('cotas', record.get('qtd_cotas', ''))
+                            record['valor_cota'] = inst.get('valor_cota', record.get('valor_cota', ''))
+                            record['performance_alvo'] = inst.get('performance', record.get('performance_alvo', ''))
+                            
+                            if inst.get('distribuidora'):
+                                record['distribuidora'] = inst.get('distribuidora')
+                            
+                            # Adicionar metadados
+                            record['arquivo_origem'] = pdf_path.name
+                            record['tipo_documento'] = result.tipo_documento
+                            record['modelo_detectado'] = result.modelo_detectado
+                            record['data_extracao'] = datetime.now().isoformat()
+                            
+                            # Validar
+                            alerts = validate_record(record)
+                            record['alertas'] = '; '.join(alerts) if alerts else ''
+                            record['confianca_score'] = calculate_confidence_score(record, alerts)
+                            
+                            result.registros.append(record)
+                            result.alertas.extend(alerts)
+                    else:
+                        # Não encontrou instalações no Anexo I
+                        result.alertas.append("Anexo I não encontrado ou sem instalações")
+                
+                # Se ainda não tem registros, criar registro único
+                if not result.registros:
+                    base_data['arquivo_origem'] = pdf_path.name
+                    base_data['tipo_documento'] = result.tipo_documento
+                    base_data['modelo_detectado'] = result.modelo_detectado
+                    base_data['data_extracao'] = datetime.now().isoformat()
                     
-                    record = base_data.copy()
-                    record['num_instalacao'] = num_inst
-                    record['num_cliente'] = inst.get('cliente', record.get('num_cliente', ''))
-                    record['qtd_cotas'] = inst.get('cotas', record.get('qtd_cotas', ''))
-                    record['valor_cota'] = inst.get('valor_cota', record.get('valor_cota', ''))
-                    record['performance_alvo'] = inst.get('performance', record.get('performance_alvo', ''))
+                    alerts = validate_record(base_data)
+                    base_data['alertas'] = '; '.join(alerts) if alerts else ''
+                    base_data['confianca_score'] = calculate_confidence_score(base_data, alerts)
                     
-                    if inst.get('distribuidora'):
-                        record['distribuidora'] = inst.get('distribuidora')
-                    
-                    # Adicionar metadados
-                    record['arquivo_origem'] = pdf_path.name
-                    record['tipo_documento'] = result.tipo_documento
-                    record['modelo_detectado'] = result.modelo_detectado
-                    record['data_extracao'] = datetime.now().isoformat()
-                    
-                    # Validar
-                    alerts = validate_record(record)
-                    record['alertas'] = '; '.join(alerts) if alerts else ''
-                    record['confianca_score'] = calculate_confidence_score(record, alerts)
-                    
-                    result.registros.append(record)
+                    result.registros.append(base_data)
                     result.alertas.extend(alerts)
-            else:
-                # Não encontrou instalações no Anexo I
-                result.alertas.append("Anexo I não encontrado ou sem instalações")
+                
+                # Calcular score geral
+                if result.registros:
+                    result.confianca_score = min(
+                        r.get('confianca_score', 0) for r in result.registros
+                    )
         
-        # Se ainda não tem registros, criar registro único
-        if not result.registros:
-            base_data['arquivo_origem'] = pdf_path.name
-            base_data['tipo_documento'] = result.tipo_documento
-            base_data['modelo_detectado'] = result.modelo_detectado
-            base_data['data_extracao'] = datetime.now().isoformat()
-            
-            alerts = validate_record(base_data)
-            base_data['alertas'] = '; '.join(alerts) if alerts else ''
-            base_data['confianca_score'] = calculate_confidence_score(base_data, alerts)
-            
-            result.registros.append(base_data)
-            result.alertas.extend(alerts)
-        
-        # Calcular score geral
-        if result.registros:
-            result.confianca_score = min(
-                r.get('confianca_score', 0) for r in result.registros
-            )
+        except Exception as e:
+            result.alertas.append(f"Erro ao processar PDF: {e}")
+            logger.error(f"Erro ao processar {pdf_path}: {e}")
         
         return result
     

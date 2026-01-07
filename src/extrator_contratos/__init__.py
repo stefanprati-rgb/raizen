@@ -14,8 +14,12 @@ from .validators import (
 )
 from .table_extractor import (
     extract_all_text,
+    extract_all_text_from_pdf,
     extract_installations_from_anexo,
-    extract_modelo_2_data
+    extract_installations_from_pdf,
+    extract_modelo_2_data,
+    extract_modelo_2_data_from_pdf,
+    open_pdf
 )
 from .report import generate_html_report
 

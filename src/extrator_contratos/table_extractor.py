@@ -1,20 +1,63 @@
 """
 Extrator de tabelas de PDFs usando pdfplumber.
 Especializado em extrair dados do Anexo I e tabelas de instalações.
+
+OTIMIZADO: Usa context manager único para evitar múltiplas aberturas do PDF.
 """
 import pdfplumber
 import re
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from pathlib import Path
+from contextlib import contextmanager
 
 # Logger para o módulo
 logger = logging.getLogger(__name__)
 
 
+@contextmanager
+def open_pdf(pdf_path: str):
+    """
+    Context manager para abrir PDF uma única vez.
+    Permite reutilizar o objeto PDF entre múltiplas funções.
+    """
+    try:
+        pdf = pdfplumber.open(pdf_path)
+        yield pdf
+    finally:
+        pdf.close()
+
+
+def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10) -> str:
+    """
+    Extrai todo o texto de um PDF já aberto.
+    
+    Args:
+        pdf: Objeto pdfplumber.PDF já aberto
+        max_pages: Número máximo de páginas a processar
+    
+    Returns:
+        Texto extraído concatenado com marcadores de página
+    """
+    total_pages = len(pdf.pages)
+    pages_to_process = min(max_pages, total_pages)
+    
+    text = ""
+    
+    if total_pages > max_pages:
+        logger.info(f"PDF tem {total_pages} páginas, processando apenas {max_pages}")
+    
+    for i, page in enumerate(pdf.pages[:pages_to_process]):
+        page_text = page.extract_text() or ""
+        text += f"\n[PAGINA_{i+1}]\n{page_text}"
+    
+    return text
+
+
 def extract_all_text(pdf_path: str, max_pages: int = 10) -> str:
     """
     Extrai todo o texto de um PDF (até max_pages páginas).
+    NOTA: Para melhor performance, use open_pdf() + extract_all_text_from_pdf().
     
     Args:
         pdf_path: Caminho para o PDF
@@ -25,63 +68,64 @@ def extract_all_text(pdf_path: str, max_pages: int = 10) -> str:
     """
     try:
         with pdfplumber.open(pdf_path) as pdf:
-            total_pages = len(pdf.pages)
-            pages_to_process = min(max_pages, total_pages)
-            
-            text = ""
-            
-            # Log do aviso mas não inclui no texto extraído
-            # (evita que o aviso gere falsos matches de regex)
-            if total_pages > max_pages:
-                logger.info(f"PDF {pdf_path} tem {total_pages} páginas, processando apenas {max_pages}")
-            
-            for i, page in enumerate(pdf.pages[:pages_to_process]):
-                page_text = page.extract_text() or ""
-                text += f"\n[PAGINA_{i+1}]\n{page_text}"
-            
-            return text
+            return extract_all_text_from_pdf(pdf, max_pages)
     except Exception as e:
         return f"ERRO: {e}"
+
+
+def find_anexo_i_page_from_pdf(pdf: pdfplumber.PDF) -> Optional[int]:
+    """Encontra a página que contém o Anexo I em um PDF já aberto."""
+    for i, page in enumerate(pdf.pages):
+        text = page.extract_text() or ""
+        if re.search(r'ANEXO\s+I|UNIDADE\(S\)\s+CONSUMIDORA\(S\)', text, re.IGNORECASE):
+            return i
+    return None
 
 
 def find_anexo_i_page(pdf_path: str) -> Optional[int]:
     """Encontra a página que contém o Anexo I."""
     try:
         with pdfplumber.open(pdf_path) as pdf:
-            for i, page in enumerate(pdf.pages):
-                text = page.extract_text() or ""
-                if re.search(r'ANEXO\s+I|UNIDADE\(S\)\s+CONSUMIDORA\(S\)', text, re.IGNORECASE):
-                    return i
+            return find_anexo_i_page_from_pdf(pdf)
     except Exception:
         pass
     return None
 
 
-def extract_tables_from_page(pdf_path: str, page_num: int) -> List[List[List[str]]]:
-    """Extrai todas as tabelas de uma página específica."""
+def extract_tables_from_page_pdf(pdf: pdfplumber.PDF, page_num: int) -> List[List[List[str]]]:
+    """Extrai todas as tabelas de uma página específica de um PDF já aberto."""
     tables = []
     try:
-        with pdfplumber.open(pdf_path) as pdf:
-            if page_num < len(pdf.pages):
-                page = pdf.pages[page_num]
-                extracted = page.extract_tables()
-                if extracted:
-                    # Limpar células vazias e normalizar
-                    for table in extracted:
-                        cleaned_table = []
-                        for row in table:
-                            cleaned_row = [
-                                (cell or '').strip() 
-                                for cell in row
-                            ]
-                            if any(cleaned_row):  # Ignorar linhas vazias
-                                cleaned_table.append(cleaned_row)
-                        if cleaned_table:
-                            tables.append(cleaned_table)
+        if page_num < len(pdf.pages):
+            page = pdf.pages[page_num]
+            extracted = page.extract_tables()
+            if extracted:
+                # Limpar células vazias e normalizar
+                for table in extracted:
+                    cleaned_table = []
+                    for row in table:
+                        cleaned_row = [
+                            (cell or '').strip() 
+                            for cell in row
+                        ]
+                        if any(cleaned_row):  # Ignorar linhas vazias
+                            cleaned_table.append(cleaned_row)
+                    if cleaned_table:
+                        tables.append(cleaned_table)
     except Exception as e:
-        print(f"Erro ao extrair tabelas: {e}")
+        logger.warning(f"Erro ao extrair tabelas da página {page_num}: {e}")
     
     return tables
+
+
+def extract_tables_from_page(pdf_path: str, page_num: int) -> List[List[List[str]]]:
+    """Extrai todas as tabelas de uma página específica."""
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            return extract_tables_from_page_pdf(pdf, page_num)
+    except Exception as e:
+        logger.warning(f"Erro ao extrair tabelas: {e}")
+        return []
 
 
 def parse_installation_table(table: List[List[str]]) -> List[Dict[str, Any]]:
@@ -150,12 +194,12 @@ def parse_installation_table(table: List[List[str]]) -> List[Dict[str, Any]]:
     return installations
 
 
-def extract_installations_from_anexo(pdf_path: str) -> List[Dict[str, Any]]:
+def extract_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
     """
-    Extrai lista de instalações do Anexo I de um PDF.
+    Extrai lista de instalações do Anexo I de um PDF já aberto.
     Retorna lista de dicionários com dados de cada instalação.
     """
-    anexo_page = find_anexo_i_page(pdf_path)
+    anexo_page = find_anexo_i_page_from_pdf(pdf)
     
     if anexo_page is None:
         return []
@@ -164,7 +208,7 @@ def extract_installations_from_anexo(pdf_path: str) -> List[Dict[str, Any]]:
     all_installations = []
     
     for page_offset in range(3):  # Verificar até 3 páginas a partir do Anexo I
-        tables = extract_tables_from_page(pdf_path, anexo_page + page_offset)
+        tables = extract_tables_from_page_pdf(pdf, anexo_page + page_offset)
         
         for table in tables:
             installations = parse_installation_table(table)
@@ -173,61 +217,86 @@ def extract_installations_from_anexo(pdf_path: str) -> List[Dict[str, Any]]:
     return all_installations
 
 
-def extract_modelo_2_data(pdf_path: str) -> Dict[str, Any]:
+def extract_installations_from_anexo(pdf_path: str) -> List[Dict[str, Any]]:
     """
-    Extrai dados estruturados do Modelo 2 (tabular/Docusign).
+    Extrai lista de instalações do Anexo I de um PDF.
+    NOTA: Para melhor performance, use open_pdf() + extract_installations_from_pdf().
+    """
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            return extract_installations_from_pdf(pdf)
+    except Exception as e:
+        logger.warning(f"Erro ao extrair instalações: {e}")
+        return []
+
+
+def extract_modelo_2_data_from_pdf(pdf: pdfplumber.PDF) -> Dict[str, Any]:
+    """
+    Extrai dados estruturados do Modelo 2 (tabular/Docusign) de um PDF já aberto.
     Usa extração de tabelas para campos que estão em formato tabular.
     """
     data = {}
     
     try:
-        with pdfplumber.open(pdf_path) as pdf:
-            # Primeira página geralmente tem os dados principais
-            if pdf.pages:
-                tables = pdf.pages[0].extract_tables()
-                
-                for table in tables:
-                    for row in table:
-                        if not row or len(row) < 2:
-                            continue
-                        
-                        # Mapear campos conhecidos
-                        key = str(row[0]).strip().lower() if row[0] else ''
-                        value = str(row[1]).strip() if len(row) > 1 and row[1] else ''
-                        
-                        if 'razão social' in key or 'razao social' in key:
-                            data['razao_social'] = value
-                        elif 'cnpj' in key:
-                            data['cnpj'] = value
-                        elif 'endereço' in key or 'endereco' in key:
-                            data['endereco'] = value
-                        elif 'e-mail' in key or 'email' in key:
-                            data['email'] = value
-                        elif 'distribuidora' in key:
-                            data['distribuidora'] = value
-                        elif 'instalação' in key or 'instalacao' in key:
-                            data['num_instalacao'] = value
-                        elif 'cliente' in key:
-                            data['num_cliente'] = value
-                        elif 'pagamento mensal' in key:
-                            data['pagamento_mensal'] = value
-                        elif 'vencimento' in key:
-                            data['vencimento'] = value
-                        elif 'valor' in key and 'cota' in key:
-                            data['valor_cota'] = value
-                        elif 'performance' in key:
-                            data['performance_alvo'] = value
-                        elif 'vigência' in key or 'vigencia' in key:
-                            # Extrair número de meses
-                            match = re.search(r'(\d+)\s*meses', value, re.IGNORECASE)
-                            if match:
-                                data['duracao_meses'] = match.group(1)
-                        elif 'participação' in key or 'participacao' in key:
-                            data['participacao_percentual'] = value
+        # Primeira página geralmente tem os dados principais
+        if pdf.pages:
+            tables = pdf.pages[0].extract_tables()
+            
+            for table in tables:
+                for row in table:
+                    if not row or len(row) < 2:
+                        continue
+                    
+                    # Mapear campos conhecidos
+                    key = str(row[0]).strip().lower() if row[0] else ''
+                    value = str(row[1]).strip() if len(row) > 1 and row[1] else ''
+                    
+                    if 'razão social' in key or 'razao social' in key:
+                        data['razao_social'] = value
+                    elif 'cnpj' in key:
+                        data['cnpj'] = value
+                    elif 'endereço' in key or 'endereco' in key:
+                        data['endereco'] = value
+                    elif 'e-mail' in key or 'email' in key:
+                        data['email'] = value
+                    elif 'distribuidora' in key:
+                        data['distribuidora'] = value
+                    elif 'instalação' in key or 'instalacao' in key:
+                        data['num_instalacao'] = value
+                    elif 'cliente' in key:
+                        data['num_cliente'] = value
+                    elif 'pagamento mensal' in key:
+                        data['pagamento_mensal'] = value
+                    elif 'vencimento' in key:
+                        data['vencimento'] = value
+                    elif 'valor' in key and 'cota' in key:
+                        data['valor_cota'] = value
+                    elif 'performance' in key:
+                        data['performance_alvo'] = value
+                    elif 'vigência' in key or 'vigencia' in key:
+                        # Extrair número de meses
+                        match = re.search(r'(\d+)\s*meses', value, re.IGNORECASE)
+                        if match:
+                            data['duracao_meses'] = match.group(1)
+                    elif 'participação' in key or 'participacao' in key:
+                        data['participacao_percentual'] = value
     except Exception as e:
-        print(f"Erro ao extrair dados do Modelo 2: {e}")
+        logger.warning(f"Erro ao extrair dados do Modelo 2: {e}")
     
     return data
+
+
+def extract_modelo_2_data(pdf_path: str) -> Dict[str, Any]:
+    """
+    Extrai dados estruturados do Modelo 2 (tabular/Docusign).
+    NOTA: Para melhor performance, use open_pdf() + extract_modelo_2_data_from_pdf().
+    """
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            return extract_modelo_2_data_from_pdf(pdf)
+    except Exception as e:
+        logger.warning(f"Erro ao extrair dados do Modelo 2: {e}")
+        return {}
 
 
 def get_pdf_page_count(pdf_path: str) -> int:
