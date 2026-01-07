@@ -1,0 +1,32 @@
+# Pasta com PDFs (dados sensíveis)
+OneDrive_2026-01-06/
+
+# Arquivos de output
+output/
+*.csv
+
+# Arquivos temporários de análise
+pdf_analysis*.txt
+debug_text.txt
+test_result.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
