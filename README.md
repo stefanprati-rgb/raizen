@@ -75,12 +75,26 @@ pip install -r requirements.txt
 ### Executar extração
 
 ```bash
-# Via módulo
-python -m src.extrator_contratos.main
+# Sintaxe básica
+python -m src.extrator_contratos.main --input <pasta_pdfs> [--output <pasta_saida>]
 
-# Ou diretamente
-python src/extrator_contratos/main.py
+# Exemplos
+python -m src.extrator_contratos.main -i "C:/Contratos/PDFs"
+python -m src.extrator_contratos.main -i ./pdfs -o ./resultados
+python -m src.extrator_contratos.main --input /path/to/pdfs --output /path/to/output
+
+# Ver ajuda
+python -m src.extrator_contratos.main --help
 ```
+
+### Opções disponíveis
+
+| Argumento | Curto | Descrição |
+|-----------|-------|-----------|
+| `--input` | `-i` | **(Obrigatório)** Pasta contendo os PDFs |
+| `--output` | `-o` | Pasta de saída (padrão: `./output`) |
+| `--max-pages` | - | Máximo de páginas por PDF (padrão: 10) |
+| `--verbose` | `-v` | Modo verboso (mais detalhes no log) |
 
 ### Executar testes
 

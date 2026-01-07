@@ -1,10 +1,18 @@
 """
 Script principal para extração em lote de contratos PDF.
 Processa todos os PDFs da pasta e gera CSVs + relatório HTML.
+
+Uso:
+    python -m src.extrator_contratos.main --input <pasta_pdfs> [--output <pasta_saida>]
+    
+Exemplos:
+    python -m src.extrator_contratos.main -i "C:/Contratos/PDFs"
+    python -m src.extrator_contratos.main -i ./pdfs -o ./resultados
 """
 import csv
 import sys
 import logging
+import argparse
 from pathlib import Path
 from datetime import datetime
 import warnings
@@ -21,21 +29,6 @@ from extrator_contratos import (
     generate_html_report
 )
 
-
-# Configurações
-PDF_DIR = Path(r"c:\Projetos\Raizen\OneDrive_2026-01-06\TERMO DE ADESÃO")
-OUTPUT_DIR = Path(r"c:\Projetos\Raizen\output")
-
-# Configurar logging global
-OUTPUT_DIR.mkdir(exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(OUTPUT_DIR / 'extractor.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
 
 # Campos do CSV
 CSV_FIELDS = [
@@ -72,6 +65,20 @@ CSV_FIELDS = [
 ]
 
 
+def setup_logging(output_dir: Path) -> None:
+    """Configura o sistema de logging."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(output_dir / 'extractor.log', encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+
+
 def progress_callback(current: int, total: int):
     """Exibe barra de progresso no terminal."""
     percent = current / total * 100
@@ -93,21 +100,87 @@ def save_csv(records: list, filepath: Path) -> None:
         writer.writerows(records)
 
 
+def parse_args():
+    """Parse argumentos de linha de comando."""
+    parser = argparse.ArgumentParser(
+        description="Extrator de Contratos Raízen - Processa PDFs e extrai dados para CSV",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Exemplos:
+  %(prog)s -i "C:/Contratos/PDFs"
+  %(prog)s -i ./pdfs -o ./resultados
+  %(prog)s --input /path/to/pdfs --output /path/to/output
+        """
+    )
+    
+    parser.add_argument(
+        "--input", "-i",
+        type=Path,
+        required=True,
+        help="Pasta contendo os PDFs de contratos"
+    )
+    
+    parser.add_argument(
+        "--output", "-o",
+        type=Path,
+        default=Path("output"),
+        help="Pasta para salvar os resultados (padrão: ./output)"
+    )
+    
+    parser.add_argument(
+        "--max-pages",
+        type=int,
+        default=10,
+        help="Máximo de páginas a processar por PDF (padrão: 10)"
+    )
+    
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Modo verboso (mais detalhes no log)"
+    )
+    
+    return parser.parse_args()
+
+
 def main():
     """Função principal de execução."""
+    # Parse argumentos
+    args = parse_args()
+    
+    pdf_dir = args.input.resolve()
+    output_dir = args.output.resolve()
+    
+    # Validação de entrada
+    if not pdf_dir.exists():
+        print(f"❌ Erro: A pasta de entrada não existe: {pdf_dir}")
+        sys.exit(1)
+    
+    if not pdf_dir.is_dir():
+        print(f"❌ Erro: O caminho de entrada não é uma pasta: {pdf_dir}")
+        sys.exit(1)
+    
+    # Configurar logging
+    setup_logging(output_dir)
+    
+    if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+    
+    # Banner
     print("=" * 60)
     print("EXTRATOR DE CONTRATOS RAÍZEN")
     print("=" * 60)
-    print(f"\nDiretório de entrada: {PDF_DIR}")
-    print(f"Diretório de saída: {OUTPUT_DIR}")
+    print(f"\n📂 Entrada: {pdf_dir}")
+    print(f"📁 Saída: {output_dir}")
     
     # Listar PDFs
-    pdf_files = list(PDF_DIR.glob("*.pdf"))
+    pdf_files = list(pdf_dir.glob("*.pdf"))
     total_files = len(pdf_files)
     
     if total_files == 0:
-        print("\n❌ Nenhum PDF encontrado!")
-        return
+        print(f"\n❌ Nenhum PDF encontrado em: {pdf_dir}")
+        print("   Verifique se o caminho está correto.")
+        sys.exit(1)
     
     print(f"\n📁 {total_files:,} PDFs encontrados")
     print("\n🔄 Iniciando extração...\n")
@@ -126,7 +199,8 @@ def main():
     elapsed = (datetime.now() - start_time).total_seconds()
     
     print(f"\n\n✅ Extração concluída em {elapsed:.1f} segundos")
-    print(f"   Velocidade: {total_files / elapsed:.1f} PDFs/segundo")
+    if elapsed > 0:
+        print(f"   Velocidade: {total_files / elapsed:.1f} PDFs/segundo")
     
     # Estatísticas
     print("\n" + "=" * 60)
@@ -143,9 +217,9 @@ def main():
     # Salvar CSVs
     print("\n💾 Salvando arquivos...")
     
-    valid_csv = OUTPUT_DIR / "contratos_extraidos.csv"
-    review_csv = OUTPUT_DIR / "contratos_revisao.csv"
-    report_html = OUTPUT_DIR / "relatorio.html"
+    valid_csv = output_dir / "contratos_extraidos.csv"
+    review_csv = output_dir / "contratos_revisao.csv"
+    report_html = output_dir / "relatorio.html"
     
     save_csv(valid_records, valid_csv)
     print(f"   ✓ {valid_csv}")
