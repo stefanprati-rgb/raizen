@@ -28,6 +28,7 @@ from .table_extractor import (
     extract_all_text_from_pdf,
     extract_installations_from_anexo,
     extract_installations_from_pdf,
+    extract_compact_installations_from_pdf,
     extract_modelo_2_data,
     extract_modelo_2_data_from_pdf,
     get_pdf_page_count
@@ -189,8 +190,39 @@ class ContractExtractor:
                 else:
                     base_data = self.extract_base_data(text, result.modelo_detectado)
                 
-                # Se num_instalacao vazio, buscar no Anexo I
-                if not base_data.get('num_instalacao'):
+                # IMPORTANTE: Verificar instalações compactadas PRIMEIRO
+                # Contratos guarda-chuva (OI S.A.) têm centenas de UCs em uma célula
+                compact_installations = extract_compact_installations_from_pdf(pdf)
+                
+                if compact_installations and len(compact_installations) > 1:
+                    # Encontrou múltiplas instalações compactadas - é contrato guarda-chuva
+                    result.is_guarda_chuva = True
+                    result.alertas.append(f"Contrato guarda-chuva com {len(compact_installations)} instalações compactadas")
+                    
+                    seen_installations = set()
+                    
+                    for inst in compact_installations:
+                        num_inst = inst.get('instalacao', '')
+                        
+                        if num_inst in seen_installations:
+                            continue
+                        seen_installations.add(num_inst)
+                        
+                        record = base_data.copy()
+                        record['num_instalacao'] = num_inst
+                        record['arquivo_origem'] = pdf_path.name
+                        record['tipo_documento'] = result.tipo_documento
+                        record['modelo_detectado'] = result.modelo_detectado
+                        record['data_extracao'] = datetime.now().isoformat()
+                        
+                        alerts = validate_record(record)
+                        record['alertas'] = '; '.join(alerts) if alerts else ''
+                        record['confianca_score'] = calculate_confidence_score(record, alerts)
+                        
+                        result.registros.append(record)
+                
+                # Se não encontrou compactadas, buscar no Anexo I tradicional
+                elif not base_data.get('num_instalacao'):
                     installations = extract_installations_from_pdf(pdf)
                     
                     if installations:
@@ -231,8 +263,37 @@ class ContractExtractor:
                             result.registros.append(record)
                             result.alertas.extend(alerts)
                     else:
-                        # Não encontrou instalações no Anexo I
-                        result.alertas.append("Anexo I não encontrado ou sem instalações")
+                        # Não encontrou instalações no Anexo I tradicional
+                        # Tentar formato compactado (contratos guarda-chuva como OI S.A.)
+                        compact_installations = extract_compact_installations_from_pdf(pdf)
+                        
+                        if compact_installations:
+                            result.is_guarda_chuva = True
+                            result.alertas.append(f"Contrato com {len(compact_installations)} instalações compactadas")
+                            
+                            seen_installations = set()
+                            
+                            for inst in compact_installations:
+                                num_inst = inst.get('instalacao', '')
+                                
+                                if num_inst in seen_installations:
+                                    continue
+                                seen_installations.add(num_inst)
+                                
+                                record = base_data.copy()
+                                record['num_instalacao'] = num_inst
+                                record['arquivo_origem'] = pdf_path.name
+                                record['tipo_documento'] = result.tipo_documento
+                                record['modelo_detectado'] = result.modelo_detectado
+                                record['data_extracao'] = datetime.now().isoformat()
+                                
+                                alerts = validate_record(record)
+                                record['alertas'] = '; '.join(alerts) if alerts else ''
+                                record['confianca_score'] = calculate_confidence_score(record, alerts)
+                                
+                                result.registros.append(record)
+                        else:
+                            result.alertas.append("Anexo I não encontrado ou sem instalações")
                 
                 # Se ainda não tem registros, criar registro único
                 if not result.registros:

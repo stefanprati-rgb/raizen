@@ -322,3 +322,77 @@ def get_pdf_page_count(pdf_path: str) -> int:
             return len(pdf.pages)
     except Exception:
         return 0
+
+
+def extract_compact_installations(text: str) -> List[str]:
+    """
+    Extrai instalações do formato compactado (múltiplas UCs em uma única string).
+    
+    Detecta padrões como:
+    - "610524197\n610524163\n611509155" (separado por quebra de linha)
+    - "610524197, 610524163, 611509155" (separado por vírgula)
+    - "610524197 610524163 611509155" (separado por espaço)
+    
+    Usado em contratos guarda-chuva como OI S.A.
+    """
+    installations = []
+    
+    # Padrão: números de instalação (6-12 dígitos)
+    # Separados por \n, vírgula, espaço ou ponto-e-vírgula
+    pattern = r'\b(\d{6,12})\b'
+    
+    matches = re.findall(pattern, text)
+    
+    for match in matches:
+        # Filtrar números que são claramente não-instalações
+        # (CNPJs têm 14 dígitos, CPFs têm 11, telefones têm 10-11)
+        if len(match) >= 6 and len(match) <= 12:
+            # Evitar duplicatas
+            if match not in installations:
+                installations.append(match)
+    
+    return installations
+
+
+def extract_compact_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
+    """
+    Extrai instalações compactadas das tabelas da primeira página.
+    
+    Para contratos guarda-chuva onde todas as instalações estão em uma única célula.
+    """
+    installations_data = []
+    
+    try:
+        if not pdf.pages:
+            return []
+        
+        # Verificar primeira página (geralmente contém os dados)
+        tables = pdf.pages[0].extract_tables()
+        
+        for table in tables:
+            for row in table:
+                if not row:
+                    continue
+                
+                for cell in row:
+                    if not cell:
+                        continue
+                    
+                    cell_str = str(cell)
+                    
+                    # Detectar célula com múltiplas instalações (padrão: números separados por \n)
+                    if '\n' in cell_str and len(re.findall(r'\d{6,12}', cell_str)) > 5:
+                        installations = extract_compact_installations(cell_str)
+                        
+                        logger.info(f"Encontradas {len(installations)} instalações compactadas")
+                        
+                        for inst_num in installations:
+                            installations_data.append({
+                                'instalacao': inst_num,
+                                'formato': 'compactado'
+                            })
+    
+    except Exception as e:
+        logger.warning(f"Erro ao extrair instalações compactadas: {e}")
+    
+    return installations_data
