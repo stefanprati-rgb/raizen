@@ -3,7 +3,11 @@ Validadores para garantir qualidade dos dados extraídos.
 Inclui validação de CNPJ, CPF, email, e verificações matemáticas.
 """
 import re
+import logging
 from typing import Optional, List, Dict, Any
+
+# Configurar logging
+logger = logging.getLogger(__name__)
 
 
 def normalize_cnpj(cnpj: str) -> str:
@@ -77,15 +81,23 @@ def validate_cpf_checksum(cpf: str) -> bool:
 
 
 def validate_email(email: str) -> bool:
-    """Valida formato básico de email."""
+    """
+    Valida formato de email com regras mais rigorosas.
+    - Mínimo 2 caracteres no domínio
+    - Mínimo 2 caracteres na extensão
+    """
     if not email:
         return False
-    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    # Padrão mais rigoroso: local@dominio.ext (min 2 chars cada parte)
+    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]{2,}\.[a-zA-Z]{2,}$'
     return bool(re.match(pattern, email))
 
 
 def parse_currency(value: str) -> Optional[float]:
-    """Converte string de moeda para float."""
+    """
+    Converte string de moeda para float.
+    Suporta formatos brasileiro (1.234,56) e americano (1,234.56).
+    """
     if not value:
         return None
     
@@ -109,6 +121,11 @@ def parse_currency(value: str) -> Optional[float]:
             clean = clean.replace(',', '')
     elif ',' in clean:
         clean = clean.replace(',', '.')
+    elif '.' not in clean and len(clean) > 2:
+        # Valor sem separadores e com mais de 2 dígitos
+        # Assumir que são centavos (ex: "12345" -> 123.45)
+        # NOTA: Isso é arriscado, então não fazemos por padrão
+        pass
     
     try:
         return float(clean)
@@ -116,12 +133,16 @@ def parse_currency(value: str) -> Optional[float]:
         return None
 
 
-def validate_math_consistency(record: Dict[str, Any], tolerance: float = 5.0) -> Optional[str]:
+def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float = 0.25) -> Optional[str]:
     """
     Valida consistência matemática entre valor_cota, qtd_cotas e pagamento_mensal.
     
     A fórmula esperada é:
     Pagamento Mensal ≈ Valor da Cota × Quantidade de Cotas
+    
+    Args:
+        record: Registro com campos de valor
+        relative_tolerance: Tolerância relativa (0.25 = 25% de variação permitida)
     
     Retorna mensagem de erro se inconsistente, None se OK.
     """
@@ -134,22 +155,19 @@ def validate_math_consistency(record: Dict[str, Any], tolerance: float = 5.0) ->
         return None
     
     # Evitar divisão por zero
-    if qtd_cotas == 0:
+    if qtd_cotas == 0 or valor_cota == 0:
         return None
     
     # Cálculo esperado (aproximado, pois há fórmulas de aluguel/performance)
-    # O valor base é aproximadamente: valor_cota * qtd_cotas
     expected = valor_cota * qtd_cotas
-    
-    # Tolerância relativa de 20% devido às fórmulas de aluguel/performance
-    relative_tolerance = 0.20
     
     if expected > 0:
         difference_ratio = abs(pagamento_mensal - expected) / expected
         if difference_ratio > relative_tolerance:
             return (f"Inconsistência matemática: Cota R${valor_cota:.2f} × "
                     f"{qtd_cotas:.2f} cotas = R${expected:.2f}, "
-                    f"mas Pagamento = R${pagamento_mensal:.2f}")
+                    f"mas Pagamento = R${pagamento_mensal:.2f} "
+                    f"(diferença: {difference_ratio*100:.1f}%)")
     
     return None
 
@@ -209,20 +227,21 @@ def calculate_confidence_score(record: Dict[str, Any], alerts: List[str]) -> int
     """
     score = 100
     
-    # Campos obrigatórios
+    # Campos obrigatórios (-30 cada)
     required_fields = ['razao_social', 'cnpj']
     for field in required_fields:
         if not record.get(field):
             score -= 30
     
-    # Campos importantes
+    # Campos importantes (-10 cada)
     important_fields = ['email', 'num_instalacao', 'pagamento_mensal']
     for field in important_fields:
         if not record.get(field):
             score -= 10
     
-    # Penalidade por alertas
-    score -= len(alerts) * 5
+    # Penalidade por alertas (máximo -50 pontos total)
+    alert_penalty = min(len(alerts) * 5, 50)
+    score -= alert_penalty
     
     # Garantir que score está entre 0 e 100
     return max(0, min(100, score))

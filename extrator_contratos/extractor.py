@@ -3,10 +3,15 @@ Módulo principal de extração de dados de contratos PDF.
 Orquestra a extração usando regex e tabelas conforme o modelo detectado.
 """
 import re
+import logging
+import traceback
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 from dataclasses import dataclass, field
 from datetime import datetime
+
+# Configurar logging
+logger = logging.getLogger(__name__)
 
 from .patterns import PatternsMixin, extract_field, FLAGS
 from .validators import (
@@ -98,6 +103,10 @@ class ContractExtractor:
         """Extrai cidade e UF do endereço."""
         endereco = data.get('endereco', '')
         
+        # Inicializar com valores vazios
+        data['cidade'] = ''
+        data['uf'] = ''
+        
         # Padrão: ..., Cidade, UF ou ..., Cidade - UF
         match = re.search(r',\s*([^,]+),\s*([A-Z]{2})\s*(?:,|$)', endereco)
         if match:
@@ -163,10 +172,21 @@ class ContractExtractor:
             installations = extract_installations_from_anexo(str(pdf_path))
             
             if installations:
-                # Gerar um registro para cada instalação
+                # Verificar duplicatas por número de instalação
+                seen_installations = set()
+                
+                # Gerar um registro para cada instalação única
                 for inst in installations:
+                    num_inst = inst.get('instalacao', '')
+                    
+                    # Pular duplicatas
+                    if num_inst in seen_installations:
+                        result.alertas.append(f"Instalação duplicada ignorada: {num_inst}")
+                        continue
+                    seen_installations.add(num_inst)
+                    
                     record = base_data.copy()
-                    record['num_instalacao'] = inst.get('instalacao', '')
+                    record['num_instalacao'] = num_inst
                     record['num_cliente'] = inst.get('cliente', record.get('num_cliente', ''))
                     record['qtd_cotas'] = inst.get('cotas', record.get('qtd_cotas', ''))
                     record['valor_cota'] = inst.get('valor_cota', record.get('valor_cota', ''))
@@ -245,8 +265,19 @@ class ContractExtractor:
                     else:
                         valid_records.append(record)
                 
+            except (FileNotFoundError, PermissionError) as e:
+                # Erros de arquivo conhecidos
+                logger.warning(f"Erro de arquivo em {pdf_path}: {e}")
+                review_records.append({
+                    'arquivo_origem': Path(pdf_path).name,
+                    'alertas': f"Erro de arquivo: {str(e)}",
+                    'confianca_score': 0,
+                    'data_extracao': datetime.now().isoformat()
+                })
             except Exception as e:
-                # Registrar erro e adicionar à lista de revisão
+                # Erro genérico - log completo para debug
+                error_detail = traceback.format_exc()
+                logger.error(f"Erro crítico em {pdf_path}: {e}\n{error_detail}")
                 review_records.append({
                     'arquivo_origem': Path(pdf_path).name,
                     'alertas': f"Erro crítico: {str(e)}",

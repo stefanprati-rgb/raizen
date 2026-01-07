@@ -251,17 +251,3 @@ def extract_field(text: str, field_name: str, model: str = 'MODELO_1') -> str:
             return value
     
     return ''
-
-
-def clean_currency_value(value: str) -> str:
-    """Limpa valor monetário para formato numérico."""
-    if not value:
-        return ''
-    
-    # Remover R$, espaços e texto após o número
-    clean = re.sub(r'[R$\s]', '', value)
-    # Pegar apenas a parte numérica
-    match = re.match(r'^([\d.,]+)', clean)
-    if match:
-        return match.group(1)
-    return clean

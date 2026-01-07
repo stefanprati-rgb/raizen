@@ -9,13 +9,31 @@ from pathlib import Path
 
 
 def extract_all_text(pdf_path: str, max_pages: int = 10) -> str:
-    """Extrai todo o texto de um PDF (até max_pages páginas)."""
+    """
+    Extrai todo o texto de um PDF (até max_pages páginas).
+    
+    Args:
+        pdf_path: Caminho para o PDF
+        max_pages: Número máximo de páginas a processar
+    
+    Returns:
+        Texto extraído concatenado com marcadores de página
+    """
     try:
         with pdfplumber.open(pdf_path) as pdf:
+            total_pages = len(pdf.pages)
+            pages_to_process = min(max_pages, total_pages)
+            
             text = ""
-            for i, page in enumerate(pdf.pages[:max_pages]):
+            
+            # Aviso se PDF tem mais páginas do que o limite
+            if total_pages > max_pages:
+                text += f"\n[AVISO: PDF tem {total_pages} páginas, processando apenas {max_pages}]\n"
+            
+            for i, page in enumerate(pdf.pages[:pages_to_process]):
                 page_text = page.extract_text() or ""
                 text += f"\n[PAGINA_{i+1}]\n{page_text}"
+            
             return text
     except Exception as e:
         return f"ERRO: {e}"
