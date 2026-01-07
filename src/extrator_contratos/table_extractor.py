@@ -198,21 +198,37 @@ def extract_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
     """
     Extrai lista de instalações do Anexo I de um PDF já aberto.
     Retorna lista de dicionários com dados de cada instalação.
+    
+    OTIMIZADO: Loop dinâmico que continua até não encontrar mais dados,
+    suportando contratos guarda-chuva com centenas de instalações.
     """
     anexo_page = find_anexo_i_page_from_pdf(pdf)
     
     if anexo_page is None:
         return []
     
-    # Tentar extrair da página do Anexo I e da próxima (tabela pode continuar)
     all_installations = []
+    current_page = anexo_page
     
-    for page_offset in range(3):  # Verificar até 3 páginas a partir do Anexo I
-        tables = extract_tables_from_page_pdf(pdf, anexo_page + page_offset)
+    # Continua enquanto houver páginas no PDF
+    while current_page < len(pdf.pages):
+        # Tenta extrair tabelas da página atual
+        tables = extract_tables_from_page_pdf(pdf, current_page)
         
+        page_has_data = False
         for table in tables:
             installations = parse_installation_table(table)
-            all_installations.extend(installations)
+            if installations:
+                all_installations.extend(installations)
+                page_has_data = True
+        
+        # Lógica de Parada:
+        # Se estamos além da primeira página do anexo E não achamos dados válidos,
+        # assumimos que a tabela acabou.
+        if current_page > anexo_page and not page_has_data:
+            break
+        
+        current_page += 1
     
     return all_installations
 
