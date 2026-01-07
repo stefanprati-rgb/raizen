@@ -68,6 +68,12 @@ class PatternsMixin:
             r'E-?mail:\s*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
         ],
         
+        # Email Secundário (segundo email na mesma linha ou próxima)
+        'email_secundario': [
+            r'E-?mail:\s*[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+\s*\n\s*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
+            r'E-?mail:\s*[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+[;,]\s*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
+        ],
+        
         # Endereço
         'endereco': [
             r'Endere[çc]o:\s*(.+?)(?:,\s*CEP|CEP:|$)',
@@ -86,8 +92,9 @@ class PatternsMixin:
         
         # Número da Instalação
         'num_instalacao': [
+            r'N[º°]\s*da\s+Instala[çc][ãa]o\s*\([^)]+\)[:\s]*(\d{5,})',  # Com parênteses: Nº da Instalação (Unidade Consumidora): 7778620
             r'N[º°]\s*da\s+Instala[çc][ãa]o.*?:\s*(\d+)',
-            r'Instala[çc][ãa]o.*?Consumidora[):]?\s*(\d+)',
+            r'Instala[çc][ãa]o.*?Consumidora[):\s]*(\d+)',
         ],
         
         # Número do Cliente
@@ -118,7 +125,14 @@ class PatternsMixin:
         
         # Performance Alvo
         'performance_alvo': [
-            r'Performance\s+Alvo:\s*([\d.,]+)\s*kWh',
+            r'Performance\s+Alvo[:\s]*(\d[\d\.,]*\d?)\s*kWh',  # Aceita espaços e : (ex: 7.653,00 kWh)
+            r'Performance[:\s]+(\d[\d\.,]*\d?)\s*kWh',
+        ],
+        
+        # Participação/Rateio
+        'participacao_percentual': [
+            r'Participa[çc][ãa]o\s+no\s+Cons[óo]rcio[/\s]*Rateio[:\s]*([\d.,]+)\s*%',
+            r'Rateio[:\s]*([\d.,]+)\s*%',
         ],
         
         # Duração
@@ -151,6 +165,12 @@ class PatternsMixin:
             r'E-?mail:\s*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(?:\s|\n|$)',
         ],
         
+        # Email Secundário (segundo email na próxima linha)
+        'email_secundario': [
+            r'E-?mail:\s*[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+\s*\n\s*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
+            r'E-?mail:\s*[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+[;,]\s*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
+        ],
+        
         'endereco': [
             r'DADOS\s+DA\s+CONSORCIADA:.*?Endere[çc]o:\s*(.+?)(?:\n|CEP)',
             r'E\s*n\s*d\s*e\s*r\s*e\s*[çc]\s*o\s*:\s*([^\n]+)',
@@ -158,6 +178,11 @@ class PatternsMixin:
         
         'representante_nome': [
             r'DADOS\s+DO\s+REPRESENTANTE\s+LEGAL:.*?Nome:\s*([^\n]+)',
+        ],
+        
+        # Nome Secundário do Representante (segundo nome na próxima linha)
+        'representante_nome_secundario': [
+            r'DADOS\s+DO\s+REPRESENTANTE\s+LEGAL:.*?Nome:\s*[^\n]+\n\s*([A-Z][a-zA-Z\s]+?)(?:\n|CPF|$)',
         ],
         
         'representante_cpf': [
@@ -180,6 +205,7 @@ class PatternsMixin:
         ],
         
         'num_instalacao': [
+            r'N[º°]\s*da\s+Instala[çc][ãa]o\s*\([^)]+\)[:\s]*(\d{5,})',  # Com parênteses
             r'N[º°]\s*da\s+Instala[çc][ãa]o\s*\(?.*?\)?:?\s*(\d{5,})',
             r'Instala[çc][ãa]o.*?:\s*(\d{5,})',
         ],
@@ -248,6 +274,15 @@ def extract_field(text: str, field_name: str, model: str = 'MODELO_1') -> str:
             value = re.sub(r'\s+', ' ', value)
             # Remover vírgula final
             value = value.rstrip(',')
+            
+            # Normalizar valores numéricos para formato americano
+            # Campos que precisam de normalização BR -> US
+            numeric_fields = ['performance_alvo', 'qtd_cotas', 'valor_cota', 'pagamento_mensal', 'participacao_percentual']
+            if field_name in numeric_fields:
+                # Formato BR: 7.653,00 -> 7653.00
+                if '.' in value and ',' in value and value.rfind('.') < value.rfind(','):
+                    value = value.replace('.', '').replace(',', '.')
+            
             return value
     
     return ''

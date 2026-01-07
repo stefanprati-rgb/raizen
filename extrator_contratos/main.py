@@ -4,10 +4,14 @@ Processa todos os PDFs da pasta e gera CSVs + relatório HTML.
 """
 import csv
 import sys
+import logging
 from pathlib import Path
 from datetime import datetime
 import warnings
+
+# Suprimir warnings do pdfplumber (CropBox missing, etc.)
 warnings.filterwarnings('ignore')
+logging.getLogger('pdfminer').setLevel(logging.ERROR)
 
 # Adicionar diretório pai ao path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -22,6 +26,17 @@ from extrator_contratos import (
 PDF_DIR = Path(r"c:\Projetos\Raizen\OneDrive_2026-01-06\TERMO DE ADESÃO")
 OUTPUT_DIR = Path(r"c:\Projetos\Raizen\output")
 
+# Configurar logging global
+OUTPUT_DIR.mkdir(exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(OUTPUT_DIR / 'extractor.log', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+
 # Campos do CSV
 CSV_FIELDS = [
     'arquivo_origem',
@@ -30,6 +45,7 @@ CSV_FIELDS = [
     'razao_social',
     'cnpj',
     'email',
+    'email_secundario',
     'endereco',
     'cep',
     'cidade',
@@ -44,6 +60,7 @@ CSV_FIELDS = [
     'performance_alvo',
     'duracao_meses',
     'representante_nome',
+    'representante_nome_secundario',
     'representante_cpf',
     'participacao_percentual',
     'consorcio_nome',
@@ -83,9 +100,6 @@ def main():
     print("=" * 60)
     print(f"\nDiretório de entrada: {PDF_DIR}")
     print(f"Diretório de saída: {OUTPUT_DIR}")
-    
-    # Criar diretório de saída
-    OUTPUT_DIR.mkdir(exist_ok=True)
     
     # Listar PDFs
     pdf_files = list(PDF_DIR.glob("*.pdf"))

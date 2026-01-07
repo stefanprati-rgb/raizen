@@ -4,8 +4,12 @@ Especializado em extrair dados do Anexo I e tabelas de instalações.
 """
 import pdfplumber
 import re
+import logging
 from typing import List, Dict, Any, Optional
 from pathlib import Path
+
+# Logger para o módulo
+logger = logging.getLogger(__name__)
 
 
 def extract_all_text(pdf_path: str, max_pages: int = 10) -> str:
@@ -26,9 +30,10 @@ def extract_all_text(pdf_path: str, max_pages: int = 10) -> str:
             
             text = ""
             
-            # Aviso se PDF tem mais páginas do que o limite
+            # Log do aviso mas não inclui no texto extraído
+            # (evita que o aviso gere falsos matches de regex)
             if total_pages > max_pages:
-                text += f"\n[AVISO: PDF tem {total_pages} páginas, processando apenas {max_pages}]\n"
+                logger.info(f"PDF {pdf_path} tem {total_pages} páginas, processando apenas {max_pages}")
             
             for i, page in enumerate(pdf.pages[:pages_to_process]):
                 page_text = page.extract_text() or ""

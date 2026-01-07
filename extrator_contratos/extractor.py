@@ -62,7 +62,8 @@ class ContractExtractor:
                 return model
         
         # Fallback baseado em indicadores únicos fortes
-        if re.search(r'DADOS\s+DA\s+CONSORCIADA:', text, FLAGS):
+        # SmartFit tem "DA QUALIFICAÇÃO DA CONSORCIADA" (não "DADOS DA")
+        if re.search(r'DA\s+QUALIFICA[CÇ][ÃA]O\s+DA\s+CONSORCIADA|DADOS\s+DA\s+CONSORCIADA:', text, FLAGS):
             return 'MODELO_2_TABULAR'
         if re.search(r'CONSORCIADA\s*\(VOC[ÊE]\)', text, FLAGS):
             return 'MODELO_1_VISUAL'
@@ -72,11 +73,12 @@ class ContractExtractor:
     def extract_base_data(self, text: str, model: str) -> Dict[str, Any]:
         """Extrai dados básicos usando regex."""
         fields = [
-            'razao_social', 'cnpj', 'email', 'endereco', 'cep',
+            'razao_social', 'cnpj', 'email', 'email_secundario', 'endereco', 'cep',
             'distribuidora', 'num_instalacao', 'num_cliente',
             'qtd_cotas', 'valor_cota', 'pagamento_mensal',
             'vencimento', 'performance_alvo', 'duracao_meses',
-            'representante_nome', 'representante_cpf', 'participacao_percentual'
+            'representante_nome', 'representante_nome_secundario', 
+            'representante_cpf', 'participacao_percentual'
         ]
         
         data = {}
@@ -106,6 +108,11 @@ class ContractExtractor:
         # Inicializar com valores vazios
         data['cidade'] = ''
         data['uf'] = ''
+        
+        # Se endereço está vazio ou inválido (só vírgulas e espaços)
+        # Ex: "Endereço: , , , CEP" -> inválido
+        if not endereco or len(endereco.strip(' ,')) < 10:
+            return
         
         # Padrão: ..., Cidade, UF ou ..., Cidade - UF
         match = re.search(r',\s*([^,]+),\s*([A-Z]{2})\s*(?:,|$)', endereco)

@@ -96,13 +96,14 @@ def validate_email(email: str) -> bool:
 def parse_currency(value: str) -> Optional[float]:
     """
     Converte string de moeda para float.
-    Suporta formatos brasileiro (1.234,56) e americano (1,234.56).
+    Suporta formatos brasileiro (7.653,00) e americano (7,653.00).
+    Trata múltiplos pontos de milhar e espaços.
     """
     if not value:
         return None
     
-    # Remover R$, espaços e texto não numérico
-    clean = re.sub(r'[R$\s]', '', str(value))
+    # Remover R$, espaços e caracteres não numéricos (exceto . , -)
+    clean = re.sub(r'[^\d.,-]', '', str(value))
     
     # Extrair apenas a parte numérica inicial
     match = re.match(r'^([\d.,]+)', clean)
@@ -111,29 +112,38 @@ def parse_currency(value: str) -> Optional[float]:
     
     clean = match.group(1)
     
-    # Trata formato brasileiro (1.234,56) e americano (1,234.56)
-    if ',' in clean and '.' in clean:
-        # Formato brasileiro: 1.234,56
+    # Contar pontos e vírgulas para determinar formato
+    num_dots = clean.count('.')
+    num_commas = clean.count(',')
+    
+    if num_dots > 1 and num_commas == 0:
+        # Múltiplos pontos: formato inválido ou milhar brasileiro
+        # Ex: 7.653.00 -> remover todos os pontos exceto último
+        parts = clean.split('.')
+        if len(parts[-1]) == 2:  # Últimos 2 dígitos = centavos
+            clean = ''.join(parts[:-1]) + '.' + parts[-1]
+        else:
+            clean = clean.replace('.', '')
+    elif num_commas > 0 and num_dots > 0:
+        # Ambos presentes: determinar qual é decimal
         if clean.rfind('.') < clean.rfind(','):
+            # Formato brasileiro: 1.234,56
             clean = clean.replace('.', '').replace(',', '.')
         else:
             # Formato americano: 1,234.56
             clean = clean.replace(',', '')
-    elif ',' in clean:
+    elif num_commas == 1 and num_dots == 0:
+        # Apenas vírgula: formato brasileiro
         clean = clean.replace(',', '.')
-    elif '.' not in clean and len(clean) > 2:
-        # Valor sem separadores e com mais de 2 dígitos
-        # Assumir que são centavos (ex: "12345" -> 123.45)
-        # NOTA: Isso é arriscado, então não fazemos por padrão
-        pass
     
     try:
         return float(clean)
     except ValueError:
+        logger.warning(f"Falha ao converter moeda: '{value}' -> '{clean}'")
         return None
 
 
-def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float = 0.25) -> Optional[str]:
+def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float = 0.30) -> Optional[str]:
     """
     Valida consistência matemática entre valor_cota, qtd_cotas e pagamento_mensal.
     
@@ -142,7 +152,8 @@ def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float 
     
     Args:
         record: Registro com campos de valor
-        relative_tolerance: Tolerância relativa (0.25 = 25% de variação permitida)
+        relative_tolerance: Tolerância relativa (0.30 = 30% de variação permitida)
+                           Aumentado para 30% devido às fórmulas complexas de Performance
     
     Retorna mensagem de erro se inconsistente, None se OK.
     """
@@ -253,6 +264,7 @@ def is_umbrella_contract(text: str) -> bool:
     """
     indicators = [
         r'Contrato\s+Guarda[-\s]?Chuva',
+        r'ANEXO\s+II\s*[-–]\s*TABELA\s+DE\s+DESCONTOS',  # SmartFit tem ANEXO II
         r'TABELA\s+DE\s+DESCONTOS',
         r'\d{2,}\s+UCS',  # Ex: "72 UCS"
         r'Volume\s+Agregado',
@@ -263,3 +275,11 @@ def is_umbrella_contract(text: str) -> bool:
             return True
     
     return False
+
+
+def validate_cep(cep: str) -> bool:
+    """Valida formato de CEP brasileiro."""
+    if not cep:
+        return False
+    clean_cep = re.sub(r'[^\d]', '', cep)
+    return len(clean_cep) == 8

@@ -7,6 +7,8 @@ from .validators import (
     validate_record,
     validate_cnpj_checksum,
     validate_cpf_checksum,
+    validate_cep,
+    parse_currency,
     calculate_confidence_score,
     is_umbrella_contract
 )
@@ -25,6 +27,8 @@ __all__ = [
     'validate_record',
     'validate_cnpj_checksum',
     'validate_cpf_checksum',
+    'validate_cep',
+    'parse_currency',
     'calculate_confidence_score',
     'is_umbrella_contract',
     'extract_all_text',
