@@ -4,6 +4,13 @@
 # Extração de PDF
 pdfplumber>=0.10.0
 
+# Manipulação de Dados e Excel
+pandas>=2.0.0
+openpyxl>=3.0.0
+
+# Configuração
+PyYAML>=6.0
+
 # Opcional - para desenvolvimento
 pytest>=7.0.0
 pytest-cov>=4.0.0

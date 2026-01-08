@@ -1,0 +1,30 @@
+# Configuração Centralizada - Extrator de Contratos Raízen
+# Use este arquivo para definir parâmetros sem precisar passar flags gigantescas na CLI.
+
+# Caminhos de Entrada e Saída
+input:
+  path: "./contratos_por_paginas"  # Pasta padrão de entrada (pode ser sobrescrita via CLI -i)
+
+output:
+  path: "./output"                 # Pasta onde os relatórios e CSVs serão salvos
+  generate_html: true              # Gerar relatório visual bonito
+  generate_csv: true               # Gerar planilhas CSV para Excel
+
+# Parâmetros de Extração
+extraction:
+  max_pages: 10                    # Quantas páginas ler de cada PDF (otimização de performance)
+  batch_size: 50                   # Tamanho do lote para logs (não afeta performance real, apenas visual)
+  
+  # Filtros de Processamento (Opcional - deixe vazio para processar tudo)
+  # include_folders: ["RGE", "CEMIG"] 
+  
+# Configurações de Validação
+validation:
+  min_confidence_score: 70         # Contratos abaixo disso vão para revisão
+  validate_cnpj: true
+  validate_math: true
+  
+# Logs
+logging:
+  level: "INFO"                    # DEBUG, INFO, WARNING, ERROR
+  file: "extractor.log"

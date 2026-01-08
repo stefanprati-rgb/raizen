@@ -4,27 +4,27 @@ Inclui validação de CNPJ, CPF, email, e verificações matemáticas.
 """
 import re
 import logging
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Union
 
 # Configurar logging
 logger = logging.getLogger(__name__)
 
 
-def normalize_cnpj(cnpj: str) -> str:
+def normalize_cnpj(cnpj: Optional[str]) -> str:
     """Remove formatação do CNPJ, mantendo apenas dígitos."""
     if not cnpj:
         return ''
-    return re.sub(r'[^\d]', '', cnpj)
+    return re.sub(r'[^\d]', '', str(cnpj))
 
 
-def normalize_cpf(cpf: str) -> str:
+def normalize_cpf(cpf: Optional[str]) -> str:
     """Remove formatação do CPF, mantendo apenas dígitos."""
     if not cpf:
         return ''
-    return re.sub(r'[^\d]', '', cpf)
+    return re.sub(r'[^\d]', '', str(cpf))
 
 
-def validate_cnpj_checksum(cnpj: str) -> bool:
+def validate_cnpj_checksum(cnpj: Optional[str]) -> bool:
     """Valida os dígitos verificadores do CNPJ."""
     cnpj = normalize_cnpj(cnpj)
     
@@ -53,7 +53,7 @@ def validate_cnpj_checksum(cnpj: str) -> bool:
     return int(cnpj[13]) == d2
 
 
-def validate_cpf_checksum(cpf: str) -> bool:
+def validate_cpf_checksum(cpf: Optional[str]) -> bool:
     """Valida os dígitos verificadores do CPF."""
     cpf = normalize_cpf(cpf)
     
@@ -80,7 +80,7 @@ def validate_cpf_checksum(cpf: str) -> bool:
     return int(cpf[10]) == d2
 
 
-def validate_email(email: str) -> bool:
+def validate_email(email: Optional[str]) -> bool:
     """
     Valida formato de email com regras mais rigorosas.
     - Mínimo 2 caracteres no domínio
@@ -93,19 +93,39 @@ def validate_email(email: str) -> bool:
     return bool(re.match(pattern, email))
 
 
-def parse_currency(value: str) -> Optional[float]:
+def parse_currency(value: Union[str, float, int, None]) -> Optional[float]:
     """
     Converte string de moeda para float.
-    Suporta formatos brasileiro (7.653,00) e americano (7,653.00).
-    Trata múltiplos pontos de milhar e espaços.
+    
+    Suporta formatos:
+    - Brasileiro: R$ 1.234,56 | 7.653,00
+    - Americano: 1,234.56 | $1,234.56
+    - Negativo entre parênteses: (123,45)
+    - Com texto adicional: 7.653,00 kWh
+    
+    Args:
+        value: String com valor monetário
+        
+    Returns:
+        float ou None se conversão falhar
     """
-    if not value:
+    if value is None:
+        return None
+        
+    str_val = str(value).strip()
+    if not str_val:
         return None
     
-    # Remover R$, espaços e caracteres não numéricos (exceto . , -)
-    clean = re.sub(r'[^\d.,-]', '', str(value))
+    # Remover R$, $, espaços e texto adicional (ex: "kWh")
+    # Mantém apenas dígitos, ., ,, - e ()
+    clean = re.sub(r'[^\d.,\-()]', '', str_val)
     
-    # Extrair apenas a parte numérica inicial
+    # Detectar negativo entre parênteses: (1.234,56)
+    is_negative = clean.startswith('(') and clean.endswith(')')
+    if is_negative:
+        clean = clean[1:-1]
+    
+    # Extrair apenas números, pontos, vírgulas e sinal
     match = re.match(r'^([\d.,]+)', clean)
     if not match:
         return None
@@ -117,7 +137,7 @@ def parse_currency(value: str) -> Optional[float]:
     num_commas = clean.count(',')
     
     if num_dots > 1 and num_commas == 0:
-        # Múltiplos pontos: formato inválido ou milhar brasileiro
+        # Múltiplos pontos: formato brasileiro de milhar
         # Ex: 7.653.00 -> remover todos os pontos exceto último
         parts = clean.split('.')
         if len(parts[-1]) == 2:  # Últimos 2 dígitos = centavos
@@ -126,18 +146,19 @@ def parse_currency(value: str) -> Optional[float]:
             clean = clean.replace('.', '')
     elif num_commas > 0 and num_dots > 0:
         # Ambos presentes: determinar qual é decimal
-        if clean.rfind('.') < clean.rfind(','):
+        if clean.rfind(',') > clean.rfind('.'):
             # Formato brasileiro: 1.234,56
             clean = clean.replace('.', '').replace(',', '.')
         else:
             # Formato americano: 1,234.56
             clean = clean.replace(',', '')
     elif num_commas == 1 and num_dots == 0:
-        # Apenas vírgula: formato brasileiro
+        # Apenas vírgula: assumir formato brasileiro
         clean = clean.replace(',', '.')
     
     try:
-        return float(clean)
+        result = float(clean)
+        return -result if is_negative else result
     except ValueError:
         logger.warning(f"Falha ao converter moeda: '{value}' -> '{clean}'")
         return None
@@ -277,7 +298,7 @@ def is_umbrella_contract(text: str) -> bool:
     return False
 
 
-def validate_cep(cep: str) -> bool:
+def validate_cep(cep: Optional[str]) -> bool:
     """Valida formato de CEP brasileiro."""
     if not cep:
         return False

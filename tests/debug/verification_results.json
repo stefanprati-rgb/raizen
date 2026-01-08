@@ -1,30 +1,10 @@
 [
   {
-    "file": "SOLAR 22787 - NYC GASTRONOMIA LTDA - 10877790000141 - Clicksign.pdf",
-    "paginas": 11,
-    "categoria": "PADRAO",
-    "distribuidora_classificada": "CEMIG",
-    "registros": [
-      {
-        "razao_social": "NYC GASTRONOMIA LTDA",
-        "distribuidora_final": "MG - CEMIG",
-        "metodo": null,
-        "cnpj": "10.877.790/0001-41"
-      }
-    ]
+    "file": "C:\\Projetos\\Raizen\\contratos_por_paginas\\11_paginas\\RGE\\SOLAR 22787 - NYC GASTRONOMIA LTDA - 10877790000141 - Clicksign.pdf",
+    "error": "not found"
   },
   {
-    "file": "GD Fresh4Pet.pdf",
-    "paginas": 10,
-    "categoria": "PADRAO",
-    "distribuidora_classificada": "EDP_SP",
-    "registros": [
-      {
-        "razao_social": "Fresh4Pet",
-        "distribuidora_final": "EDP_SP",
-        "metodo": "CLASSIFICADOR_AUTO",
-        "cnpj": "28409307000160"
-      }
-    ]
+    "file": "C:\\Projetos\\Raizen\\contratos_por_paginas\\10_paginas\\RGE\\GD Fresh4Pet.pdf",
+    "error": "not found"
   }
 ]

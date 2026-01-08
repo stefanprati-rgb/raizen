@@ -100,6 +100,8 @@ def save_csv(records: list, filepath: Path) -> None:
         writer.writerows(records)
 
 
+from .config_loader import load_config
+
 def parse_args():
     """Parse argumentos de linha de comando."""
     parser = argparse.ArgumentParser(
@@ -108,30 +110,33 @@ def parse_args():
         epilog="""
 Exemplos:
   %(prog)s -i "C:/Contratos/PDFs"
-  %(prog)s -i ./pdfs -o ./resultados
-  %(prog)s --input /path/to/pdfs --output /path/to/output
+  %(prog)s --config config_prod.yaml
         """
     )
     
     parser.add_argument(
         "--input", "-i",
         type=Path,
-        required=True,
-        help="Pasta contendo os PDFs de contratos"
+        help="Pasta contendo os PDFs de contratos (sobrescreve config)"
     )
     
     parser.add_argument(
         "--output", "-o",
         type=Path,
-        default=Path("output"),
-        help="Pasta para salvar os resultados (padrão: ./output)"
+        help="Pasta para salvar os resultados (sobrescreve config)"
     )
     
     parser.add_argument(
         "--max-pages",
         type=int,
-        default=10,
-        help="Máximo de páginas a processar por PDF (padrão: 10)"
+        help="Máximo de páginas a processar por PDF"
+    )
+    
+    parser.add_argument(
+        "--config", "-c",
+        type=str,
+        default="config.yaml",
+        help="Caminho do arquivo de configuração"
     )
     
     parser.add_argument(
@@ -145,11 +150,23 @@ Exemplos:
 
 def main():
     """Função principal de execução."""
-    # Parse argumentos
+    # Parse CLI params first
     args = parse_args()
     
-    pdf_dir = args.input.resolve()
-    output_dir = args.output.resolve()
+    # Load config file (CLI arg or default)
+    config = load_config(args.config)
+    
+    # Resolve paths: CLI > Config > Default
+    input_path_str = args.input if args.input else config.get('input', {}).get('path')
+    output_path_str = args.output if args.output else config.get('output', {}).get('path')
+    max_pages = args.max_pages if args.max_pages else config.get('extraction', {}).get('max_pages', 10)
+    
+    if not input_path_str:
+        print("❌ Erro: Input não definido (nem via CLI nem config.yaml)")
+        sys.exit(1)
+        
+    pdf_dir = Path(input_path_str).resolve()
+    output_dir = Path(output_path_str).resolve()
     
     # Validação de entrada
     if not pdf_dir.exists():

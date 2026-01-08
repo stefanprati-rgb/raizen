@@ -4,6 +4,7 @@ import pandas as pd
 import pdfplumber
 from pathlib import Path
 from enum import Enum, auto
+from typing import Optional, List, Dict, Tuple, Set, Any
 from dataclasses import dataclass
 
 # Caminhos para arquivos de referência
@@ -41,16 +42,16 @@ PALAVRAS_GENERICAS = {
 _SORTED_DISTS = None
 _CITY_TO_DIST = None
 
-def normalize_text(text):
+def normalize_text(text: Any) -> str:
     if not isinstance(text, str): return ""
     text = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('ASCII')
     return text.upper().strip()
 
-def is_raizen_address(text):
+def is_raizen_address(text: str) -> bool:
     text_norm = normalize_text(text)
     return any(addr in text_norm for addr in RAIZEN_ADDRESSES)
 
-def load_databases():
+def load_databases() -> Tuple[List[str], Dict[str, str]]:
     global _SORTED_DISTS, _CITY_TO_DIST
     if _SORTED_DISTS is not None and _CITY_TO_DIST is not None:
         return _SORTED_DISTS, _CITY_TO_DIST
@@ -100,7 +101,7 @@ def load_databases():
         print(f"Erro ao carregar bases: {e}")
         return [], {}
 
-def extract_client_city(text_norm):
+def extract_client_city(text_norm: str) -> Optional[str]:
     if is_raizen_address(text_norm): return None
     
     ESTADOS_BR = (

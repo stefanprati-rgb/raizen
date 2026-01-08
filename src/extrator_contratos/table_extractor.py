@@ -7,7 +7,7 @@ OTIMIZADO: Usa context manager único para evitar múltiplas aberturas do PDF.
 import pdfplumber
 import re
 import logging
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional, Union, Iterator
 from pathlib import Path
 from contextlib import contextmanager
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 @contextmanager
-def open_pdf(pdf_path: str):
+def open_pdf(pdf_path: str) -> Iterator[pdfplumber.PDF]:
     """
     Context manager para abrir PDF uma única vez.
     Permite reutilizar o objeto PDF entre múltiplas funções.
