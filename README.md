@@ -1,14 +1,14 @@
 # Extrator de Contratos Raízen
 
-Sistema para extração automatizada de dados de contratos PDF para CSV.
+Sistema para extração automatizada de dados de contratos PDF e classificação por distribuidora.
 
 ## Funcionalidades
 
-- Extração de dados de **6.309+ PDFs** de contratos
+- **Extração de dados** de 6.309+ PDFs de contratos
+- **Classificação automática** por distribuidora de energia
 - Suporte a **2 modelos** de layout (Visual/Clicksign e Tabular/Docusign)
 - Validação de CNPJ/CPF com dígitos verificadores
-- Validação matemática de valores
-- Detecção de contratos "Guarda-Chuva"
+- Detecção de contratos "Guarda-Chuva" (múltiplas instalações)
 - Geração de relatório HTML para revisão
 - Exportação para CSV
 
@@ -16,31 +16,61 @@ Sistema para extração automatizada de dados de contratos PDF para CSV.
 
 ```
 Raizen/
-├── pyproject.toml           # Configuração do projeto (PEP 517/518)
-├── requirements.txt         # Dependências
-├── README.md
+├── pyproject.toml               # Configuração do projeto (PEP 517/518)
+├── requirements.txt             # Dependências Python
+├── README.md                    # Este arquivo
+├── .gitignore                   # Arquivos ignorados pelo git
 │
-├── src/                     # Código fonte
+├── src/                         # Código fonte principal
 │   └── extrator_contratos/
-│       ├── __init__.py      # Exports do módulo
-│       ├── main.py          # Script principal de execução
-│       ├── extractor.py     # Lógica de extração
-│       ├── patterns.py      # Padrões regex por modelo
-│       ├── validators.py    # Validações (CNPJ, CPF, math)
-│       ├── table_extractor.py # Extração de tabelas
-│       └── report.py        # Geração de relatório HTML
+│       ├── __init__.py          # Exports do módulo
+│       ├── main.py              # Script principal de execução
+│       ├── extractor.py         # Lógica de extração
+│       ├── patterns.py          # Padrões regex por modelo
+│       ├── validators.py        # Validações (CNPJ, CPF, math)
+│       ├── table_extractor.py   # Extração de tabelas
+│       └── report.py            # Geração de relatório HTML
 │
-├── tests/                   # Testes automatizados
-│   ├── test_extractor.py
-│   └── test_corrections.py
+├── scripts/                     # Scripts utilitários
+│   ├── super_organizer_v4.py    # Organizador por distribuidora (PRINCIPAL)
+│   ├── organize_by_pages.py     # Organizador por número de páginas
+│   ├── analyze_pdfs.py          # Análise de PDFs
+│   ├── debug_pdf.py             # Debug de PDF específico
+│   └── legacy/                  # Scripts antigos/descontinuados
+│       ├── super_organizer_v3.py
+│       └── organize_by_utility.py
 │
-├── scripts/                 # Scripts utilitários
-│   ├── analyze_pdfs.py
-│   └── debug_pdf.py
+├── tests/                       # Testes automatizados
+│   ├── __init__.py
+│   ├── test_extractor.py        # Testes do extrator
+│   ├── test_corrections.py      # Testes de correções
+│   ├── test_*.py                # Outros testes
+│   └── debug/                   # Scripts de debug
+│       ├── debug_brk.py
+│       ├── debug_fresh4pet.py
+│       └── debug_nyc.py
 │
-├── docs/                    # Documentação
-├── data/                    # Dados de exemplo
-└── output/                  # Saída (não versionado)
+├── data/                        # Dados
+│   ├── reference/               # Bases de dados de referência
+│   │   ├── AreaatuadistbaseBI.xlsx
+│   │   └── PAINEL DE DESEMPENHO DAS DISTRIBUIDORAS POR MUNICÍPIO.xlsx
+│   └── samples/                 # Amostras para testes
+│
+├── docs/                        # Documentação
+│   └── DOCUMENTACAO_IDENTIFICACAO_DISTRIBUIDORAS.md
+│
+├── output/                      # Saída (não versionado)
+│
+├── contratos_por_paginas/       # Contratos organizados (não versionado)
+│   ├── 05_paginas/
+│   │   ├── CEMIG/
+│   │   ├── CPFL_PAULISTA/
+│   │   └── ...
+│   ├── 09_paginas/
+│   │   └── ...
+│   └── ...
+│
+└── OneDrive_2026-01-06/         # PDFs originais (não versionado)
 ```
 
 ## Instalação
@@ -64,30 +94,31 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### Produção
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Uso
 
-### Executar extração
+### 1. Organizar PDFs por Número de Páginas
 
 ```bash
-# Sintaxe básica
+python scripts/organize_by_pages.py
+```
+
+### 2. Classificar por Distribuidora
+
+```bash
+python scripts/super_organizer_v4.py
+```
+
+### 3. Executar Extração de Dados
+
+```bash
 python -m src.extrator_contratos.main --input <pasta_pdfs> [--output <pasta_saida>]
 
 # Exemplos
-python -m src.extrator_contratos.main -i "C:/Contratos/PDFs"
+python -m src.extrator_contratos.main -i ./contratos_por_paginas/09_paginas/CEMIG
 python -m src.extrator_contratos.main -i ./pdfs -o ./resultados
-python -m src.extrator_contratos.main --input /path/to/pdfs --output /path/to/output
-
-# Ver ajuda
-python -m src.extrator_contratos.main --help
 ```
 
-### Opções disponíveis
+### Opções Disponíveis
 
 | Argumento | Curto | Descrição |
 |-----------|-------|-----------|
@@ -96,7 +127,7 @@ python -m src.extrator_contratos.main --help
 | `--max-pages` | - | Máximo de páginas por PDF (padrão: 10) |
 | `--verbose` | `-v` | Modo verboso (mais detalhes no log) |
 
-### Executar testes
+### Executar Testes
 
 ```bash
 # Todos os testes
@@ -105,6 +136,25 @@ pytest
 # Com cobertura
 pytest --cov=src/extrator_contratos
 ```
+
+## Sistema de Identificação de Distribuidoras
+
+O sistema utiliza **3 estratégias em cascata** para identificar a distribuidora de cada contrato:
+
+1. **Nome Explícito**: Busca por `DISTRIBUIDORA: XX - NOME` no documento
+2. **Cidade do Cliente**: Cruza cidade do endereço com base de 5.267 municípios
+3. **Busca Global**: Procura nomes de distribuidoras em qualquer parte do texto
+
+### Bases de Dados Utilizadas
+
+| Arquivo | Descrição | Registros |
+|---------|-----------|-----------|
+| `AreaatuadistbaseBI.xlsx` | Siglas e razões sociais de distribuidoras | 97+ |
+| `PAINEL DE DESEMPENHO...xlsx` | Mapeamento município → distribuidora | 5.267 |
+
+### Documentação Técnica Completa
+
+Ver: [docs/DOCUMENTACAO_IDENTIFICACAO_DISTRIBUIDORAS.md](docs/DOCUMENTACAO_IDENTIFICACAO_DISTRIBUIDORAS.md)
 
 ## Saída
 
@@ -120,7 +170,6 @@ pytest --cov=src/extrator_contratos
 | razao_social | Razão Social do cliente |
 | cnpj | CNPJ formatado |
 | email | Email de contato |
-| email_secundario | Email secundário (se houver) |
 | endereco | Endereço completo |
 | cidade | Cidade |
 | uf | Estado (UF) |
@@ -132,20 +181,19 @@ pytest --cov=src/extrator_contratos
 | pagamento_mensal | Valor do pagamento mensal |
 | performance_alvo | Performance alvo em kWh |
 | representante_nome | Nome do representante legal |
-| representante_nome_secundario | Nome secundário do representante |
 | representante_cpf | CPF do representante |
 | participacao_percentual | Participação no consórcio (%) |
 | confianca_score | Score de confiança (0-100) |
 
-## Configurações
+## Dependências
 
-Editar `src/extrator_contratos/main.py`:
-
-```python
-PDF_DIR = Path(r"caminho/para/pdfs")
-OUTPUT_DIR = Path(r"caminho/para/output")
+```
+pdfplumber>=0.7.0      # Extração de texto de PDFs
+pandas>=1.3.0          # Leitura de Excel e manipulação de dados
+openpyxl>=3.0.0        # Engine para ler .xlsx
+pytest>=7.0.0          # Testes automatizados
 ```
 
 ## Licença
 
-Uso interno - Raízen
+Uso interno - Raízen GD
