@@ -33,6 +33,7 @@ from .table_extractor import (
     extract_modelo_2_data_from_pdf,
     get_pdf_page_count
 )
+from . import classifier
 
 
 @dataclass
@@ -46,6 +47,8 @@ class ExtractionResult:
     confianca_score: int = 0
     is_guarda_chuva: bool = False
     paginas: int = 0
+    distribuidora_classificada: str = ''
+    categoria: str = ''
 
 
 class ContractExtractor:
@@ -168,6 +171,17 @@ class ContractExtractor:
                 if not text:
                     result.alertas.append("Erro ao ler PDF: texto vazio")
                     return result
+                
+                # Classificar contrato (Dist + Categoria)
+                dist_identified = classifier.identify_distributor_from_text(text)
+                result.distribuidora_classificada = dist_identified
+                
+                if result.paginas <= 7:
+                    result.categoria = 'SIMPLES'
+                elif result.paginas > 16:
+                    result.categoria = 'GUARDA_CHUVA'
+                else:
+                    result.categoria = 'PADRAO'
                 
                 # Detectar tipo e modelo
                 result.tipo_documento = self.detect_document_type(text)
@@ -300,7 +314,14 @@ class ContractExtractor:
                     base_data['arquivo_origem'] = pdf_path.name
                     base_data['tipo_documento'] = result.tipo_documento
                     base_data['modelo_detectado'] = result.modelo_detectado
+                    base_data['tipo_documento'] = result.tipo_documento
+                    base_data['modelo_detectado'] = result.modelo_detectado
                     base_data['data_extracao'] = datetime.now().isoformat()
+                    
+                    # Se não encontrou distribuidora no texto, usar a classificada
+                    if not base_data.get('distribuidora') and result.distribuidora_classificada not in ['OUTRAS_DESCONHECIDAS', 'ERRO_LEITURA', 'ERRO_OCR']:
+                         base_data['distribuidora'] = result.distribuidora_classificada
+                         base_data['metodo_distribuidora'] = 'CLASSIFICADOR_AUTO'
                     
                     alerts = validate_record(base_data)
                     base_data['alertas'] = '; '.join(alerts) if alerts else ''
