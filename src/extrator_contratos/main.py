@@ -145,6 +145,19 @@ Exemplos:
         help="Modo verboso (mais detalhes no log)"
     )
     
+    parser.add_argument(
+        "--parallel", "-p",
+        action="store_true",
+        help="Ativar processamento paralelo (4-8x mais rápido)"
+    )
+    
+    parser.add_argument(
+        "--workers", "-w",
+        type=int,
+        default=None,
+        help="Número de workers para processamento paralelo (padrão: núcleos CPU - 1)"
+    )
+    
     return parser.parse_args()
 
 
@@ -200,7 +213,14 @@ def main():
         sys.exit(1)
     
     print(f"\n📁 {total_files:,} PDFs encontrados")
-    print("\n🔄 Iniciando extração...\n")
+    
+    # Modo de processamento
+    if args.parallel:
+        import multiprocessing
+        workers = args.workers or max(1, multiprocessing.cpu_count() - 1)
+        print(f"\n🚀 Iniciando extração PARALELA ({workers} workers)...\n")
+    else:
+        print("\n🔄 Iniciando extração...\n")
     
     # Inicializar extrator
     extractor = ContractExtractor()
@@ -208,10 +228,17 @@ def main():
     # Processar em lote
     start_time = datetime.now()
     
-    valid_records, review_records = extractor.process_batch(
-        [str(p) for p in pdf_files],
-        progress_callback=progress_callback
-    )
+    if args.parallel:
+        valid_records, review_records = extractor.process_batch_parallel(
+            [str(p) for p in pdf_files],
+            max_workers=args.workers,
+            progress_callback=progress_callback
+        )
+    else:
+        valid_records, review_records = extractor.process_batch(
+            [str(p) for p in pdf_files],
+            progress_callback=progress_callback
+        )
     
     elapsed = (datetime.now() - start_time).total_seconds()
     

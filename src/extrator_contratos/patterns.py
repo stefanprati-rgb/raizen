@@ -51,10 +51,12 @@ class PatternsMixin:
     # =========================================================================
     
     MODELO_1_PATTERNS = {
-        # Razão Social - buscar após "CONSORCIADA (VOCÊ)" ou "Contratante:"
+        # Razão Social - buscar após "CONSORCIADA (VOCÊ)" ou "Contratante:" ou isolado
         'razao_social': [
             r'(?:CONSORCIADA\s*\(VOC[ÊE]\)|Contratante:).*?Raz[ãa]o\s+Social:\s*(.+?)(?:\s*[–-]\s*CNPJ|\n|$)',
             r'(?:CONSORCIADA\s*\(VOC[ÊE]\)|Contratante:).*?Raz[ãa]o\s+Social:\s*([^\n]+)',
+            r'Raz[ãa]o\s+Social:\s*([A-Z][A-Z0-9\s\.\-]+?)(?:\s*[-–]|CNPJ|NIRE|\n)',
+            r'Raz[ãa]o\s+Social:\s*([^\n]{5,60})',
         ],
         
         # CNPJ - buscar padrão numérico após identificador
@@ -85,26 +87,48 @@ class PatternsMixin:
         ],
         
         # Distribuidora
+        # =====================================================================
+        # DISTRIBUIDORA / CONCESSIONÁRIA
+        # Sinônimos: Concessionária, Prestadora de Serviços, Operadora
+        # =====================================================================
         'distribuidora': [
             r'Distrib\s*uidora:\s*([^\n]+)',
             r'Distribuidora:\s*([^\n]+)',
+            r'Concession[áa]ria(?:\s+de\s+Energia)?:\s*([^\n]+)',
+            r'Prestadora\s+de\s+Servi[çc]os:\s*([^\n]+)',
+            r'Operadora\s+de\s+Distribui[çc][ãa]o:\s*([^\n]+)',
         ],
         
-        # Número da Instalação
+        # =====================================================================
+        # UNIDADE CONSUMIDORA (UC) / NÚMERO DA INSTALAÇÃO
+        # Sinônimos: Código da Instalação, Instalação, Código Único
+        # =====================================================================
         'num_instalacao': [
-            r'N[º°]\s*da\s+Instala[çc][ãa]o\s*\([^)]+\)[:\s]*(\d{5,})',  # Com parênteses: Nº da Instalação (Unidade Consumidora): 7778620
+            r'N[º°]\s*da\s+Instala[çc][ãa]o\s*\([^)]+\)[:\s]*(\d{5,})',
             r'N[º°]\s*da\s+Instala[çc][ãa]o.*?:\s*(\d+)',
             r'Instala[çc][ãa]o.*?Consumidora[):\s]*(\d+)',
+            r'C[óo]digo\s+(?:da\s+)?Instala[çc][ãa]o[:\s]*(\d{5,})',
+            r'Unidade\s+Consumidora[:\s]*(\d{5,})',
+            r'UC[:\s]*(\d{5,})',
+            r'C[óo]digo\s+[úu]nico[:\s]*(\d{5,})',
         ],
         
-        # Número do Cliente
+        # =====================================================================
+        # NÚMERO DO CLIENTE
+        # Sinônimos: Código do Cliente, Identificação do Cliente, Cadastro
+        # =====================================================================
         'num_cliente': [
             r'N[º°]\s*do\s+Cliente:\s*(\d+)',
+            r'C[óo]digo\s+(?:do\s+)?Cliente[:\s]*(\d+)',
+            r'Identifica[çc][ãa]o\s+(?:do\s+)?Cliente[:\s]*(\d+)',
+            r'Cadastro\s+(?:do\s+)?Cliente[:\s]*(\d+)',
+            r'Cliente\s+N[º°][:\s]*(\d+)',
         ],
         
         # Quantidade de Cotas
         'qtd_cotas': [
             r'Quantidade\s+de\s+Cotas:\s*([\d.,]+)',
+            r'Qtd\.?\s+Cotas[:\s]*([\d.,]+)',
         ],
         
         # Valor da Cota
@@ -125,20 +149,95 @@ class PatternsMixin:
         
         # Performance Alvo
         'performance_alvo': [
-            r'Performance\s+Alvo[:\s]*(\d[\d\.,]*\d?)\s*kWh',  # Aceita espaços e : (ex: 7.653,00 kWh)
+            r'Performance\s+Alvo[:\s]*(\d[\d\.,]*\d?)\s*kWh',
             r'Performance[:\s]+(\d[\d\.,]*\d?)\s*kWh',
         ],
         
-        # Participação/Rateio
+        # =====================================================================
+        # PARTICIPAÇÃO CONTRATADA
+        # Sinônimos: Quota, Percentual, Cota de Energia, Alocação Contratual
+        # =====================================================================
         'participacao_percentual': [
             r'Participa[çc][ãa]o\s+no\s+Cons[óo]rcio[/\s]*Rateio[:\s]*([\d.,]+)\s*%',
             r'Rateio[:\s]*([\d.,]+)\s*%',
+            r'Quota\s+Contratada[:\s]*([\d.,]+)\s*%',
+            r'Percentual\s+(?:de\s+)?Participa[çc][ãa]o[:\s]*([\d.,]+)\s*%',
+            r'Cota\s+(?:de\s+)?Energia[:\s]*([\d.,]+)\s*%',
+            r'Energia\s+Contratada[:\s]*([\d.,]+)\s*%',
+            r'Aloca[çc][ãa]o\s+Contratual[:\s]*([\d.,]+)\s*%',
         ],
         
-        # Duração
+        # =====================================================================
+        # FIDELIDADE / DURAÇÃO DO CONTRATO
+        # Sinônimos: Período de Fidelização, Prazo de Permanência, Tempo de Contrato
+        # =====================================================================
         'duracao_meses': [
             r'Dura[çc][ãa]o:\s*(\d+)\s*meses',
             r'Vig[êe]ncia\s+Inicial:\s*(\d+)\s*meses',
+            r'prazo\s+(?:m[íi]nimo\s+)?de\s+(\d+)\s*(?:\(.*?\))?\s*meses',
+            r'fidelidade\s+(?:de\s+)?(\d+)\s*meses',
+            r'(\d+)\s*meses\s+(?:de\s+)?(?:dura[çc][ãa]o|vig[êe]ncia)',
+            r'Per[íi]odo\s+(?:de\s+)?Fideliza[çc][ãa]o[:\s]*(\d+)\s*meses',
+            r'Prazo\s+(?:de\s+)?Perman[êe]ncia[:\s]*(\d+)\s*meses',
+            r'Tempo\s+(?:de\s+)?Contrato[:\s]*(\d+)\s*meses',
+            r'Per[íi]odo\s+Contratual\s+M[íi]nimo[:\s]*(\d+)\s*meses',
+        ],
+        
+        # =====================================================================
+        # DATA DE ADESÃO
+        # Sinônimos: Data de Contratação, Data de Início, Data de Ingresso
+        # =====================================================================
+        'data_adesao': [
+            r'Data\s+(?:de\s+)?Ades[ãa]o[:\s]*(\d{2}/\d{2}/\d{4})',
+            r'Data\s+(?:de\s+)?Assinatura[:\s]*(\d{2}/\d{2}/\d{4})',
+            r'Data\s+(?:de\s+)?Contrata[çc][ãa]o[:\s]*(\d{2}/\d{2}/\d{4})',
+            r'Data\s+(?:de\s+)?In[íi]cio(?:\s+do\s+Contrato)?[:\s]*(\d{2}/\d{2}/\d{4})',
+            r'Data\s+(?:de\s+)?Ingresso[:\s]*(\d{2}/\d{2}/\d{4})',
+            r'assinado\s+(?:em|na\s+data\s+de)\s*(\d{2}/\d{2}/\d{4})',
+            r'firmado\s+em\s*(\d{2}/\d{2}/\d{4})',
+            r'Data\s+de\s+emiss[ãa]o[:\s]*(\d{2}/\d{2}/\d{4})',
+        ],
+        
+        # =====================================================================
+        # AVISO PRÉVIO
+        # Sinônimos: Prazo de Notificação, Antecedência para Rescisão
+        # =====================================================================
+        'aviso_previo': [
+            r'aviso\s+pr[ée]vio\s+(?:m[íi]nimo\s+)?(?:de\s+)?(\d+)\s*(?:\(.*?\))?\s*dias',
+            r'antec[êe]nd[êe]ncia\s+(?:m[íi]nima\s+)?(?:de\s+)?(\d+)\s*dias',
+            r'(\d+)\s*dias\s+(?:de\s+)?aviso\s+pr[ée]vio',
+            r'Prazo\s+(?:de\s+)?Notifica[çc][ãa]o[:\s]*(\d+)\s*dias',
+            r'Per[íi]odo\s+(?:de\s+)?Comunica[çc][ãa]o\s+Pr[ée]via[:\s]*(\d+)\s*dias',
+            r'Antec[êe]nd[êe]ncia\s+para\s+Rescis[ãa]o[:\s]*(\d+)\s*dias',
+            r'Notifica[çc][ãa]o\s+(?:de\s+)?T[ée]rmino[:\s]*(\d+)\s*dias',
+        ],
+        
+        # =====================================================================
+        # REPRESENTANTE LEGAL
+        # Sinônimos: Procurador Legal, Responsável Legal, Signatário, Mandatário
+        # =====================================================================
+        'representante_nome': [
+            r'Representante\s+Legal[:\s]*([A-Z][a-zA-ZÀ-ú\s]+?)(?:\s*[-–]|CPF|,|\n)',
+            r'Nome\s+(?:do\s+)?Representante[:\s]*([A-Z][a-zA-ZÀ-ú\s]+?)(?:\n|CPF)',
+            r'Procurador\s+Legal[:\s]*([A-Z][a-zA-ZÀ-ú\s]+?)(?:\s*[-–]|CPF|\n)',
+            r'Respons[áa]vel\s+Legal[:\s]*([A-Z][a-zA-ZÀ-ú\s]+?)(?:\s*[-–]|CPF|\n)',
+            r'Signat[áa]rio\s+Autorizado[:\s]*([A-Z][a-zA-ZÀ-ú\s]+?)(?:\s*[-–]|CPF|\n)',
+            r'Mandat[áa]rio\s+Legal[:\s]*([A-Z][a-zA-ZÀ-ú\s]+?)(?:\s*[-–]|CPF|\n)',
+            # Formato do Protocolo de Assinaturas: Nome CPF
+            r'Representante\s+CPF\s*\n\s*([A-Z][a-zA-ZÀ-ú\s]+?)\s+\d{3}\.\d{3}\.\d{3}-\d{2}',
+        ],
+        
+        # =====================================================================
+        # CPF DO REPRESENTANTE
+        # Sinônimos: CPF do Responsável, Cadastro PF do Representante
+        # =====================================================================
+        'representante_cpf': [
+            r'CPF\s+(?:do\s+)?(?:Representante|Respons[áa]vel)?[:\s]*(\d{3}[.\s]?\d{3}[.\s]?\d{3}[-\s]?\d{2})',
+            r'Representante.*?CPF[:\s]*(\d{3}[.\s]?\d{3}[.\s]?\d{3}[-\s]?\d{2})',
+            r'Cadastro\s+(?:de\s+)?Pessoa\s+F[íi]sica[:\s]*(\d{3}[.\s]?\d{3}[.\s]?\d{3}[-\s]?\d{2})',
+            r'Identifica[çc][ãa]o\s+(?:do\s+)?Procurador[:\s]*(\d{3}[.\s]?\d{3}[.\s]?\d{3}[-\s]?\d{2})',
+            # Formato Protocolo: Nome + CPF na mesma linha
+            r'[A-Z][a-zA-ZÀ-ú\s]+\s+(\d{3}\.\d{3}\.\d{3}-\d{2})',
         ],
     }
     

@@ -3,6 +3,7 @@ Extrator de tabelas de PDFs usando pdfplumber.
 Especializado em extrair dados do Anexo I e tabelas de instalações.
 
 OTIMIZADO: Usa context manager único para evitar múltiplas aberturas do PDF.
+FALLBACK OCR: Se o PDF for baseado em imagem, usa EasyOCR automaticamente.
 """
 import pdfplumber
 import re
@@ -13,6 +14,57 @@ from contextlib import contextmanager
 
 # Logger para o módulo
 logger = logging.getLogger(__name__)
+
+# Cache global do leitor OCR (lazy loading)
+_OCR_READER = None
+
+
+def _get_ocr_reader():
+    """
+    Retorna o leitor EasyOCR (lazy loading).
+    Inicializa apenas na primeira chamada para evitar overhead.
+    """
+    global _OCR_READER
+    if _OCR_READER is None:
+        try:
+            import easyocr
+            logger.info("Inicializando EasyOCR (primeira execução pode demorar)...")
+            _OCR_READER = easyocr.Reader(['pt', 'en'], gpu=False, verbose=False)
+            logger.info("EasyOCR inicializado com sucesso")
+        except ImportError:
+            logger.warning("EasyOCR não instalado. Fallback OCR desabilitado.")
+            return None
+        except Exception as e:
+            logger.error(f"Erro ao inicializar EasyOCR: {e}")
+            return None
+    return _OCR_READER
+
+
+def _extract_text_with_ocr(page) -> str:
+    """
+    Extrai texto de uma página usando OCR (para PDFs escaneados).
+    
+    Args:
+        page: Objeto pdfplumber.Page
+        
+    Returns:
+        Texto extraído via OCR ou string vazia se falhar
+    """
+    reader = _get_ocr_reader()
+    if reader is None:
+        return ""
+    
+    try:
+        # Converter página para imagem (300 DPI para boa qualidade)
+        img = page.to_image(resolution=200).original
+        # Executar OCR
+        results = reader.readtext(img)
+        # Concatenar resultados (formato: [(bbox, text, confidence), ...])
+        text = ' '.join([text for _, text, _ in results])
+        return text
+    except Exception as e:
+        logger.warning(f"Erro no OCR: {e}")
+        return ""
 
 
 @contextmanager
@@ -28,13 +80,17 @@ def open_pdf(pdf_path: str) -> Iterator[pdfplumber.PDF]:
         pdf.close()
 
 
-def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10) -> str:
+def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10, use_ocr_fallback: bool = True) -> str:
     """
     Extrai todo o texto de um PDF já aberto.
+    
+    Se o texto extraído for muito curto (< 100 chars nas primeiras 2 páginas),
+    assume que o PDF é baseado em imagem e tenta OCR automaticamente.
     
     Args:
         pdf: Objeto pdfplumber.PDF já aberto
         max_pages: Número máximo de páginas a processar
+        use_ocr_fallback: Se True, tenta OCR quando texto normal falha
     
     Returns:
         Texto extraído concatenado com marcadores de página
@@ -42,14 +98,27 @@ def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10) -> str:
     total_pages = len(pdf.pages)
     pages_to_process = min(max_pages, total_pages)
     
-    text = ""
-    
     if total_pages > max_pages:
         logger.info(f"PDF tem {total_pages} páginas, processando apenas {max_pages}")
     
+    text = ""
+    ocr_used = False
+    
     for i, page in enumerate(pdf.pages[:pages_to_process]):
         page_text = page.extract_text() or ""
+        
+        # Verificar se precisa de OCR (texto muito curto nas primeiras 2 páginas)
+        if use_ocr_fallback and i < 2 and len(page_text.strip()) < 100:
+            logger.info(f"Página {i+1} com pouco texto ({len(page_text)} chars), tentando OCR...")
+            ocr_text = _extract_text_with_ocr(page)
+            if len(ocr_text) > len(page_text):
+                page_text = ocr_text
+                ocr_used = True
+        
         text += f"\n[PAGINA_{i+1}]\n{page_text}"
+    
+    if ocr_used:
+        logger.info("OCR foi utilizado para extrair texto de páginas escaneadas")
     
     return text
 

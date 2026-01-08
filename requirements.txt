@@ -11,6 +11,9 @@ openpyxl>=3.0.0
 # Configuração
 PyYAML>=6.0
 
+# OCR Fallback (para PDFs escaneados/imagem)
+easyocr>=1.7.0
+
 # Opcional - para desenvolvimento
 pytest>=7.0.0
 pytest-cov>=4.0.0
