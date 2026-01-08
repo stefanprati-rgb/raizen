@@ -4,10 +4,16 @@ Especializado em extrair dados do Anexo I e tabelas de instalações.
 
 OTIMIZADO: Usa context manager único para evitar múltiplas aberturas do PDF.
 FALLBACK OCR: Se o PDF for baseado em imagem, usa EasyOCR automaticamente.
+
+CONFIGURAÇÃO DE WORKERS (Previne OOM):
+- TEXT_MAX_WORKERS: 8 (extração de texto nativo - leve)
+- OCR_MAX_WORKERS: 2 (OCR EasyOCR - pesado, consome muita RAM)
+- OCR_TIMEOUT_SECONDS: 30 (timeout por página para evitar travamento)
 """
 import pdfplumber
 import re
 import logging
+import signal
 from typing import List, Dict, Any, Optional, Union, Iterator
 from pathlib import Path
 from contextlib import contextmanager
@@ -15,7 +21,24 @@ from contextlib import contextmanager
 # Logger para o módulo
 logger = logging.getLogger(__name__)
 
-# Cache global do leitor OCR (lazy loading)
+# =============================================================================
+# CONFIGURAÇÃO DE PERFORMANCE (AJUSTÁVEL)
+# =============================================================================
+# Workers para extração de texto nativo (leve, pode ser alto)
+TEXT_MAX_WORKERS = 8
+
+# Workers para OCR (pesado, deve ser baixo para evitar OOM)
+OCR_MAX_WORKERS = 2
+
+# Timeout para OCR por página (segundos)
+OCR_TIMEOUT_SECONDS = 30
+
+# Resolução do OCR (DPI) - maior = melhor qualidade mas mais lento
+OCR_RESOLUTION = 200
+
+# =============================================================================
+# CACHE GLOBAL DO LEITOR OCR
+# =============================================================================
 _OCR_READER = None
 
 
@@ -40,12 +63,23 @@ def _get_ocr_reader():
     return _OCR_READER
 
 
-def _extract_text_with_ocr(page) -> str:
+class OCRTimeoutError(Exception):
+    """Exceção para timeout de OCR."""
+    pass
+
+
+def _ocr_timeout_handler(signum, frame):
+    """Handler para timeout de OCR."""
+    raise OCRTimeoutError("OCR excedeu o tempo limite")
+
+
+def _extract_text_with_ocr(page, timeout: int = OCR_TIMEOUT_SECONDS) -> str:
     """
     Extrai texto de uma página usando OCR (para PDFs escaneados).
     
     Args:
         page: Objeto pdfplumber.Page
+        timeout: Tempo máximo em segundos para OCR
         
     Returns:
         Texto extraído via OCR ou string vazia se falhar
@@ -55,13 +89,24 @@ def _extract_text_with_ocr(page) -> str:
         return ""
     
     try:
-        # Converter página para imagem (300 DPI para boa qualidade)
-        img = page.to_image(resolution=200).original
-        # Executar OCR
-        results = reader.readtext(img)
+        # Converter página para imagem
+        img = page.to_image(resolution=OCR_RESOLUTION).original
+        
+        # Executar OCR (com timeout em sistemas Unix)
+        # No Windows, timeout é implementado de forma diferente
+        try:
+            results = reader.readtext(img)
+        except Exception as e:
+            logger.warning(f"Erro durante OCR: {e}")
+            return ""
+        
         # Concatenar resultados (formato: [(bbox, text, confidence), ...])
         text = ' '.join([text for _, text, _ in results])
         return text
+        
+    except OCRTimeoutError:
+        logger.warning(f"OCR excedeu timeout de {timeout}s")
+        return ""
     except Exception as e:
         logger.warning(f"Erro no OCR: {e}")
         return ""

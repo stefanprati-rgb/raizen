@@ -1,0 +1,535 @@
+{
+  "total_pdfs": 6309,
+  "total_groups": 235,
+  "pareto_80_groups": 27,
+  "requests_needed": 235,
+  "days_needed": 12,
+  "top_groups": [
+    {
+      "group": "09_paginas/CPFL_PAULISTA",
+      "count": 914,
+      "path": "contratos_por_paginas\\09_paginas\\CPFL_PAULISTA",
+      "samples": [
+        "SOLAR 0028971 - REDE LK DE POSTOS LTDA - 01820806000784 - Clicksign.pdf",
+        "SOLAR 10198 - AUTO POSTO PETRO NACOES BAURU LTDA - REMISSÃO - 04534449000190 - Clicksign.pdf",
+        "SOLAR 10302 - REDE LK DE POSTOS LTDA - REMISSÃO - 01820806000946 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/CPFL_PAULISTA",
+      "count": 634,
+      "path": "contratos_por_paginas\\11_paginas\\CPFL_PAULISTA",
+      "samples": [
+        "SOLAR - TERMO_DE_ADESAO - 51607 - GRUPO ADN S.A - 14189784000152 - Clicksign.pdf",
+        "SOLAR 10206 - AUTO POSTO MEDITERRANEO DE ARARAQUARA LTDA - CONVENÇÃO - REEMISSÃO - 09448326000150 - Clicksign.pdf",
+        "SOLAR 10238 - AUTO POSTO SANTA CLARA DE ITATIBA LTDA - 42992910000148 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CPFL_PAULISTA",
+      "count": 415,
+      "path": "contratos_por_paginas\\10_paginas\\CPFL_PAULISTA",
+      "samples": [
+        "SOLAR - 19674 - WYNWOOD KITCHEN E BAR BAR E RESTAURANTE - 28178158000175 - Clicksign.pdf",
+        "SOLAR 1213 - DICOL COMERCIO DE COMBUSTIVEIS LTDA_CONDICOES - 02101923000165 - Qualisign.pdf",
+        "SOLAR 1230 - RESTAURANTE MARTINS PIO LTDA_CONDICOES - 04665090000190 - Qualisign.pdf"
+      ]
+    },
+    {
+      "group": "05_paginas/ROOT",
+      "count": 289,
+      "path": "contratos_por_paginas\\05_paginas",
+      "samples": [
+        "SOLAR 1499 - AUTO POSTO SACO DA RIBEIRA LTDA - 64591175000101.pdf",
+        "SOLAR 1507 - CAMPOS DO JORDAO AUTO POSTO EIRELI - 11372676000122.pdf",
+        "SOLAR 1510 - AUTO POSTO AEROPORTO DE UBATUBA EIRELI - 11307599000127.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/CEMIG-D",
+      "count": 221,
+      "path": "contratos_por_paginas\\09_paginas\\CEMIG-D",
+      "samples": [
+        "SOLAR 1476 - MGL SERVIÇOS CONTÁBEIS ME_CONDICOES - 07207153000153.pdf",
+        "SOLAR 1477 - OLIVEIRA MENDES AUDITORIA E ASSESSORIA_CONDICOES - 24824760000181.pdf",
+        "SOLAR 1699 - AUTO POSTO DO LEAO LTDA ME_CONDICOES - 42932715000122.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/CEMIG",
+      "count": 208,
+      "path": "contratos_por_paginas\\11_paginas\\CEMIG",
+      "samples": [
+        "SOLAR 10548 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834000190 - Clicksign.pdf",
+        "SOLAR 10548 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - REEMISSÃO - 61099834000190 - Clicksign.pdf",
+        "SOLAR 14402 - CIA BRASILEIRA DE SERV FUNERARIOS L - 27630446000156 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/LIGHT",
+      "count": 199,
+      "path": "contratos_por_paginas\\11_paginas\\LIGHT",
+      "samples": [
+        "SOLAR 13635 - CLINICA E CIRURGIA DE OLHOS DR.ARMANDO AUGUSTO GUEDES LTDA - 00181085000232 - Clicksign.pdf",
+        "SOLAR 2540 - SAIDERA BRASIL COMERCIO DE BEBIDAS LTDA - 15127213000156.pdf",
+        "SOLAR 2543 - SAIDERA BRASIL COMERCIO DE BEBIDAS LTDA - 15127213000156.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/ELEKTRO",
+      "count": 198,
+      "path": "contratos_por_paginas\\11_paginas\\ELEKTRO",
+      "samples": [
+        "SOLAR 10194 - AUTO POSTO BUFALO DO VALE LTDA - 50533918000174 - Clicksign.pdf",
+        "SOLAR 10421 - POSTO ASTURIAS GUARUJA LTDA - 39877794000101 - Clicksign.pdf",
+        "SOLAR 10421 - POSTO ASTURIAS GUARUJA LTDA - CONVENÇÃO - 39877794000101 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/ENEL_CE",
+      "count": 192,
+      "path": "contratos_por_paginas\\11_paginas\\ENEL_CE",
+      "samples": [
+        "SOLAR 10091 - BAILARINA COMERCIO DE COMBUSTIVEIS LTDA - 03367057000111 - Clicksign.pdf",
+        "SOLAR 13071 - BANDEIRANTE EMPREENDIMENTOS IMOBILIARIOS LTDA - 34392694000252 - Clicksign.pdf",
+        "SOLAR 14306 - MEMORIAL DA PAZ PARTICIPAÇÕES IMOBILIARIA LTDA - 07499944000102 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/NEOENERGIA",
+      "count": 169,
+      "path": "contratos_por_paginas\\11_paginas\\NEOENERGIA",
+      "samples": [
+        "SOLAR 10555 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834000190 - Clicksign.pdf",
+        "SOLAR 10555 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - REEMISSÃO - 61099834000190 - Clicksign.pdf",
+        "SOLAR 12077 - IQF COMERCIO DE ALIMENTOS LTDA - SUBWAY - REEMISSÃO - 28172867000143 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/CPFL_PIRATININGA",
+      "count": 157,
+      "path": "contratos_por_paginas\\09_paginas\\CPFL_PIRATININGA",
+      "samples": [
+        "SOLAR 26839 - SPLOOT SERVICOS PET LTDA - 40748685000173 - Clicksign.pdf",
+        "SOLAR 26949 - ANISIO FERRETTO & FILHOS LTDA - 68221027000148 - Clicksign.pdf",
+        "SOLAR 26980 - BILHARES ARAPOCA LTDA - 59407262000118 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/NEOENERGIA_ELEKTRO",
+      "count": 148,
+      "path": "contratos_por_paginas\\09_paginas\\NEOENERGIA_ELEKTRO",
+      "samples": [
+        "SOLAR 1493 - AUTO POSTO ITAGUA DE UBATUBA_CONDICOES - 05212042000100.pdf",
+        "SOLAR 1499 - AUTO POSTO SACO DA RIBEIRA LTDA_CONDICOES - 64591175000101.pdf",
+        "SOLAR 1507 - CAMPOS DO JORDAO AUTO POSTO EIRELI_CONDICOES - 11372676000122.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CEMIG-D",
+      "count": 128,
+      "path": "contratos_por_paginas\\10_paginas\\CEMIG-D",
+      "samples": [
+        "SOLAR 1363 - ANGELA APARECIDA MENDES SILVA DOS REIS EIRELI_CONDICOES - 02535628000389 - Qualisign.pdf",
+        "SOLAR 1392 - POSTO 77 LTDA_CONDICOES - 26312257000172 - Qualisign.pdf",
+        "SOLAR 20082 - MERCEARIA VILA NOVA - 45795625000125 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/ENEL_CE",
+      "count": 121,
+      "path": "contratos_por_paginas\\10_paginas\\ENEL_CE",
+      "samples": [
+        "SOLAR 69000 - COMERCIAL MARCESOP_CONDIÇOES - 006041725000104 - Qualisign.pdf",
+        "SOLAR 69121 - WILSON PIAZZA_CONDIÇOES -017494667000190 - Qualisign.pdf",
+        "SOLAR 69343 - MOURA COMERCIO_CONDIÇOES -000333717000155 - Qualisign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/NEOENERGIA_COELBA",
+      "count": 119,
+      "path": "contratos_por_paginas\\09_paginas\\NEOENERGIA_COELBA",
+      "samples": [
+        "SOLAR 26054 - Q PAOZINHO FORN SALG ARTES LTDA - 29368038000101 - Clicksign.pdf",
+        "SOLAR 26158 - DANILO PEREIRA DE SOUZA E CIA LTDA - 27855380000100 - Clicksign.pdf",
+        "SOLAR 26344 - NEILTON PALOMA REST DO CANDEAL LTDA - 28468490000174 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/ELEKTRO",
+      "count": 119,
+      "path": "contratos_por_paginas\\10_paginas\\ELEKTRO",
+      "samples": [
+        "SOLAR 3235 - POSTO DOM PEDRO DE MIRACATU ROTA SUL - 54212592000134 - Clicksign.pdf",
+        "SOLAR 3241 - LUIZ FERNANDO RIZARDI - 04423405000193 - Clicksign.pdf",
+        "SOLAR 6215 - COMERCIAL GERMANICA LIMITADA - 02952561000156 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/NEOENERGIA",
+      "count": 119,
+      "path": "contratos_por_paginas\\10_paginas\\NEOENERGIA",
+      "samples": [
+        "05 07 2024 SOLAR 40908 - CORPOREOS - SERVICOS TERAPEUTICOS SA.pdf",
+        "05 07 2024 SOLAR 40999 - CORPOREOS - SERVICOS TERAPEUTICOS SA.pdf",
+        "SOLAR 26452 - PAULO ROBERTO OLIVEIRA LEITE - 24064574000191 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CEMIG",
+      "count": 112,
+      "path": "contratos_por_paginas\\10_paginas\\CEMIG",
+      "samples": [
+        "SOLAR 21326 - NEIDE ANTAO PINTO LEAO 02392314659 - 21014088000170 - Clicksign.pdf",
+        "SOLAR 21533 - VITOR ALVES DA SILVA JUNIOR 09420545636 - 32518761000126 - Clicksign.pdf",
+        "SOLAR 21551 - DISK CERVEJA DO GG LTDA - 45953340000175 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/LIGHT",
+      "count": 91,
+      "path": "contratos_por_paginas\\09_paginas\\LIGHT",
+      "samples": [
+        "SOLAR 19352 - ULISSES P DE SOUSA FILHO CHOPERIA - REEMISSÃO - 24897849000178.docx - Clicksign.pdf",
+        "SOLAR 22144 - PITER DENIS HENRIQUES OLIVEIRA - 43760363000138 - Clicksign.pdf",
+        "SOLAR 22492 - ASSOCIACAO DOS CABOS E SOLDADOS DA PM DO EST S PAULO - 61810677000856 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/LIGHT",
+      "count": 89,
+      "path": "contratos_por_paginas\\10_paginas\\LIGHT",
+      "samples": [
+        "SOLAR 1270 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf",
+        "SOLAR 1271 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf",
+        "SOLAR 1272 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf"
+      ]
+    }
+  ],
+  "pareto_80": [
+    {
+      "group": "09_paginas/CPFL_PAULISTA",
+      "count": 914,
+      "percentage": 14.49,
+      "cumulative_pct": 14.49,
+      "path": "contratos_por_paginas\\09_paginas\\CPFL_PAULISTA",
+      "sample_files": [
+        "SOLAR 0028971 - REDE LK DE POSTOS LTDA - 01820806000784 - Clicksign.pdf",
+        "SOLAR 10198 - AUTO POSTO PETRO NACOES BAURU LTDA - REMISSÃO - 04534449000190 - Clicksign.pdf",
+        "SOLAR 10302 - REDE LK DE POSTOS LTDA - REMISSÃO - 01820806000946 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/CPFL_PAULISTA",
+      "count": 634,
+      "percentage": 10.05,
+      "cumulative_pct": 24.54,
+      "path": "contratos_por_paginas\\11_paginas\\CPFL_PAULISTA",
+      "sample_files": [
+        "SOLAR - TERMO_DE_ADESAO - 51607 - GRUPO ADN S.A - 14189784000152 - Clicksign.pdf",
+        "SOLAR 10206 - AUTO POSTO MEDITERRANEO DE ARARAQUARA LTDA - CONVENÇÃO - REEMISSÃO - 09448326000150 - Clicksign.pdf",
+        "SOLAR 10238 - AUTO POSTO SANTA CLARA DE ITATIBA LTDA - 42992910000148 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CPFL_PAULISTA",
+      "count": 415,
+      "percentage": 6.58,
+      "cumulative_pct": 31.11,
+      "path": "contratos_por_paginas\\10_paginas\\CPFL_PAULISTA",
+      "sample_files": [
+        "SOLAR - 19674 - WYNWOOD KITCHEN E BAR BAR E RESTAURANTE - 28178158000175 - Clicksign.pdf",
+        "SOLAR 1213 - DICOL COMERCIO DE COMBUSTIVEIS LTDA_CONDICOES - 02101923000165 - Qualisign.pdf",
+        "SOLAR 1230 - RESTAURANTE MARTINS PIO LTDA_CONDICOES - 04665090000190 - Qualisign.pdf"
+      ]
+    },
+    {
+      "group": "05_paginas/ROOT",
+      "count": 289,
+      "percentage": 4.58,
+      "cumulative_pct": 35.7,
+      "path": "contratos_por_paginas\\05_paginas",
+      "sample_files": [
+        "SOLAR 1499 - AUTO POSTO SACO DA RIBEIRA LTDA - 64591175000101.pdf",
+        "SOLAR 1507 - CAMPOS DO JORDAO AUTO POSTO EIRELI - 11372676000122.pdf",
+        "SOLAR 1510 - AUTO POSTO AEROPORTO DE UBATUBA EIRELI - 11307599000127.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/CEMIG-D",
+      "count": 221,
+      "percentage": 3.5,
+      "cumulative_pct": 39.2,
+      "path": "contratos_por_paginas\\09_paginas\\CEMIG-D",
+      "sample_files": [
+        "SOLAR 1476 - MGL SERVIÇOS CONTÁBEIS ME_CONDICOES - 07207153000153.pdf",
+        "SOLAR 1477 - OLIVEIRA MENDES AUDITORIA E ASSESSORIA_CONDICOES - 24824760000181.pdf",
+        "SOLAR 1699 - AUTO POSTO DO LEAO LTDA ME_CONDICOES - 42932715000122.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/CEMIG",
+      "count": 208,
+      "percentage": 3.3,
+      "cumulative_pct": 42.49,
+      "path": "contratos_por_paginas\\11_paginas\\CEMIG",
+      "sample_files": [
+        "SOLAR 10548 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834000190 - Clicksign.pdf",
+        "SOLAR 10548 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - REEMISSÃO - 61099834000190 - Clicksign.pdf",
+        "SOLAR 14402 - CIA BRASILEIRA DE SERV FUNERARIOS L - 27630446000156 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/LIGHT",
+      "count": 199,
+      "percentage": 3.15,
+      "cumulative_pct": 45.65,
+      "path": "contratos_por_paginas\\11_paginas\\LIGHT",
+      "sample_files": [
+        "SOLAR 13635 - CLINICA E CIRURGIA DE OLHOS DR.ARMANDO AUGUSTO GUEDES LTDA - 00181085000232 - Clicksign.pdf",
+        "SOLAR 2540 - SAIDERA BRASIL COMERCIO DE BEBIDAS LTDA - 15127213000156.pdf",
+        "SOLAR 2543 - SAIDERA BRASIL COMERCIO DE BEBIDAS LTDA - 15127213000156.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/ELEKTRO",
+      "count": 198,
+      "percentage": 3.14,
+      "cumulative_pct": 48.79,
+      "path": "contratos_por_paginas\\11_paginas\\ELEKTRO",
+      "sample_files": [
+        "SOLAR 10194 - AUTO POSTO BUFALO DO VALE LTDA - 50533918000174 - Clicksign.pdf",
+        "SOLAR 10421 - POSTO ASTURIAS GUARUJA LTDA - 39877794000101 - Clicksign.pdf",
+        "SOLAR 10421 - POSTO ASTURIAS GUARUJA LTDA - CONVENÇÃO - 39877794000101 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/ENEL_CE",
+      "count": 192,
+      "percentage": 3.04,
+      "cumulative_pct": 51.83,
+      "path": "contratos_por_paginas\\11_paginas\\ENEL_CE",
+      "sample_files": [
+        "SOLAR 10091 - BAILARINA COMERCIO DE COMBUSTIVEIS LTDA - 03367057000111 - Clicksign.pdf",
+        "SOLAR 13071 - BANDEIRANTE EMPREENDIMENTOS IMOBILIARIOS LTDA - 34392694000252 - Clicksign.pdf",
+        "SOLAR 14306 - MEMORIAL DA PAZ PARTICIPAÇÕES IMOBILIARIA LTDA - 07499944000102 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/NEOENERGIA",
+      "count": 169,
+      "percentage": 2.68,
+      "cumulative_pct": 54.51,
+      "path": "contratos_por_paginas\\11_paginas\\NEOENERGIA",
+      "sample_files": [
+        "SOLAR 10555 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834000190 - Clicksign.pdf",
+        "SOLAR 10555 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - REEMISSÃO - 61099834000190 - Clicksign.pdf",
+        "SOLAR 12077 - IQF COMERCIO DE ALIMENTOS LTDA - SUBWAY - REEMISSÃO - 28172867000143 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/CPFL_PIRATININGA",
+      "count": 157,
+      "percentage": 2.49,
+      "cumulative_pct": 57.0,
+      "path": "contratos_por_paginas\\09_paginas\\CPFL_PIRATININGA",
+      "sample_files": [
+        "SOLAR 26839 - SPLOOT SERVICOS PET LTDA - 40748685000173 - Clicksign.pdf",
+        "SOLAR 26949 - ANISIO FERRETTO & FILHOS LTDA - 68221027000148 - Clicksign.pdf",
+        "SOLAR 26980 - BILHARES ARAPOCA LTDA - 59407262000118 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/NEOENERGIA_ELEKTRO",
+      "count": 148,
+      "percentage": 2.35,
+      "cumulative_pct": 59.34,
+      "path": "contratos_por_paginas\\09_paginas\\NEOENERGIA_ELEKTRO",
+      "sample_files": [
+        "SOLAR 1493 - AUTO POSTO ITAGUA DE UBATUBA_CONDICOES - 05212042000100.pdf",
+        "SOLAR 1499 - AUTO POSTO SACO DA RIBEIRA LTDA_CONDICOES - 64591175000101.pdf",
+        "SOLAR 1507 - CAMPOS DO JORDAO AUTO POSTO EIRELI_CONDICOES - 11372676000122.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CEMIG-D",
+      "count": 128,
+      "percentage": 2.03,
+      "cumulative_pct": 61.37,
+      "path": "contratos_por_paginas\\10_paginas\\CEMIG-D",
+      "sample_files": [
+        "SOLAR 1363 - ANGELA APARECIDA MENDES SILVA DOS REIS EIRELI_CONDICOES - 02535628000389 - Qualisign.pdf",
+        "SOLAR 1392 - POSTO 77 LTDA_CONDICOES - 26312257000172 - Qualisign.pdf",
+        "SOLAR 20082 - MERCEARIA VILA NOVA - 45795625000125 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/ENEL_CE",
+      "count": 121,
+      "percentage": 1.92,
+      "cumulative_pct": 63.29,
+      "path": "contratos_por_paginas\\10_paginas\\ENEL_CE",
+      "sample_files": [
+        "SOLAR 69000 - COMERCIAL MARCESOP_CONDIÇOES - 006041725000104 - Qualisign.pdf",
+        "SOLAR 69121 - WILSON PIAZZA_CONDIÇOES -017494667000190 - Qualisign.pdf",
+        "SOLAR 69343 - MOURA COMERCIO_CONDIÇOES -000333717000155 - Qualisign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/NEOENERGIA_COELBA",
+      "count": 119,
+      "percentage": 1.89,
+      "cumulative_pct": 65.18,
+      "path": "contratos_por_paginas\\09_paginas\\NEOENERGIA_COELBA",
+      "sample_files": [
+        "SOLAR 26054 - Q PAOZINHO FORN SALG ARTES LTDA - 29368038000101 - Clicksign.pdf",
+        "SOLAR 26158 - DANILO PEREIRA DE SOUZA E CIA LTDA - 27855380000100 - Clicksign.pdf",
+        "SOLAR 26344 - NEILTON PALOMA REST DO CANDEAL LTDA - 28468490000174 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/ELEKTRO",
+      "count": 119,
+      "percentage": 1.89,
+      "cumulative_pct": 67.06,
+      "path": "contratos_por_paginas\\10_paginas\\ELEKTRO",
+      "sample_files": [
+        "SOLAR 3235 - POSTO DOM PEDRO DE MIRACATU ROTA SUL - 54212592000134 - Clicksign.pdf",
+        "SOLAR 3241 - LUIZ FERNANDO RIZARDI - 04423405000193 - Clicksign.pdf",
+        "SOLAR 6215 - COMERCIAL GERMANICA LIMITADA - 02952561000156 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/NEOENERGIA",
+      "count": 119,
+      "percentage": 1.89,
+      "cumulative_pct": 68.95,
+      "path": "contratos_por_paginas\\10_paginas\\NEOENERGIA",
+      "sample_files": [
+        "05 07 2024 SOLAR 40908 - CORPOREOS - SERVICOS TERAPEUTICOS SA.pdf",
+        "05 07 2024 SOLAR 40999 - CORPOREOS - SERVICOS TERAPEUTICOS SA.pdf",
+        "SOLAR 26452 - PAULO ROBERTO OLIVEIRA LEITE - 24064574000191 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CEMIG",
+      "count": 112,
+      "percentage": 1.78,
+      "cumulative_pct": 70.72,
+      "path": "contratos_por_paginas\\10_paginas\\CEMIG",
+      "sample_files": [
+        "SOLAR 21326 - NEIDE ANTAO PINTO LEAO 02392314659 - 21014088000170 - Clicksign.pdf",
+        "SOLAR 21533 - VITOR ALVES DA SILVA JUNIOR 09420545636 - 32518761000126 - Clicksign.pdf",
+        "SOLAR 21551 - DISK CERVEJA DO GG LTDA - 45953340000175 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/LIGHT",
+      "count": 91,
+      "percentage": 1.44,
+      "cumulative_pct": 72.17,
+      "path": "contratos_por_paginas\\09_paginas\\LIGHT",
+      "sample_files": [
+        "SOLAR 19352 - ULISSES P DE SOUSA FILHO CHOPERIA - REEMISSÃO - 24897849000178.docx - Clicksign.pdf",
+        "SOLAR 22144 - PITER DENIS HENRIQUES OLIVEIRA - 43760363000138 - Clicksign.pdf",
+        "SOLAR 22492 - ASSOCIACAO DOS CABOS E SOLDADOS DA PM DO EST S PAULO - 61810677000856 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/LIGHT",
+      "count": 89,
+      "percentage": 1.41,
+      "cumulative_pct": 73.58,
+      "path": "contratos_por_paginas\\10_paginas\\LIGHT",
+      "sample_files": [
+        "SOLAR 1270 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf",
+        "SOLAR 1271 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf",
+        "SOLAR 1272 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf"
+      ]
+    },
+    {
+      "group": "11_paginas/ENEL_RJ",
+      "count": 74,
+      "percentage": 1.17,
+      "cumulative_pct": 74.75,
+      "path": "contratos_por_paginas\\11_paginas\\ENEL_RJ",
+      "sample_files": [
+        "SOLAR 12980 - GRUPO DE MODA SOMA SA - 10285590016608 - Clicksign.pdf",
+        "SOLAR 12982 - CIDADE MARAVILHOSA INDUSTRIA E COMERCIO DE ROUPAS SA - 09611669002995 - Clicksign.pdf",
+        "SOLAR 19564 - G. M. TAMBURRINO BAR E RESTAURANTE - 12474245000130 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/CPFL_PIRATININGA",
+      "count": 71,
+      "percentage": 1.13,
+      "cumulative_pct": 75.88,
+      "path": "contratos_por_paginas\\10_paginas\\CPFL_PIRATININGA",
+      "sample_files": [
+        "SOLAR 18371 - MARIA AMELIA SOUZA COSTA - 59185120804 - Clicksign.pdf",
+        "SOLAR 18374 - V L DE SOUSA SANTOS - 08226479000190 - Clicksign.pdf",
+        "SOLAR 18381 - S.L DE SOUSA QUIOSQUE BAR - 20087308000123 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/EQUATORIAL_AL",
+      "count": 57,
+      "percentage": 0.9,
+      "cumulative_pct": 76.78,
+      "path": "contratos_por_paginas\\09_paginas\\EQUATORIAL_AL",
+      "sample_files": [
+        "SOLAR 22557 - ALTAVILA & ALMEIDA LTDA - ME - 07062638000104 - Clicksign.pdf",
+        "SOLAR 22767 - CARLOS ESTEVAM RIBEIRO GOMES - 49249075000108 - Clicksign.pdf",
+        "SOLAR 23153 - SERV AUTOM PONTA VERDE LTDA - 12975538000109 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "13_paginas/CPFL_PAULISTA",
+      "count": 53,
+      "percentage": 0.84,
+      "cumulative_pct": 77.62,
+      "path": "contratos_por_paginas\\13_paginas\\CPFL_PAULISTA",
+      "sample_files": [
+        "SOLAR 10596 - AUTO POSTO REPUBLICA BOM JESUS EIRELI - CONVENÇÃO - 60175544000116 - Clicksign (1).pdf",
+        "SOLAR 12762 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834023565 - Clicksign.pdf",
+        "SOLAR 16421 - CAMPINAS SHAKE E HAMBURGER LTDA - 43357504000176 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "13_paginas/ESS",
+      "count": 52,
+      "percentage": 0.82,
+      "cumulative_pct": 78.44,
+      "path": "contratos_por_paginas\\13_paginas\\ESS",
+      "sample_files": [
+        "La Venditta Ltda-42.713.137-0001-33-Raizen.docx - Clicksign.pdf",
+        "SOLAR 15008 - ARLENE MARIA VITTI - RESTAURANTE - HEINEKEN - 04947843000150 - Clicksign.pdf",
+        "SOLAR 15160 - CHATEAU CAMPOS DO JORDAO SERVICOS HOTELEIROS LTDA - HEINEKEN - 31998243000194 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "10_paginas/ENEL_RJ",
+      "count": 50,
+      "percentage": 0.79,
+      "cumulative_pct": 79.24,
+      "path": "contratos_por_paginas\\10_paginas\\ENEL_RJ",
+      "sample_files": [
+        "SOLAR 19565 - FLORENCIA TOLKACHIER HOSPEDAGENS - 35133796000135 - Clicksign.pdf",
+        "SOLAR 19856 - HUMAITA BAR E RESTAURANTE DA ORLA LTDA - 35592847000197 - Clicksign.pdf",
+        "SOLAR 20097 - CASA SOMAR BUZIOS LTDA - 46239910000122 - Clicksign.pdf"
+      ]
+    },
+    {
+      "group": "09_paginas/ENEL_RJ",
+      "count": 49,
+      "percentage": 0.78,
+      "cumulative_pct": 80.01,
+      "path": "contratos_por_paginas\\09_paginas\\ENEL_RJ",
+      "sample_files": [
+        "SOLAR 19503 - CRIANDO E BORDANDO ARTIGOS DE ARMARINHO - 38323855000126 - Clicksign.pdf",
+        "SOLAR 21743 - EDUARDO FOLLY CONSULTORIA EMPRESARIAL LTDA - 03529733000106 - Clicksign.pdf",
+        "SOLAR 22553 - POSTO DE COMBUSTIVEIS ADM AMIGAO LT - 20058141000172 - Clicksign.pdf"
+      ]
+    }
+  ]
+}

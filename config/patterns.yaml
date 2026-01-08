@@ -1,0 +1,306 @@
+# Patterns de Extração - Contratos Raízen GD
+# Versão: 1.0
+# Data: 2026-01-08
+#
+# Este arquivo externaliza os padrões regex para facilitar manutenção.
+# Edite aqui em vez de modificar o código Python.
+#
+# Formato:
+#   campo:
+#     - anchor: "Texto âncora que aparece antes do campo"
+#       regex: "Padrão regex para capturar"
+#       priority: 1-10 (menor = maior prioridade)
+
+# =============================================================================
+# RAZÃO SOCIAL
+# Sinônimos: Nome Empresarial, Denominação Social
+# =============================================================================
+razao_social:
+  - anchor: "Razão Social:"
+    regex: "([A-Z][A-Z0-9\\s\\.\\-]+?)(?:\\s*[-–]|CNPJ|NIRE|\\n)"
+    priority: 1
+  - anchor: "Nome Empresarial:"
+    regex: "([A-Z][A-Z0-9\\s\\.\\-]+?)(?:\\n|CNPJ)"
+    priority: 2
+  - anchor: "Denominação Social:"
+    regex: "([A-Z][A-Z0-9\\s\\.\\-]+?)(?:\\n|CNPJ)"
+    priority: 3
+  - anchor: "CONSORCIADA"
+    regex: "Razão\\s+Social:\\s*([^\\n]{5,60})"
+    priority: 4
+
+# =============================================================================
+# CNPJ
+# Sinônimos: Cadastro Nacional, Inscrição CNPJ
+# =============================================================================
+cnpj:
+  - anchor: "CNPJ:"
+    regex: "(\\d{2}[.\\s]?\\d{3}[.\\s]?\\d{3}[/\\s]?\\d{4}[-\\s]?\\d{2})"
+    priority: 1
+  - anchor: "CNPJ/MF"
+    regex: "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})"
+    priority: 2
+  - anchor: "Cadastro Nacional"
+    regex: "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})"
+    priority: 3
+
+# =============================================================================
+# UNIDADE CONSUMIDORA (UC) / NÚMERO DA INSTALAÇÃO
+# Sinônimos: Código da Instalação, Instalação, Código Único
+# =============================================================================
+num_instalacao:
+  - anchor: "Nº da Instalação"
+    regex: "(\\d{5,})"
+    priority: 1
+  - anchor: "Código da Instalação"
+    regex: "(\\d{5,})"
+    priority: 2
+  - anchor: "Unidade Consumidora"
+    regex: "(\\d{5,})"
+    priority: 3
+  - anchor: "UC:"
+    regex: "(\\d{5,})"
+    priority: 4
+  - anchor: "Código Único"
+    regex: "(\\d{5,})"
+    priority: 5
+
+# =============================================================================
+# NÚMERO DO CLIENTE
+# Sinônimos: Código do Cliente, Identificação do Cliente, Cadastro
+# =============================================================================
+num_cliente:
+  - anchor: "Nº do Cliente:"
+    regex: "(\\d+)"
+    priority: 1
+  - anchor: "Código do Cliente"
+    regex: "(\\d+)"
+    priority: 2
+  - anchor: "Identificação do Cliente"
+    regex: "(\\d+)"
+    priority: 3
+  - anchor: "Cadastro do Cliente"
+    regex: "(\\d+)"
+    priority: 4
+  - anchor: "Cliente Nº"
+    regex: "(\\d+)"
+    priority: 5
+
+# =============================================================================
+# DISTRIBUIDORA / CONCESSIONÁRIA
+# Sinônimos: Concessionária, Prestadora de Serviços, Operadora
+# =============================================================================
+distribuidora:
+  - anchor: "Distribuidora:"
+    regex: "([^\\n]+)"
+    priority: 1
+  - anchor: "Concessionária:"
+    regex: "([^\\n]+)"
+    priority: 2
+  - anchor: "Concessionária de Energia"
+    regex: "([^\\n]+)"
+    priority: 3
+  - anchor: "Prestadora de Serviços"
+    regex: "([^\\n]+)"
+    priority: 4
+
+# =============================================================================
+# DATA DE ADESÃO
+# Sinônimos: Data de Contratação, Data de Início, Data de Assinatura
+# =============================================================================
+data_adesao:
+  - anchor: "Data de Adesão"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 1
+  - anchor: "Data de Assinatura"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 2
+  - anchor: "Data de Contratação"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 3
+  - anchor: "Data de Início"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 4
+  - anchor: "Data de Ingresso"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 5
+  - anchor: "assinado em"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 6
+  - anchor: "firmado em"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 7
+  - anchor: "Data de emissão"
+    regex: "(\\d{2}/\\d{2}/\\d{4})"
+    priority: 8
+
+# =============================================================================
+# FIDELIDADE / DURAÇÃO DO CONTRATO
+# Sinônimos: Período de Fidelização, Prazo de Permanência, Tempo de Contrato
+# =============================================================================
+duracao_meses:
+  - anchor: "Duração:"
+    regex: "(\\d+)\\s*meses"
+    priority: 1
+  - anchor: "Vigência Inicial"
+    regex: "(\\d+)\\s*meses"
+    priority: 2
+  - anchor: "prazo mínimo"
+    regex: "(\\d+)\\s*meses"
+    priority: 3
+  - anchor: "fidelidade"
+    regex: "(\\d+)\\s*meses"
+    priority: 4
+  - anchor: "Período de Fidelização"
+    regex: "(\\d+)\\s*meses"
+    priority: 5
+  - anchor: "Prazo de Permanência"
+    regex: "(\\d+)\\s*meses"
+    priority: 6
+  - anchor: "Tempo de Contrato"
+    regex: "(\\d+)\\s*meses"
+    priority: 7
+  - anchor: "Período Contratual Mínimo"
+    regex: "(\\d+)\\s*meses"
+    priority: 8
+
+# =============================================================================
+# AVISO PRÉVIO
+# Sinônimos: Prazo de Notificação, Antecedência para Rescisão
+# =============================================================================
+aviso_previo:
+  - anchor: "aviso prévio"
+    regex: "(\\d+)\\s*dias"
+    priority: 1
+  - anchor: "antecedência"
+    regex: "(\\d+)\\s*dias"
+    priority: 2
+  - anchor: "Prazo de Notificação"
+    regex: "(\\d+)\\s*dias"
+    priority: 3
+  - anchor: "Comunicação Prévia"
+    regex: "(\\d+)\\s*dias"
+    priority: 4
+  - anchor: "Antecedência para Rescisão"
+    regex: "(\\d+)\\s*dias"
+    priority: 5
+  - anchor: "Notificação de Término"
+    regex: "(\\d+)\\s*dias"
+    priority: 6
+
+# =============================================================================
+# REPRESENTANTE LEGAL
+# Sinônimos: Procurador Legal, Responsável Legal, Signatário, Mandatário
+# =============================================================================
+representante_nome:
+  - anchor: "Representante Legal"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)(?:\\s*[-–]|CPF|,|\\n)"
+    priority: 1
+  - anchor: "Nome do Representante"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)(?:\\n|CPF)"
+    priority: 2
+  - anchor: "Procurador Legal"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)(?:\\s*[-–]|CPF|\\n)"
+    priority: 3
+  - anchor: "Responsável Legal"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)(?:\\s*[-–]|CPF|\\n)"
+    priority: 4
+  - anchor: "Signatário Autorizado"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)(?:\\s*[-–]|CPF|\\n)"
+    priority: 5
+  - anchor: "Mandatário Legal"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)(?:\\s*[-–]|CPF|\\n)"
+    priority: 6
+  # Formato Protocolo de Assinaturas
+  - anchor: "Representante CPF"
+    regex: "([A-Z][a-zA-ZÀ-ú\\s]+?)\\s+\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}"
+    priority: 7
+
+# =============================================================================
+# CPF DO REPRESENTANTE
+# Sinônimos: CPF do Responsável, Cadastro PF do Representante
+# =============================================================================
+representante_cpf:
+  - anchor: "CPF:"
+    regex: "(\\d{3}[.\\s]?\\d{3}[.\\s]?\\d{3}[-\\s]?\\d{2})"
+    priority: 1
+  - anchor: "CPF do Representante"
+    regex: "(\\d{3}[.\\s]?\\d{3}[.\\s]?\\d{3}[-\\s]?\\d{2})"
+    priority: 2
+  - anchor: "CPF do Responsável"
+    regex: "(\\d{3}[.\\s]?\\d{3}[.\\s]?\\d{3}[-\\s]?\\d{2})"
+    priority: 3
+  - anchor: "Cadastro de Pessoa Física"
+    regex: "(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})"
+    priority: 4
+  # Formato: Nome + CPF na mesma linha
+  - anchor: null  # Busca global
+    regex: "[A-Z][a-zA-ZÀ-ú\\s]+\\s+(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})"
+    priority: 5
+
+# =============================================================================
+# PARTICIPAÇÃO CONTRATADA
+# Sinônimos: Quota, Percentual, Cota de Energia, Alocação Contratual
+# =============================================================================
+participacao_percentual:
+  - anchor: "Participação no Consórcio"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 1
+  - anchor: "Rateio"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 2
+  - anchor: "Quota Contratada"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 3
+  - anchor: "Percentual de Participação"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 4
+  - anchor: "Cota de Energia"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 5
+  - anchor: "Energia Contratada"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 6
+  - anchor: "Alocação Contratual"
+    regex: "([\\d.,]+)\\s*%"
+    priority: 7
+
+# =============================================================================
+# CAMPOS ADICIONAIS
+# =============================================================================
+email:
+  - anchor: "E-mail:"
+    regex: "([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)"
+    priority: 1
+  - anchor: "Email:"
+    regex: "([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)"
+    priority: 2
+
+cep:
+  - anchor: "CEP"
+    regex: "(\\d{5}-?\\d{3})"
+    priority: 1
+
+performance_alvo:
+  - anchor: "Performance Alvo"
+    regex: "(\\d[\\d\\.,]*\\d?)\\s*kWh"
+    priority: 1
+  - anchor: "Performance"
+    regex: "(\\d[\\d\\.,]*\\d?)\\s*kWh"
+    priority: 2
+
+qtd_cotas:
+  - anchor: "Quantidade de Cotas"
+    regex: "([\\d.,]+)"
+    priority: 1
+  - anchor: "Qtd Cotas"
+    regex: "([\\d.,]+)"
+    priority: 2
+
+valor_cota:
+  - anchor: "Valor da Cota"
+    regex: "R?\\$?\\s*([\\d.,]+)"
+    priority: 1
+  - anchor: "Valor Cota"
+    regex: "R?\\$?\\s*([\\d.,]+)"
+    priority: 2
