@@ -47,31 +47,53 @@ Criar mapas de extração confiáveis para cada modelo de contrato, usando o Gem
 
 ---
 
-## 4. Prompt para Gemini Web
+## 4. Prompt para Gemini Web (v3.0)
+
+> ⚠️ **IMPORTANTE**: Este prompt solicita regex+âncora, não apenas dados extraídos.
 
 Ao fazer upload do PDF no Gemini, use:
 
 ```
-Analise este contrato de energia solar e extraia todos os dados em formato JSON estruturado.
+Analise o PDF anexo. Para cada campo abaixo, forneça:
+1. O valor exato encontrado no texto.
+2. A "âncora" (texto fixo que precede o valor).
+3. Um REGEX Python robusto para capturar este valor.
 
-Campos a extrair:
-- sic_ec_cliente (código SIC/EC)
-- razao_social
-- cnpj  
-- nire
-- endereco
-- email
-- representante_nome
-- consorcio_nome
-- consorcio_cnpj
-- distribuidora
-- numero_instalacao (UC)
-- numero_conta_contrato
-- participacao_percentual (rateio)
-- vigencia_meses
-- data_assinatura
+Campos obrigatórios:
+- sic_ec_cliente (código SIC/EC do cliente)
+- razao_social (nome da empresa consorciada)
+- cnpj (CNPJ da consorciada, formato XX.XXX.XXX/XXXX-XX)
+- num_instalacao (número da UC/instalação)
+- num_cliente (conta contrato)
+- distribuidora (CEMIG, CPFL, ENEL, ELEKTRO, etc)
+- participacao_percentual (% rateio, formato brasileiro com vírgula)
+- duracao_meses (vigência em meses)
+- data_adesao (data de assinatura)
+- representante_nome (representante legal)
+- email (e-mail de contato)
 
-Retorne em formato JSON estruturado.
+Retorne APENAS um JSON neste formato:
+{
+  "modelo_identificado": "Nome do layout/modelo",
+  "distribuidora_principal": "CEMIG/CPFL/etc",
+  "campos": {
+    "razao_social": {
+      "valor_encontrado": "EMPRESA X LTDA",
+      "ancora": "Razão Social:",
+      "regex": "Raz[ãa]o\\s*Social[:\\s]*([A-Z][A-Z0-9\\s\\.\\-]+)",
+      "pagina": 1,
+      "confianca": "alta"
+    },
+    "cnpj": {
+      "valor_encontrado": "12.345.678/0001-99",
+      "ancora": "CNPJ:",
+      "regex": "CNPJ[:\\s]*(\\d{2,3}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+      "pagina": 1,
+      "confianca": "alta"
+    }
+  },
+  "campos_nao_encontrados": []
+}
 ```
 
 ---
