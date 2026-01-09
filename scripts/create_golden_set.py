@@ -1,16 +1,20 @@
 """
 Golden Set Creator - Validação de Precisão Real
-Versão: 1.0
+Versão: 2.0
 
 Este script cria um conjunto de validação (Golden Set) para medir
 a precisão REAL do extrator, não apenas o score de confiança.
 
+NOVIDADE v2.0: Amostragem ESTRATIFICADA baseada na análise de distribuição.
+
 Uso:
     python scripts/create_golden_set.py --sample 100
+    python scripts/create_golden_set.py --sample 100 --stratified
     python scripts/create_golden_set.py --validate golden_set.json
 """
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -51,22 +55,185 @@ NOMES_AMIGAVEIS = {
 }
 
 
+def carregar_distribuicao() -> dict:
+    """
+    Carrega a análise de distribuição para amostragem estratificada.
+    """
+    dist_path = Path("scripts/distribution_analysis.json")
+    if dist_path.exists():
+        with open(dist_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {}
+
+
+def criar_golden_set_estratificado(contratos_dir: Path, sample_size: int = 100) -> list:
+    """
+    Cria um Golden Set com AMOSTRAGEM ESTRATIFICADA.
+    
+    Estratégia:
+    1. Selecionar 2-3 PDFs de cada Top 20 grupos (Pareto) = ~50 PDFs
+    2. Preencher restante (~50 PDFs) com amostragem aleatória de outros grupos
+    
+    Isso garante que modelos de maior volume (CPFL, CEMIG) sejam validados.
+    """
+    # Carregar análise de distribuição
+    distribuicao = carregar_distribuicao()
+    top_groups = distribuicao.get('top_groups', [])
+    
+    if not top_groups:
+        print("⚠️  distribution_analysis.json não encontrado. Usando amostragem simples.")
+        return criar_golden_set(contratos_dir, sample_size)
+    
+    print(f"📊 Criando Golden Set ESTRATIFICADO com {sample_size} PDFs...")
+    print("-" * 60)
+    
+    sample = []
+    pdfs_por_grupo = {}
+    
+    # Fase 1: Coletar PDFs por grupo
+    print("🔍 Identificando PDFs por grupo...")
+    for root, _, files in os.walk(contratos_dir):
+        pdf_files = [f for f in files if f.lower().endswith('.pdf')]
+        if pdf_files:
+            rel_path = Path(root).relative_to(contratos_dir)
+            parts = str(rel_path).split(os.sep)
+            
+            if len(parts) >= 1:
+                pages_folder = parts[0]
+                distributor = parts[1] if len(parts) > 1 else "ROOT"
+                group_key = f"{pages_folder}/{distributor}"
+                
+                if group_key not in pdfs_por_grupo:
+                    pdfs_por_grupo[group_key] = []
+                
+                for f in pdf_files:
+                    pdfs_por_grupo[group_key].append(Path(root) / f)
+    
+    # Fase 2: Selecionar de Top 20 grupos (obrigatório)
+    grupos_cobertos = set()
+    pdfs_selecionados = []
+    pdfs_por_grupo_top20 = min(3, sample_size // 20)  # 2-3 por grupo
+    
+    print(f"\n📈 Selecionando {pdfs_por_grupo_top20} PDFs de cada Top 20 grupo...")
+    
+    for i, group in enumerate(top_groups[:20]):
+        group_name = group.get('group', '')
+        group_path = group.get('path', '')
+        
+        if group_name in pdfs_por_grupo and pdfs_por_grupo[group_name]:
+            available = pdfs_por_grupo[group_name]
+            n_select = min(pdfs_por_grupo_top20, len(available))
+            selected = random.sample(available, n_select)
+            
+            for pdf_path in selected:
+                pdfs_selecionados.append({
+                    'path': pdf_path,
+                    'grupo': group_name,
+                    'origem': 'PARETO_TOP20'
+                })
+            
+            grupos_cobertos.add(group_name)
+            print(f"  [{i+1:2d}] {group_name}: {n_select} PDFs selecionados")
+    
+    # Fase 3: Preencher resto com amostragem aleatória de outros grupos
+    restante = sample_size - len(pdfs_selecionados)
+    
+    if restante > 0:
+        print(f"\n🎲 Selecionando {restante} PDFs adicionais de grupos restantes...")
+        
+        outros_pdfs = []
+        for group_name, pdfs in pdfs_por_grupo.items():
+            if group_name not in grupos_cobertos:
+                for pdf_path in pdfs:
+                    outros_pdfs.append({
+                        'path': pdf_path,
+                        'grupo': group_name,
+                        'origem': 'ALEATORIO'
+                    })
+        
+        if len(outros_pdfs) >= restante:
+            extras = random.sample(outros_pdfs, restante)
+        else:
+            extras = outros_pdfs
+            print(f"  ⚠️  Apenas {len(extras)} PDFs extras disponíveis")
+        
+        pdfs_selecionados.extend(extras)
+    
+    print(f"\n✅ Total selecionado: {len(pdfs_selecionados)} PDFs")
+    print(f"   - Top 20 Pareto: {len([p for p in pdfs_selecionados if p['origem'] == 'PARETO_TOP20'])}")
+    print(f"   - Aleatório: {len([p for p in pdfs_selecionados if p['origem'] == 'ALEATORIO'])}")
+    
+    # Fase 4: Extrair dados
+    print("\n" + "-" * 60)
+    print("📄 Extraindo dados dos PDFs selecionados...")
+    
+    extractor = ContractExtractor()
+    golden_set = []
+    
+    for i, item in enumerate(pdfs_selecionados, 1):
+        pdf_path = item['path']
+        print(f"[{i}/{len(pdfs_selecionados)}] {pdf_path.name[:50]}...")
+        
+        try:
+            result = extractor.extract_from_pdf(str(pdf_path))
+            
+            if result.registros:
+                registro = result.registros[0]
+                
+                entry = {
+                    "id": i,
+                    "arquivo": pdf_path.name,
+                    "caminho": str(pdf_path),
+                    "grupo": item['grupo'],
+                    "origem_amostra": item['origem'],
+                    "extraido": {},
+                    "real": {},
+                    "correto": {},
+                    "score_confianca": result.confianca_score,
+                    "categoria": result.categoria,
+                }
+                
+                for campo in CAMPOS_VALIDACAO:
+                    valor = registro.get(campo, '')
+                    entry["extraido"][campo] = valor if valor else None
+                    entry["real"][campo] = None
+                    entry["correto"][campo] = None
+                
+                golden_set.append(entry)
+            else:
+                golden_set.append({
+                    "id": i,
+                    "arquivo": pdf_path.name,
+                    "caminho": str(pdf_path),
+                    "grupo": item['grupo'],
+                    "erro": "Nenhum registro extraído",
+                })
+                
+        except Exception as e:
+            golden_set.append({
+                "id": i,
+                "arquivo": pdf_path.name,
+                "grupo": item.get('grupo', 'UNKNOWN'),
+                "erro": str(e),
+            })
+    
+    return golden_set
+
+
 def criar_golden_set(contratos_dir: Path, sample_size: int) -> list:
     """
-    Cria um Golden Set selecionando PDFs aleatórios e extraindo dados.
-    O revisor humano irá comparar os dados extraídos com o PDF real.
+    Cria um Golden Set com amostragem SIMPLES (fallback).
+    Use criar_golden_set_estratificado() para amostragem estratificada.
     """
-    # Listar todos os PDFs
     pdf_files = list(contratos_dir.rglob("*.pdf"))
     
     if len(pdf_files) < sample_size:
         print(f"⚠️  Apenas {len(pdf_files)} PDFs encontrados. Usando todos.")
         sample_size = len(pdf_files)
     
-    # Selecionar amostra aleatória
     sample = random.sample(pdf_files, sample_size)
     
-    print(f"📊 Criando Golden Set com {sample_size} PDFs...")
+    print(f"📊 Criando Golden Set SIMPLES com {sample_size} PDFs...")
     print("-" * 60)
     
     extractor = ContractExtractor()
@@ -86,8 +253,8 @@ def criar_golden_set(contratos_dir: Path, sample_size: int) -> list:
                     "arquivo": pdf_path.name,
                     "caminho": str(pdf_path),
                     "extraido": {},
-                    "real": {},  # Será preenchido pelo revisor humano
-                    "correto": {},  # Será calculado após validação
+                    "real": {},
+                    "correto": {},
                     "score_confianca": result.confianca_score,
                     "categoria": result.categoria,
                 }
@@ -95,8 +262,8 @@ def criar_golden_set(contratos_dir: Path, sample_size: int) -> list:
                 for campo in CAMPOS_VALIDACAO:
                     valor = registro.get(campo, '')
                     entry["extraido"][campo] = valor if valor else None
-                    entry["real"][campo] = None  # Humano preenche
-                    entry["correto"][campo] = None  # Calculado depois
+                    entry["real"][campo] = None
+                    entry["correto"][campo] = None
                 
                 golden_set.append(entry)
             else:
@@ -327,6 +494,12 @@ def main():
         help="Gerar planilha CSV para revisão"
     )
     
+    parser.add_argument(
+        "--stratified",
+        action="store_true",
+        help="Usar amostragem ESTRATIFICADA (recomendado, requer distribution_analysis.json)"
+    )
+    
     args = parser.parse_args()
     
     if args.validate:
@@ -339,7 +512,12 @@ def main():
     else:
         # Criar Golden Set
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        golden_set = criar_golden_set(args.input, args.sample)
+        
+        if args.stratified:
+            golden_set = criar_golden_set_estratificado(args.input, args.sample)
+        else:
+            golden_set = criar_golden_set(args.input, args.sample)
+        
         salvar_golden_set(golden_set, args.output)
         
         print(f"\n📋 Próximos passos:")
