@@ -1,0 +1,140 @@
+{
+    "modelo_identificado": "Contrato Adesão CPFL Paulista - 2 páginas",
+    "distribuidora_principal": "CPFL",
+    "paginas_analisadas": 2,
+    "fonte": "Gemini Web - 2026-01-09",
+    "campos": {
+        "sic_ec_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "SIC/EC",
+            "regex": "(?:SIC|EC)[^\\d]*(\\d{5,6})",
+            "valor_extraido": "68474",
+            "confianca": "alta"
+        },
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Raz[ãa]o\\s*Social[:\\s]*([A-Z][A-Z0-9\\s\\.\\-]+?)(?:\\s*CNPJ|\\n)",
+            "valor_extraido": "CALIFORNIA RIBEIRAO AUTO POSTO EIRELI",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ:",
+            "regex": "CNPJ[:\\s]*(\\d{2,3}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "021.804.110/0001-86",
+            "confianca": "alta"
+        },
+        "nire": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "NIRE:",
+            "regex": "NIRE[:\\s]*([\\d]+)",
+            "valor_extraido": "35602147165",
+            "confianca": "alta"
+        },
+        "endereco": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Endereço:",
+            "regex": "Endere[çc]o[:\\s]*([^\\n]+)",
+            "valor_extraido": "R ANGELICA, 36 - JARDIM MACEDO - RIBEIRAO PRETO/SP",
+            "confianca": "media"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-?mail[:\\s]*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)",
+            "valor_extraido": "presidentefilial@terra.com.br",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Representante",
+            "regex": "(?:Representante|Nome)[:\\s]*([A-Z][A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s]+?)(?:\\s*CPF|\\s*e-?mail|\\n)",
+            "valor_extraido": "RAFAEL GIRALDES RODRIGUES",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Consórcio:",
+            "regex": "(?:Cons[óo]rcio|CONSORCIO)[:\\s]*([A-Z][A-Z\\s]+)",
+            "valor_extraido": "CONSORCIO RZ SAO PAULO",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ Consórcio:",
+            "regex": "(?:CNPJ|Inscri[çc][ãa]o)[^\\d]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "35.300.150/0001-03",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora[:\\s]*(CPFL[\\s\\w]*|CEMIG|ENEL|LIGHT|ELEKTRO|ENERGISA)",
+            "valor_extraido": "CPFL Paulista",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Nº Instalação:",
+            "regex": "(?:Instala[çc][ãa]o|N[º°]\\s*Instala[çc][ãa]o)[:\\s]*(\\d{6,12})",
+            "valor_extraido": "17113911",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Conta Contrato:",
+            "regex": "(?:Conta\\s*Contrato|UC)[:\\s\\(]*(\\d+)",
+            "valor_extraido": "714533080",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Percentual:",
+            "regex": "(?:Participa[çc][ãa]o|Rateio|Percentual)[:\\s]*([\\d,\\.]+)\\s*%?",
+            "valor_extraido": "1.324",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Vigência:",
+            "regex": "(?:Vig[êe]ncia|Fidelidade)[:\\s]*(\\d+)\\s*(?:meses|mês)",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Data:",
+            "regex": "(\\d{4}-\\d{2}-\\d{2}|\\d{1,2}\\s*de\\s*[a-zA-Zç]+\\s*de\\s*\\d{4}|\\d{2}/\\d{2}/\\d{4})",
+            "valor_extraido": "2020-05-26",
+            "confianca": "alta"
+        }
+    },
+    "campos_nao_encontrados": [
+        "representante_cpf",
+        "aviso_previo"
+    ],
+    "metadados_extras": {
+        "consorciada_lider": "RAÍZEN GD LTDA.",
+        "sede_consorcio": "AV CEZIRA GIOVANONI MORETTI, 900, SALA 0.07, Piracicaba, SP"
+    },
+    "alertas": [
+        "Contrato de 2 páginas - modelo simplificado",
+        "CPFL Paulista - subgrupo da CPFL"
+    ]
+}

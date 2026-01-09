@@ -60,6 +60,7 @@ def process_pdf_with_map(pdf_path: str, mapa: dict) -> dict:
         
         dados = extract_with_map(text, mapa)
         dados['arquivo_origem'] = Path(pdf_path).name
+        dados['caminho_completo'] = str(Path(pdf_path).resolve())
         dados['data_extracao'] = datetime.now().isoformat()
         dados['modelo_usado'] = mapa.get('modelo_identificado', 'N/A')
         

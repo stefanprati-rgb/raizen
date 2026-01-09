@@ -42,8 +42,8 @@ def extract_fingerprint(text):
 
 
 def main():
-    source_folder = Path("contratos_por_paginas/05_paginas")
-    output_folder = Path("output/pdfs_para_gemini")
+    source_folder = Path("contratos_por_paginas/02_paginas")
+    output_folder = Path("output/pdfs_para_gemini_02p")
     output_folder.mkdir(parents=True, exist_ok=True)
     
     print("=" * 70)

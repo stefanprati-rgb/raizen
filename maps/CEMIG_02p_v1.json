@@ -1,0 +1,142 @@
+{
+    "modelo_identificado": "Contrato Adesão CEMIG - 2 páginas",
+    "distribuidora_principal": "CEMIG",
+    "paginas_analisadas": 2,
+    "fonte": "Gemini Web - 2026-01-09",
+    "campos": {
+        "sic_ec_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "SIC/EC Cliente",
+            "regex": "(?:SIC|EC)[^\\d]*(\\d{5,6})",
+            "valor_extraido": "70252",
+            "confianca": "alta"
+        },
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Raz[ãa]o\\s*Social[:\\s]*([A-Z][A-Z0-9\\s\\.\\-]+?)(?:\\s*CNPJ|\\n)",
+            "valor_extraido": "AUTO POSTO PERO LTDA",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ:",
+            "regex": "CNPJ[:\\s]*(\\d{2,3}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "003.544.105/0001-08",
+            "confianca": "alta"
+        },
+        "nire": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "NIRE:",
+            "regex": "NIRE[:\\s]*([\\d\\-]+)",
+            "valor_extraido": "3120583561-4",
+            "confianca": "alta"
+        },
+        "endereco": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Endereço:",
+            "regex": "Endere[çc]o[:\\s]*([^\\n]+)",
+            "valor_extraido": "AVENIDA DEPUTADO RENATO AZEREDO 805 - BAIRRO PERO CEP 37410-000 - TRES CORACOES/MG",
+            "confianca": "media"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-?mail[:\\s]*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)",
+            "valor_extraido": "postopero@hotmail.com",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Representante",
+            "regex": "(?:Representante|Nome)[:\\s]*([A-Z][A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s]+?)(?:\\s*CPF|\\s*RG|\\n)",
+            "valor_extraido": "LIDIA MARIA CASELATO DE ANDRADE",
+            "confianca": "alta",
+            "observacao": "Há 2 representantes: LIDIA MARIA CASELATO DE ANDRADE e LILIANA MARIA CASELATO MENDES"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Consórcio:",
+            "regex": "(?:Cons[óo]rcio|CONSORCIO)[:\\s]*([A-Z][A-Z\\s]+\\d*)",
+            "valor_extraido": "CONSORCIO RZ MINAS GERAIS I",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ Consórcio:",
+            "regex": "(?:CNPJ|Inscri[çc][ãa]o)[^\\d]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "35.299.982/0001-49",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora[:\\s]*(CEMIG|CPFL|ENEL|LIGHT|ELEKTRO|ENERGISA|[A-Z]+)",
+            "valor_extraido": "CEMIG",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Nº Instalação:",
+            "regex": "(?:Instala[çc][ãa]o|UC)[:\\s]*(\\d{8,12})",
+            "valor_extraido": "3001745723",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Conta Contrato:",
+            "regex": "(?:Conta\\s*Contrato|N[ºo]\\s*Cliente|UC)[:\\s\\(]*([\\d]+)",
+            "valor_extraido": "7005285574",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Participação:",
+            "regex": "(?:Participa[çc][ãa]o|Rateio)[:\\s]*([\\d,]+)\\s*%",
+            "valor_extraido": "0,417",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Vigência:",
+            "regex": "(?:Vig[êe]ncia|Fidelidade)[:\\s]*(\\d+)\\s*(?:meses|mês)",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Data:",
+            "regex": "(\\d{1,2}\\s*de\\s*[a-zA-Zç]+\\s*de\\s*\\d{4})",
+            "valor_extraido": "28 de janeiro de 2020",
+            "confianca": "alta"
+        }
+    },
+    "campos_nao_encontrados": [
+        "representante_cpf",
+        "aviso_previo"
+    ],
+    "metadados_extras": {
+        "email_fiscalizacao": "fiscalizacaocar@raizen.com",
+        "consorciada_lider": "RAÍZEN GD LTDA.",
+        "metodo_assinatura": "Eletrônica/Digital (MP 2.200-2/2001)"
+    },
+    "alertas": [
+        "Contrato de 2 páginas - modelo simplificado",
+        "Dois representantes legais identificados"
+    ]
+}
