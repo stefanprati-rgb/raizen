@@ -93,18 +93,18 @@ def validate_email(email: Optional[str]) -> bool:
     return bool(re.match(pattern, email))
 
 
-def parse_currency(value: Union[str, float, int, None]) -> Optional[float]:
+def parse_currency(value: Union[str, float, int, None], force_br: bool = True) -> Optional[float]:
     """
     Converte string de moeda para float.
     
-    Suporta formatos:
+    MODO PT-BR (padrão): Vírgula = decimal, Ponto = milhar
     - Brasileiro: R$ 1.234,56 | 7.653,00
-    - Americano: 1,234.56 | $1,234.56
     - Negativo entre parênteses: (123,45)
     - Com texto adicional: 7.653,00 kWh
     
     Args:
         value: String com valor monetário
+        force_br: Se True, força interpretação PT-BR (vírgula = decimal)
         
     Returns:
         float ou None se conversão falhar
@@ -116,8 +116,7 @@ def parse_currency(value: Union[str, float, int, None]) -> Optional[float]:
     if not str_val:
         return None
     
-    # Remover R$, $, espaços e texto adicional (ex: "kWh")
-    # Mantém apenas dígitos, ., ,, - e ()
+    # Remover R$, $, espaços e texto adicional (ex: "kWh", "reais")
     clean = re.sub(r'[^\d.,\-()]', '', str_val)
     
     # Detectar negativo entre parênteses: (1.234,56)
@@ -132,39 +131,51 @@ def parse_currency(value: Union[str, float, int, None]) -> Optional[float]:
     
     clean = match.group(1)
     
-    # Contar pontos e vírgulas para determinar formato
+    # Contar pontos e vírgulas
     num_dots = clean.count('.')
     num_commas = clean.count(',')
     
-    if num_dots > 1 and num_commas == 0:
-        # Múltiplos pontos: formato brasileiro de milhar
-        # Ex: 7.653.00 -> remover todos os pontos exceto último
-        parts = clean.split('.')
-        if len(parts[-1]) == 2:  # Últimos 2 dígitos = centavos
-            clean = ''.join(parts[:-1]) + '.' + parts[-1]
-        else:
-            clean = clean.replace('.', '')
-    elif num_commas > 0 and num_dots > 0:
-        # Ambos presentes: determinar qual é decimal
-        if clean.rfind(',') > clean.rfind('.'):
-            # Formato brasileiro: 1.234,56
+    if force_br:
+        # =================================================================
+        # MODO PT-BR ESTRITO: Vírgula SEMPRE é decimal, Ponto é milhar
+        # =================================================================
+        if num_commas > 0:
+            # Vírgula presente: é o decimal
+            # Ex: 1.234,56 -> 1234.56
             clean = clean.replace('.', '').replace(',', '.')
-        else:
-            # Formato americano: 1,234.56
-            clean = clean.replace(',', '')
-    elif num_commas == 1 and num_dots == 0:
-        # Apenas vírgula: assumir formato brasileiro
-        clean = clean.replace(',', '.')
+        elif num_dots > 0:
+            # Sem vírgula, com pontos: verificar se é milhar ou decimal
+            parts = clean.split('.')
+            if len(parts[-1]) == 2:
+                # Último grupo tem 2 dígitos: provavelmente centavos
+                # Ex: 1234.56 -> 1234.56 (já está OK)
+                pass
+            elif len(parts[-1]) == 3:
+                # Último grupo tem 3 dígitos: é milhar
+                # Ex: 1.234 -> 1234
+                clean = clean.replace('.', '')
+            else:
+                # Manter como está (provavelmente já é decimal)
+                pass
+    else:
+        # Modo híbrido antigo (não recomendado)
+        if num_commas > 0 and num_dots > 0:
+            if clean.rfind(',') > clean.rfind('.'):
+                clean = clean.replace('.', '').replace(',', '.')
+            else:
+                clean = clean.replace(',', '')
+        elif num_commas == 1 and num_dots == 0:
+            clean = clean.replace(',', '.')
     
     try:
         result = float(clean)
         return -result if is_negative else result
     except ValueError:
-        logger.warning(f"Falha ao converter moeda: '{value}' -> '{clean}'")
+        logger.warning(f"EXTRACTION_FAILED: Falha ao converter moeda: '{value}' -> '{clean}'")
         return None
 
 
-def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float = 0.30) -> Optional[str]:
+def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float = 0.05) -> Optional[str]:
     """
     Valida consistência matemática entre valor_cota, qtd_cotas e pagamento_mensal.
     
@@ -173,8 +184,8 @@ def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float 
     
     Args:
         record: Registro com campos de valor
-        relative_tolerance: Tolerância relativa (0.30 = 30% de variação permitida)
-                           Aumentado para 30% devido às fórmulas complexas de Performance
+        relative_tolerance: Tolerância relativa (0.05 = 5% de variação permitida)
+                           Reduzido para 5% para maior rigor na validação
     
     Retorna mensagem de erro se inconsistente, None se OK.
     """
@@ -196,10 +207,10 @@ def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float 
     if expected > 0:
         difference_ratio = abs(pagamento_mensal - expected) / expected
         if difference_ratio > relative_tolerance:
-            return (f"Inconsistência matemática: Cota R${valor_cota:.2f} × "
+            return (f"MATH_INCONSISTENCY: Cota R${valor_cota:.2f} × "
                     f"{qtd_cotas:.2f} cotas = R${expected:.2f}, "
                     f"mas Pagamento = R${pagamento_mensal:.2f} "
-                    f"(diferença: {difference_ratio*100:.1f}%)")
+                    f"(diferença: {difference_ratio*100:.1f}%, tolerância: {relative_tolerance*100:.0f}%)")
     
     return None
 
@@ -207,6 +218,12 @@ def validate_math_consistency(record: Dict[str, Any], relative_tolerance: float 
 def validate_record(record: Dict[str, Any]) -> List[str]:
     """
     Valida um registro completo e retorna lista de alertas/erros.
+    
+    Prefixos de erro:
+    - MISSING_IN_DOC: Campo não existe no documento
+    - EXTRACTION_FAILED: Campo existe mas extração falhou
+    - INVALID_FORMAT: Formato inválido (checksum, email, etc)
+    - MATH_INCONSISTENCY: Valores não batem matematicamente
     """
     alerts = []
     
@@ -214,26 +231,26 @@ def validate_record(record: Dict[str, Any]) -> List[str]:
     cnpj = record.get('cnpj', '')
     if cnpj:
         if not validate_cnpj_checksum(cnpj):
-            alerts.append(f"CNPJ inválido: {cnpj}")
+            alerts.append(f"INVALID_FORMAT: CNPJ inválido: {cnpj}")
     else:
-        alerts.append("CNPJ ausente")
+        alerts.append("MISSING_IN_DOC: CNPJ ausente")
     
     # Validação de Razão Social
     razao_social = record.get('razao_social', '')
     if not razao_social:
-        alerts.append("Razão Social ausente")
+        alerts.append("MISSING_IN_DOC: Razão Social ausente")
     elif len(razao_social) < 3:
-        alerts.append(f"Razão Social muito curta: {razao_social}")
+        alerts.append(f"EXTRACTION_FAILED: Razão Social muito curta: {razao_social}")
     
     # Validação de Email (se presente)
     email = record.get('email', '')
     if email and not validate_email(email):
-        alerts.append(f"Email inválido: {email}")
+        alerts.append(f"INVALID_FORMAT: Email inválido: {email}")
     
     # Validação de CPF do representante (se presente)
     cpf = record.get('representante_cpf', '')
     if cpf and not validate_cpf_checksum(cpf):
-        alerts.append(f"CPF do representante inválido: {cpf}")
+        alerts.append(f"INVALID_FORMAT: CPF do representante inválido: {cpf}")
     
     # Validação matemática
     math_error = validate_math_consistency(record)
@@ -246,9 +263,9 @@ def validate_record(record: Dict[str, Any]) -> List[str]:
         if valor:
             parsed = parse_currency(str(valor))
             if parsed is None:
-                alerts.append(f"Valor não numérico em {campo}: {valor}")
+                alerts.append(f"EXTRACTION_FAILED: Valor não numérico em {campo}: {valor}")
             elif parsed < 0:
-                alerts.append(f"Valor negativo em {campo}: {valor}")
+                alerts.append(f"INVALID_FORMAT: Valor negativo em {campo}: {valor}")
     
     return alerts
 
