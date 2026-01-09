@@ -23,6 +23,7 @@ from .validators import (
     is_umbrella_contract,
     normalize_cnpj
 )
+from .normalizers import normalize_all
 from .table_extractor import (
     extract_all_text,
     extract_all_text_from_pdf,
@@ -301,6 +302,9 @@ class ContractExtractor:
                                 record['modelo_detectado'] = result.modelo_detectado
                                 record['data_extracao'] = datetime.now().isoformat()
                                 
+                                # Normalizar dados antes da validação
+                                record = normalize_all(record)
+                                
                                 alerts = validate_record(record)
                                 record['alertas'] = '; '.join(alerts) if alerts else ''
                                 record['confianca_score'] = calculate_confidence_score(record, alerts)
@@ -322,6 +326,9 @@ class ContractExtractor:
                     if not base_data.get('distribuidora') and result.distribuidora_classificada not in ['OUTRAS_DESCONHECIDAS', 'ERRO_LEITURA', 'ERRO_OCR']:
                          base_data['distribuidora'] = result.distribuidora_classificada
                          base_data['metodo_distribuidora'] = 'CLASSIFICADOR_AUTO'
+                    
+                    # Normalizar dados antes da validação
+                    base_data = normalize_all(base_data)
                     
                     alerts = validate_record(base_data)
                     base_data['alertas'] = '; '.join(alerts) if alerts else ''
