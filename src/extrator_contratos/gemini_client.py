@@ -9,8 +9,9 @@ Este módulo gerencia a comunicação com a API do Gemini para:
 
 Configuração:
     1. Obtenha sua API Key em: https://aistudio.google.com/app/apikey
-    2. Configure via variável de ambiente ou arquivo .env:
+    2. Crie arquivo .env na raiz do projeto:
        GEMINI_API_KEY=sua_chave_aqui
+    3. Ou copie .env.example para .env e preencha
 """
 import os
 import re
@@ -20,6 +21,17 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from datetime import datetime
+
+# Carregar variáveis do arquivo .env automaticamente
+try:
+    from dotenv import load_dotenv
+    # Buscar .env na raiz do projeto
+    env_path = Path(__file__).parent.parent.parent / '.env'
+    if env_path.exists():
+        load_dotenv(env_path)
+        logging.getLogger(__name__).info(f"Carregado .env de: {env_path}")
+except ImportError:
+    pass  # python-dotenv não instalado, usar apenas variáveis de ambiente
 
 logger = logging.getLogger(__name__)
 
