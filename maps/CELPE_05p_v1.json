@@ -1,0 +1,110 @@
+{
+    "modelo_identificado": "Termo de Adesão ao Consórcio - CELPE (05 páginas)",
+    "distribuidora_principal": "CELPE",
+    "paginas_analisadas": 5,
+    "fonte": "Gemini Web - 2026-01-09",
+    "campos": {
+        "sic_ec_cliente": {
+            "valor_encontrado": "69072",
+            "ancora": "SOLAR",
+            "regex": "SOLAR\\s*(\\d{5,6})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "razao_social": {
+            "valor_encontrado": "CLAWAN COMBUSTIVEIS LTDA",
+            "ancora": "Razão Social:",
+            "regex": "Raz[ãa]o\\s*Social[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s\\-\\.,]+?)(?=\\s*CNPJ|\\s*sede|\\n)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "valor_encontrado": "004.072.527/0001-82",
+            "ancora": "CNPJ:",
+            "regex": "CNPJ[:\\s]*(\\d{2,3}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "nire": {
+            "valor_encontrado": "26.2.0125374-9",
+            "ancora": "NIRE:",
+            "regex": "NIRE[:\\s]*([\\d\\.\\-]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "endereco": {
+            "valor_encontrado": "AVENIDA DOUTOR BELMINO CORREIA, 447, NOVO DO CARMELO, CAMARAGIBE, PE, 54.750-000",
+            "ancora": "sede:",
+            "regex": "sede[:\\s]*([^\\n]+)",
+            "pagina": 1,
+            "confianca": "media"
+        },
+        "email": {
+            "valor_encontrado": "CLAWAN2@HOTMAIL.COM",
+            "ancora": "E-mail:",
+            "regex": "E-?mail[:\\s]*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "valor_encontrado": "WANDERLEY VELOSO DE OLIVEIRA",
+            "ancora": "Assinado por:",
+            "regex": "Assinado\\s*por[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s]+)",
+            "pagina": 5,
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "valor_encontrado": "CONSORCIO RZ PERNAMBUCO",
+            "ancora": "Nome do Consórcio:",
+            "regex": "(?:Nome\\s*do\\s*)?Cons[óo]rcio[:\\s]*([A-Z][A-Z\\s]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "valor_encontrado": "CELPE",
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora[:\\s]*(CELPE|CEMIG|CPFL|ENEL|LIGHT|ELEKTRO|ENERGISA)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "valor_encontrado": "2011529617",
+            "ancora": "instalação:",
+            "regex": "(?:instala[çc][ãa]o|N[ºo°]\\s*instala[çc][ãa]o)[:\\s]*(\\d{8,12})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "valor_encontrado": "7007608777",
+            "ancora": "consumidora (UC):",
+            "regex": "(?:consumidora\\s*\\(UC\\)|UC)[:\\s]*(\\d{8,12})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "valor_encontrado": "0,125",
+            "ancora": "rateio:",
+            "regex": "(?:Participa[çc][ãa]o|rateio)[:\\s]*([\\d,]+)\\s*%",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "valor_encontrado": "60",
+            "ancora": "vigência:",
+            "regex": "(?:vig[êe]ncia|fidelidade)[:\\s]*(\\d+)\\s*(?:meses|mês)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "valor_encontrado": "13/02/2020",
+            "ancora": "assinado em",
+            "regex": "(\\d{2}/\\d{2}/\\d{4})",
+            "pagina": 5,
+            "confianca": "alta"
+        }
+    },
+    "campos_nao_encontrados": [
+        "aviso_previo",
+        "representante_cpf"
+    ]
+}

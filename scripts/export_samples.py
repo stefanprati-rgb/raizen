@@ -42,8 +42,8 @@ def extract_fingerprint(text):
 
 
 def main():
-    source_folder = Path("contratos_por_paginas/02_paginas")
-    output_folder = Path("output/pdfs_para_gemini_02p")
+    source_folder = Path("contratos_por_paginas/05_paginas")
+    output_folder = Path("output/pdfs_para_gemini_05p")
     output_folder.mkdir(parents=True, exist_ok=True)
     
     print("=" * 70)
@@ -114,25 +114,39 @@ def main():
     print()
     print('-' * 70)
     print("""
-Analise este contrato de energia solar e extraia um mapa JSON com os seguintes campos:
+Analise o PDF anexo. Para cada campo abaixo, forneça:
+1. O valor exato encontrado no texto.
+2. A "âncora" (texto fixo que precede o valor).
+3. Um REGEX Python robusto para capturar este valor.
 
-1. cnpj - CNPJ da empresa consorciada
-2. razao_social - Nome/Razão Social
-3. num_instalacao - Número da UC (Unidade Consumidora)
-4. distribuidora - Nome da distribuidora de energia
-5. data_adesao - Data de assinatura
-6. duracao_meses - Período de fidelidade em meses
-7. aviso_previo - Prazo de aviso prévio em dias
-8. representante_nome - Nome do representante legal
-9. representante_cpf - CPF do representante
-10. participacao_percentual - % de participação no consórcio
+Campos obrigatórios:
+- sic_ec_cliente (código SIC/EC do cliente)
+- razao_social (nome da empresa consorciada)
+- cnpj (CNPJ da consorciada, formato XX.XXX.XXX/XXXX-XX)
+- num_instalacao (número da UC/instalação)
+- num_cliente (conta contrato)
+- distribuidora (CEMIG, CPFL, ENEL, ELEKTRO, etc)
+- participacao_percentual (% rateio, formato brasileiro com vírgula)
+- duracao_meses (vigência em meses)
+- data_adesao (data de assinatura)
+- representante_nome (representante legal)
+- email (e-mail de contato)
 
-Para cada campo, retorne:
-- "ancora": texto que aparece antes do valor
-- "regex": padrão regex para capturar (use grupo de captura)
-- "valor_encontrado": valor extraído do documento
-
-Retorne apenas o JSON, sem explicações.
+Retorne APENAS um JSON neste formato:
+{
+  "modelo_identificado": "Nome do layout/modelo",
+  "distribuidora_principal": "CEMIG/CPFL/etc",
+  "campos": {
+    "razao_social": {
+      "valor_encontrado": "EMPRESA X LTDA",
+      "ancora": "Razão Social:",
+      "regex": "Raz[ãa]o\\\\s*Social[:\\\\s]*([A-Z][A-Z0-9\\\\s\\\\.\\\\-]+)",
+      "pagina": 1,
+      "confianca": "alta"
+    }
+  },
+  "campos_nao_encontrados": []
+}
 """)
     print('-' * 70)
 

@@ -1,0 +1,109 @@
+{
+    "modelo_identificado": "Termo de Condições Comerciais de Adesão - CPFL (05 páginas)",
+    "distribuidora_principal": "CPFL",
+    "paginas_analisadas": 5,
+    "fonte": "Gemini Web - 2026-01-09",
+    "campos": {
+        "sic_ec_cliente": {
+            "valor_encontrado": "68816",
+            "ancora": "SOLAR",
+            "regex": "SOLAR\\s*(\\d{5,6})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "razao_social": {
+            "valor_encontrado": "POSTO MONTE CARLO GUARUJA LTDA",
+            "ancora": "Razão Social:",
+            "regex": "Raz[ãa]o\\s*Social[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s\\-\\.,]+?)(?=\\s*CNPJ|\\s*sede|\\n)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "valor_encontrado": "005.841.946/0001-02",
+            "ancora": "CNPJ:",
+            "regex": "CNPJ[:\\s]*(\\d{2,3}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "nire": {
+            "valor_encontrado": "35218015258",
+            "ancora": "NIRE:",
+            "regex": "NIRE[:\\s]*([\\d\\.\\-]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "endereco": {
+            "valor_encontrado": "AV ALBERTO ANDALO, 4300, VILA REDENTORA, SAO JOSE DO RIO PRETO/SP, CEP: 15.015-000",
+            "ancora": "sede:",
+            "regex": "sede[:\\s]*([^\\n]+)",
+            "pagina": 1,
+            "confianca": "media"
+        },
+        "email": {
+            "valor_encontrado": "walter.gianini@redemontecarlo.com.br",
+            "ancora": "E-mail:",
+            "regex": "E-?mail[:\\s]*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "valor_encontrado": "RODRIGO MUNHOZ LINO DE ALMEIDA",
+            "ancora": "Assinado por:",
+            "regex": "Assinado\\s*por[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s]+)",
+            "pagina": 5,
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "valor_encontrado": "CONSORCIO RZ MINAS GERAIS I",
+            "ancora": "Nome do Consórcio:",
+            "regex": "(?:Nome\\s*do\\s*)?Cons[óo]rcio[:\\s]*([A-Z][A-Z\\s]+\\d*)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "valor_encontrado": "CPFL Paulista",
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora[:\\s]*(CPFL[\\s\\d\\w]*|CEMIG|CELPE|ENEL|LIGHT|ELEKTRO|ENERGISA)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "valor_encontrado": "21018855",
+            "ancora": "instalação:",
+            "regex": "(?:instala[çc][ãa]o|N[ºo°]\\s*instala[çc][ãa]o)[:\\s]*(\\d{8,12})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "valor_encontrado": "710528438",
+            "ancora": "consumidora (UC):",
+            "regex": "(?:consumidora\\s*\\(UC\\)|UC|Conta\\s*Contrato)[:\\s]*(\\d{6,12})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "valor_encontrado": "0,507",
+            "ancora": "rateio:",
+            "regex": "(?:Participa[çc][ãa]o|rateio)[:\\s]*([\\d,]+)\\s*%",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "valor_encontrado": "60",
+            "ancora": "vigência:",
+            "regex": "(?:vig[êe]ncia|fidelidade)[:\\s]*(\\d+)\\s*(?:meses|mês)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "valor_encontrado": "05/10/2020",
+            "ancora": "assinado em",
+            "regex": "(\\d{2}/\\d{2}/\\d{4})",
+            "pagina": 5,
+            "confianca": "alta"
+        }
+    },
+    "campos_nao_encontrados": [
+        "aviso_previo"
+    ]
+}
