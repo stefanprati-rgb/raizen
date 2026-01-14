@@ -1,0 +1,104 @@
+{
+    "modelo_identificado": "Termo de Adesão ao Consórcio e Procuração - Raízen Power (CEMIG 12p)",
+    "distribuidora_principal": "CEMIG",
+    "paginas_analisadas": 12,
+    "fonte": "Gemini Vision - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Razão[\\s\\n\",]*Social:[\\s\\n\",]*(.*?)(?=[\\s\\n\",]*CNPJ:)",
+            "valor_extraido": "BTT TELECOMUNICAÇÕES S.A",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ:",
+            "regex": "CNPJ:[\\s\\n\",]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "39.565.567/0001-40",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Nº da Instalação",
+            "regex": "N[º°o]?[\\s\\n\",]*da[\\s\\n\",]*Instalação[\\s\\n\",]*\\(?Unidade[\\s\\n\",]*Consumidora\\)?:[\\s\\n\",]*(\\d+)",
+            "valor_extraido": "3012623347",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Nº do Cliente:",
+            "regex": "N[º°o]?[\\s\\n\",]*do[\\s\\n\",]*Cliente:[\\s\\n\",]*(\\d+)",
+            "valor_extraido": "7202677202",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora:[\\s\\n\",]*(.*?)(?=[\\s\\n\",]*N[º°o]?[\\s\\n\",]*da)",
+            "valor_extraido": "MGCEMIG",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Vigência Inicial:",
+            "regex": "Vigência[\\s\\n\",]*Inicial:[\\s\\n\",]*(\\d+)[\\s\\n\",]*meses",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Participação no Consórcio/ Rateio:",
+            "regex": "Participação[\\s\\n\",]*no[\\s\\n\",]*Consórcio/?[\\s\\n\",]*Rateio:[\\s\\n\",]*([\\d,.]+%?)",
+            "valor_extraido": "1,424%",
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 3,
+            "ancora": "Piracicaba,",
+            "regex": "Piracicaba,[\\s\\n\",]*(\\d{1,2}[\\s\\n\",]*de[\\s\\n\",]*[a-zA-Zç]+[\\s\\n\",]*de[\\s\\n\",]*\\d{4})",
+            "valor_extraido": "10 de janeiro de 2024",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[\\s\\n\",]*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "alessandro@blinktelecom.com.br",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "DADOS DO REPRESENTANTE LEGAL:",
+            "regex": "Nome:[\\s\\n\",]*([A-Za-zÀ-ÿ\\s]+?)(?=[\\s\\n\",]*\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|[\\s\\n\",]*CPF)",
+            "valor_extraido": "Alessandro de Araujo Teixeira",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "membro do",
+            "regex": "membro[\\s\\n\",]*do[\\s\\n\",]*(Consórcio[\\s\\n\",]*.*?)(?=[\\s\\n\",]*com[\\s\\n\",]*sede)",
+            "valor_extraido": "Consórcio RZ Minas Gerais I",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "inscrito no CNPJ/MF sob o nº",
+            "regex": "inscrito[\\s\\n\",]*no[\\s\\n\",]*CNPJ/MF[\\s\\n\",]*sob[\\s\\n\",]*o[\\s\\n\",]*n[º°o][\\s\\n\",]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "35.299.982/0001-49",
+            "confianca": "alta"
+        }
+    }
+}

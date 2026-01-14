@@ -1,0 +1,132 @@
+{
+    "modelo_identificado": "Termo de Adesão ao Consórcio de Energia",
+    "distribuidora_principal": "NEOENERGIA_ELEKTRO",
+    "paginas_analisadas": 9,
+    "fonte": "Gemini API - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Razão Social:[:\\s]*(.*?)(?:[–-]|CNPJ)",
+            "valor_extraido": "Supermercado Assis e Vieira eirelli - epp",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ n°",
+            "regex": "CNPJ\\s*n[º°o]?\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "28.179.005/0001-42",
+            "confianca": "alta"
+        },
+        "endereco": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Endereço:",
+            "regex": "Endereço:[:\\s]*(.*?)(?=\\s*CONSÓRCIO)",
+            "valor_extraido": "Rua Alemanha, 19, Jardim Liliane, CASA C4, Francisco Morato, São Paulo, CEP 07907-080",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[:\\s]*(\\S+@\\S+\\.\\S+)",
+            "valor_extraido": "mercado.saofrancisco@terra.com.br",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 7,
+            "ancora": "Assinaturas",
+            "regex": "Assinaturas\\s*(?:\\n|\\r\\n){1,3}(.*?)\\s*(?:\\n|\\r\\n)CPF:",
+            "valor_extraido": "Francisco De Assis Vieira",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social: Consórcio",
+            "regex": "Razão Social:[:\\s]*(Consórcio RZ SP IV)",
+            "valor_extraido": "Consórcio RZ SP IV",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Consórcio RZ SP IV – CNPJ n°",
+            "regex": "Consórcio.*?CNPJ\\s*n[º°o]?\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "41.668.273/0001-96",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Distribuidora:",
+            "regex": "Distrib\\s*uidora:[:\\s]*(.*?)(?:\\n|$)",
+            "valor_extraido": "SP - ELEKTRO",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº da Instalação da Unidade Consumidora:",
+            "regex": "N[º°o]?\\s*da Instalação.*?[:\\s]*(\\d+)",
+            "valor_extraido": "29671809",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº do Cliente:",
+            "regex": "N[º°o]?\\s*do Cliente:[:\\s]*(\\S+)",
+            "valor_extraido": "3T2627078",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Duração:",
+            "regex": "D\\s*uração:[:\\s]*(\\d+)\\s*meses",
+            "valor_extraido": "60 meses",
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 6,
+            "ancora": "Piracicaba,",
+            "regex": "[A-Za-zÇç]+,[:\\s]*(\\d{1,2}\\s*de\\s*[a-zA-ZçÇ]+\\s*de\\s*\\d{4})",
+            "valor_extraido": "14 de Julho de 2023",
+            "confianca": "media"
+        },
+        "participacao_percentual": {
+            "encontrado": false,
+            "pagina": 0,
+            "ancora": "",
+            "regex": "",
+            "valor_extraido": "",
+            "confianca": "baixa"
+        },
+        "sic_ec_cliente": {
+            "encontrado": false,
+            "pagina": 0,
+            "ancora": "",
+            "regex": "",
+            "valor_extraido": "",
+            "confianca": "baixa"
+        },
+        "nire": {
+            "encontrado": false,
+            "pagina": 0,
+            "ancora": "",
+            "regex": "",
+            "valor_extraido": "",
+            "confianca": "baixa"
+        }
+    },
+    "campos_nao_encontrados": [],
+    "alertas": [
+        "JSON recuperado manualmente de output truncado"
+    ]
+}

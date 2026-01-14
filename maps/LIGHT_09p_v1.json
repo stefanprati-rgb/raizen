@@ -1,0 +1,111 @@
+{
+    "modelo_identificado": "Raízen GD - Termo de Adesão ao Consórcio e Procuração LIGHT 9 páginas",
+    "distribuidora_principal": "LIGHT",
+    "paginas_analisadas": 9,
+    "fonte": "Gemini Web - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Raz[ãa]o\\s+Social:\\s*([A-Z0-9\\s\\.\\-]+?)(?=\\s*CNPJ|\\n)",
+            "valor_extraido": "IPANEMA 1000 SORVETERIA LTDA",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ:",
+            "regex": "CNPJ:\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "03.968.193/0001-67",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Nº da Instalação (Unidade Consumidora):",
+            "regex": "(?:Nº\\s+da\\s+)?Instala[çc][ãa]o\\s*(?:\\(Unidade\\s+Consumidora\\))?[:\\s]*(\\d+)",
+            "valor_extraido": "411312953",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Nº do Cliente:",
+            "regex": "Nº\\s+do\\s+Cliente:\\s*(\\d+)",
+            "valor_extraido": "21064518",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora:\\s*([A-Z0-9\\-]+)",
+            "valor_extraido": "RJ-LIGHT",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Participação no Consórcio/ Rateio:",
+            "regex": "Participa[çc][ãa]o\\s+(?:no\\s+Cons[óo]rcio)?/?\\s*Rateio:\\s*([\\d,\\.]+%?)",
+            "valor_extraido": "0.121%",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Vigência Inicial:",
+            "regex": "Vig[êe]ncia\\s+Inicial:\\s*(\\d+)\\s*meses",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 3,
+            "ancora": "Piracicaba,",
+            "regex": "Piracicaba,\\s*(\\d{1,2}\\s+de\\s+[A-Za-zç]+\\s+de\\s+\\d{4})",
+            "valor_extraido": "25 de Novembro de 2022",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "REPRESENTANTE LEGAL:",
+            "regex": "REPRESENTANTE\\s+LEGAL:\\s*Nome:\\s*([A-Za-zÁÉÍÓÚÃÕÂÊÎÔÛáéíóúãõâêîôûç\\s]+?)(?=\\s*CPF|\\s*E-mail|\\n)",
+            "valor_extraido": "Paula de Saboia Gasparian",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:\\s*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "paula@milfrutas.com.br",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Consórcio",
+            "regex": "(?:Cons[óo]rcio|CONSORCIO)[:\\s]*([A-Z][A-Z\\s]+)",
+            "valor_extraido": "CONSORCIO RZ SAO PAULO",
+            "confianca": "media"
+        }
+    },
+    "campos_nao_encontrados": [
+        "sic_ec_cliente",
+        "nire",
+        "representante_cpf",
+        "aviso_previo_dias",
+        "fidelidade_meses"
+    ],
+    "metadados_extras": {
+        "consorciada_lider": "RAÍZEN GD LTDA.",
+        "tipo_documento": "Termo de Adesão + Procuração"
+    },
+    "alertas": [
+        "Contrato de 9 páginas - modelo expandido LIGHT",
+        "Data de adesão está na página 3"
+    ]
+}

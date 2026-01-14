@@ -1,0 +1,61 @@
+{
+    "modelo_identificado": "Aditivo ao Termo de Condições Comerciais - Raízen GD (V2)",
+    "distribuidora_principal": "CEMIG",
+    "campos": {
+        "razao_social": {
+            "valor_encontrado": "POSTO DE COMBUSTIVEL TEREZA CRISTINA LTDA",
+            "ancora": "Razão Social:",
+            "regex": "Raz(?:ã|a)o\\s+Social:\\s+([A-Z\\s]+(?:LTDA|SA|ME|EPP))",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "valor_encontrado": "00.416.967/0001-59",
+            "ancora": "CNPJ/MF nº:",
+            "regex": "CNPJ/MF\\s+nº:\\s+(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "valor_encontrado": "0,477%",
+            "ancora": "Objeto:",
+            "regex": "Objeto:\\s+(\\d+,\\d+%)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "valor_encontrado": "60",
+            "ancora": "Período de Adesão:",
+            "regex": "Período\\s+de\\s+Adesão:\\s+(\\d+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "valor_encontrado": "24/06/2021",
+            "ancora": "válidos a partir de",
+            "regex": "válidos\\s+a\\s+partir\\s+de\\s+(\\d{2}/\\d{2}/\\d{4})",
+            "pagina": 2,
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "valor_encontrado": "LARISSA COUTO FARIA",
+            "ancora": "representada neste ato por:",
+            "regex": "representada\\s+neste\\s+ato\\s+por:\\s+([A-Z\\s]+),",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "sic_ec_cliente": {
+            "valor_encontrado": "70235",
+            "ancora": "SOLAR",
+            "regex": "SOLAR\\s+(\\d+)",
+            "pagina": 1,
+            "confianca": "media"
+        }
+    },
+    "campos_nao_encontrados": [
+        "num_instalacao",
+        "num_cliente",
+        "distribuidora",
+        "email"
+    ]
+}

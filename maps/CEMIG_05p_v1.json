@@ -1,110 +1,112 @@
 {
-    "modelo_identificado": "Termo de Adesão ao Consórcio - CEMIG (05 páginas)",
+    "modelo_identificado": "Termo de Adesão ao Consórcio RZ Minas Gerais I - Raízen Power (5p)",
     "distribuidora_principal": "CEMIG",
     "paginas_analisadas": 5,
-    "fonte": "Gemini Web - 2026-01-09",
+    "fonte": "Gemini Diagnostic - 2026-01-14 - Corrigido para formato tabela/CSV",
     "campos": {
-        "sic_ec_cliente": {
-            "valor_encontrado": "32979",
-            "ancora": "SOLAR",
-            "regex": "SOLAR\\s*(\\d{5,6})",
-            "pagina": 1,
-            "confianca": "alta"
-        },
         "razao_social": {
-            "valor_encontrado": "POSTO DOM PEDRO DE POSTOS LTDA",
-            "ancora": "Razão Social:",
-            "regex": "Raz[ãa]o\\s*Social[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s\\-\\.,]+?)(?=\\s*CNPJ|\\s*sede|\\n)",
+            "encontrado": true,
             "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Razão Social:[\\s\",]*([^\"\\n\\r]+?)(?:\\n|CNPJ|$)",
+            "valor_extraido": "AUTO POSTO DO LEAO II TDA",
             "confianca": "alta"
         },
         "cnpj": {
-            "valor_encontrado": "20.415.295/0007-60",
+            "encontrado": true,
+            "pagina": 1,
             "ancora": "CNPJ:",
-            "regex": "CNPJ[:\\s]*(\\d{2,3}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
-            "pagina": 1,
-            "confianca": "alta"
-        },
-        "nire": {
-            "valor_encontrado": "31902338370",
-            "ancora": "NIRE:",
-            "regex": "NIRE[:\\s]*([\\d\\.\\-]+)",
-            "pagina": 1,
-            "confianca": "alta"
-        },
-        "endereco": {
-            "valor_encontrado": "ROD BR 251, KM: 309, ZONA RURAL, SALINAS/MG, CEP: 39.560-000",
-            "ancora": "sede:",
-            "regex": "sede[:\\s]*([^\\n]+)",
-            "pagina": 1,
-            "confianca": "media"
-        },
-        "email": {
-            "valor_encontrado": "diego.hernandes@rededompedro.com",
-            "ancora": "E-mail:",
-            "regex": "E-?mail[:\\s]*([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)",
-            "pagina": 1,
-            "confianca": "alta"
-        },
-        "representante_nome": {
-            "valor_encontrado": "LAERTE ALVES DE OLIVEIRA",
-            "ancora": "Assinado por:",
-            "regex": "Assinado\\s*por[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s]+)",
-            "pagina": 5,
-            "confianca": "alta"
-        },
-        "consorcio_nome": {
-            "valor_encontrado": "CONSORCIO RZ MINAS GERAIS I",
-            "ancora": "Nome do Consórcio:",
-            "regex": "(?:Nome\\s*do\\s*)?Cons[óo]rcio[:\\s]*([A-Z][A-Z\\s]+\\d*)",
-            "pagina": 1,
-            "confianca": "alta"
-        },
-        "distribuidora": {
-            "valor_encontrado": "CEMIG",
-            "ancora": "Distribuidora:",
-            "regex": "Distribuidora[:\\s]*(CEMIG|CELPE|CPFL|ENEL|LIGHT|ELEKTRO|ENERGISA)",
-            "pagina": 1,
+            "regex": "CNPJ:[\\s\",]*(?:NIRE)?[\\s]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "10.251.397/0001-48",
             "confianca": "alta"
         },
         "num_instalacao": {
-            "valor_encontrado": "3004684147",
-            "ancora": "instalação:",
-            "regex": "(?:instala[çc][ãa]o|N[ºo°]\\s*instala[çc][ãa]o)[:\\s]*(\\d{8,12})",
-            "pagina": 1,
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº da Instalação",
+            "regex": "N[º°o]? da Instalação[\\s\",]*(\\d+)",
+            "valor_extraido": "3012389238",
             "confianca": "alta"
         },
         "num_cliente": {
-            "valor_encontrado": "7200253775",
-            "ancora": "consumidora (UC):",
-            "regex": "(?:consumidora\\s*\\(UC\\)|Conta\\s*Contrato|UC)[:\\s]*(\\d{8,12})",
-            "pagina": 1,
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Número Conta Contrato (UC)",
+            "regex": "Número Conta Contrato \\(UC\\)[\\s\",]*(\\d+)|Conta Contrato[\\s\",]*(\\d+)",
+            "valor_extraido": "7200213812",
             "confianca": "alta"
         },
-        "participacao_percentual": {
-            "valor_encontrado": "1,36",
-            "ancora": "rateio:",
-            "regex": "(?:Participa[çc][ãa]o|rateio)[:\\s]*([\\d,]+)\\s*%",
+        "sic_ec_cliente": {
+            "encontrado": true,
             "pagina": 1,
+            "ancora": "SIC-EC Cliente:",
+            "regex": "SIC-EC\\s+Cliente:[\\s\",]*(\\d+)",
+            "valor_extraido": "0001700",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Distribuidora",
+            "regex": "Distribuidora[\\s\",]*([A-Z]{2}[\\s\\-]*CEMIG|MG[\\s\\-]*CEMIG)",
+            "valor_extraido": "MG - CEMIG",
             "confianca": "alta"
         },
         "duracao_meses": {
-            "valor_encontrado": "60",
-            "ancora": "vigência:",
-            "regex": "(?:vig[êe]ncia|fidelidade)[:\\s]*(\\d+)\\s*(?:meses|mês)",
-            "pagina": 1,
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Tempo de Vigência",
+            "regex": "Tempo de Vigência[\\s\",]*(\\d+)\\s*meses",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Participação no Consórcio / Rateio",
+            "regex": "Participação[\\s\\w/]*Rateio[\\s\",]*([\\d,.]+)\\s*%",
+            "valor_extraido": "0,06%",
             "confianca": "alta"
         },
         "data_adesao": {
-            "valor_encontrado": "12/11/2021",
-            "ancora": "assinado em",
-            "regex": "(\\d{2}/\\d{2}/\\d{4})",
-            "pagina": 5,
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Piracicaba,",
+            "regex": "Piracicaba,[\\s]*(\\d{1,2}\\s+de\\s+[a-zA-Zç]+\\s+de\\s+\\d{4})",
+            "valor_extraido": "31 de agosto de 2021",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[\\s\",]*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "postoleao1563@hotmail.com",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Representante Legal:",
+            "regex": "Representante Legal:[\\s\",]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ][A-Za-zÀ-ÿ\\s]+?)(?:[\\n\",]|Endereço)",
+            "valor_extraido": "LEONDENIS VIEIRAS DA SILVA",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Consórcio",
+            "regex": "Consórcio[\\s]+(RZ\\s+Minas\\s+Gerais\\s+I)",
+            "valor_extraido": "RZ Minas Gerais I",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "inscrita no CNPJ/MF sob o nº",
+            "regex": "CNPJ/MF\\s+sob\\s+o\\s+n[º°o]?[\\s]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "35.299.982/0001-49",
             "confianca": "alta"
         }
-    },
-    "campos_nao_encontrados": [
-        "aviso_previo",
-        "representante_cpf"
-    ]
+    }
 }

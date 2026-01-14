@@ -1,0 +1,104 @@
+{
+    "modelo_identificado": "Termo de Adesão ao Consórcio Raízen Power - Versão 2024",
+    "distribuidora_principal": "EQUATORIAL_AL",
+    "paginas_analisadas": 9,
+    "fonte": "Gemini Vision - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CONSORCIADA (VOCÊ)",
+            "regex": "CONSORCIADA[\\s\\n]*\\(VOCÊ\\)[\\s\\n]*Razão[\\s\\n]*Social:[\\s\\n]*(.*?)(?=[\\s\\n]*–)",
+            "valor_extraido": "SANDOM IND E COM FARMACEUTICO LTDA",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ nº",
+            "regex": "CONSORCIADA[\\s\\n]*\\(VOCÊ\\).*?CNPJ[\\s\\n]*nº[\\s\\n]*([\\d\\.\\-\\/]+)",
+            "valor_extraido": "26.439.487/0001-05",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº da Instalação",
+            "regex": "Nº[\\s\\n]*da[\\s\\n]*Instalação[\\s\\n]*da[\\s\\n]*Unidade[\\s\\n]*Consumidora:[\\s\\n]*(\\d+)",
+            "valor_extraido": "17694604",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº do Cliente",
+            "regex": "Nº[\\s\\n]*do[\\s\\n]*Cliente:[\\s\\n]*(\\d+)",
+            "valor_extraido": "17257611",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora:[\\s\\n]*(.*?)(?=[\\s\\n]*Nº)",
+            "valor_extraido": "AL EQUATORIAL AL",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Duração:",
+            "regex": "Duração:[\\s\\n]*(\\d+)[\\s\\n]*meses",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Quantidade de Cotas",
+            "regex": "Quantidade[\\s\\n]*de[\\s\\n]*Cotas:[\\s\\n]*([\\d,.]+)",
+            "valor_extraido": "8,290",
+            "confianca": "media"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 6,
+            "ancora": "Piracicaba,",
+            "regex": "Piracicaba,[\\s\\n]*(\\d{1,2}[\\s\\n]*de[\\s\\n]*[a-zA-Zç]+[\\s\\n]*de[\\s\\n]*\\d{4})",
+            "valor_extraido": "19 de Abril de 2024",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[\\s\\n]*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "sandomindustriaecomercio@hotmail.com",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 7,
+            "ancora": "nome completo",
+            "regex": "nome[\\s\\n]*completo[\\s\\n]*([A-Z][a-zÀ-ÿ]+(?:[\\s\\n][A-Z][a-zÀ-ÿ]+)+)(?=[\\s\\n]*e[\\s\\n]*CPF)",
+            "valor_extraido": "Dylermando Sávio Aguiar Cunha",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CONSÓRCIO",
+            "regex": "CONSÓRCIO[\\s\\n]*Razão[\\s\\n]*Social:[\\s\\n]*(.*?)(?=[\\s\\n]*–)",
+            "valor_extraido": "Consórcio RZ Ceará",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CONSÓRCIO",
+            "regex": "CONSÓRCIO[\\s\\n]*Razão[\\s\\n]*Social:.*?CNPJ[\\s\\n]*nº[\\s\\n]*([\\d\\.\\-\\/]+)",
+            "valor_extraido": "35.299.885/0001-56",
+            "confianca": "alta"
+        }
+    }
+}

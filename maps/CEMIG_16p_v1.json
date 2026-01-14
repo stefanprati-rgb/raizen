@@ -1,0 +1,104 @@
+{
+    "modelo_identificado": "Termo de Compromisso e Adesão ao Consórcio Raízen GD (CEMIG 16p)",
+    "distribuidora_principal": "CEMIG",
+    "paginas_analisadas": 16,
+    "fonte": "Gemini Vision - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "doravante denominado \"Contratante\"",
+            "regex": "denominado[\\s\\n\",]*\"Contratante\"[\\s\\n\",]*;[\\s\\n\",]*(.*?)[\\s\\n\",]*pessoa[\\s\\n\",]*jurídica",
+            "valor_extraido": "BRASPRESS TRANSPORTES URGENTES LTDA",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "inscrita no CNPJ/MF sob o",
+            "regex": "CNPJ/MF[\\s\\n\",]*sob[\\s\\n\",]*o[\\s\\n\",]*n[º°o][\\s\\n\",]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "48.740.351/0001-65",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº da Instalação (Unidade Consumidora):",
+            "regex": "Unidade[\\s\\n\",]*Consumidora\\)?:[\\s\\n\",]*(\\d{8,12})",
+            "valor_extraido": "3000457046",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº do Cliente:",
+            "regex": "N[º°o]?[\\s\\n\",]*do[\\s\\n\",]*Cliente:[\\s\\n\",]*(\\d+)",
+            "valor_extraido": "7005724764",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora:[\\s\\n\",]*(CEMIG|MG[\\s-]*CEMIG)",
+            "valor_extraido": "CEMIG",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 5,
+            "ancora": "Vigência Inicial:",
+            "regex": "Vigência[\\s\\n\",]*Inicial:[\\s\\n\",]*(\\d+)",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 5,
+            "ancora": "Participação no Consórcio/ Rateio:",
+            "regex": "Participação[\\s\\n\",]*no[\\s\\n\",]*Consórcio/?[\\s\\n\",]*Rateio:[\\s\\n\",]*([\\d,.]+%?)",
+            "valor_extraido": "1,259%",
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 4,
+            "ancora": "São Paulo,",
+            "regex": "São[\\s\\n\",]*Paulo,[\\s\\n\",]*(\\d{1,2}[\\s\\n\",]*de[\\s\\n\",]*[a-zA-Zç]+[\\s\\n\",]*de[\\s\\n\",]*\\d{4})",
+            "valor_extraido": "16 de maio de 2022",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 5,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[\\s\\n\",]*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "urubatan@braspress.com",
+            "confianca": "media"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 5,
+            "ancora": "DADOS DO REPRESENTANTE LEGAL:",
+            "regex": "Nome:[\\s\\n\",]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ][A-Za-zÀ-ÿ\\s]+?)(?=[\\s\\n\",]*CPF|[\\s\\n\",]*\\d{3})",
+            "valor_extraido": "URUBATAN HELOU",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "em consórcio, denominado",
+            "regex": "consórcio,[\\s\\n\",]*denominado[\\s\\n\",]*(RZ[\\s\\n\",]*Minas[\\s\\n\",]*Gerais[\\s\\n\",]*I|Consórcio[\\s\\n\",]*RZ[\\s\\n\",]*.*?)(?=[\\s\\n\",]*cuja)",
+            "valor_extraido": "RZ Minas Gerais I",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 6,
+            "ancora": "inscrito no CNPJ/MF sob o nº",
+            "regex": "inscrito[\\s\\n\",]*no[\\s\\n\",]*CNPJ/MF[\\s\\n\",]*sob[\\s\\n\",]*o[\\s\\n\",]*n[º°o][\\s\\n\",]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "35.299.982/0001-49",
+            "confianca": "alta"
+        }
+    }
+}

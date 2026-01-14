@@ -1,0 +1,104 @@
+{
+    "modelo_identificado": "Termo de Adesão ao Consórcio Raízen - Geração Distribuída (ENEL RJ)",
+    "distribuidora_principal": "ENEL_RJ",
+    "paginas_analisadas": 9,
+    "fonte": "Gemini Vision - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Razão[\\s\\n]+Social:[\\s\\n]*(.*?)(?=[\\s\\n]*[–\\-])",
+            "valor_extraido": "FARMACIA FAVORITA LTDA",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ nº",
+            "regex": "CNPJ[\\s\\n]+n[ºo][\\s\\n]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "11.321.291/0001-36",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº da Instalação da Unidade Consumidora:",
+            "regex": "Instalação[\\s\\n]+da[\\s\\n]+Unidade[\\s\\n]+Consumidora:[\\s\\n]*(\\d+)",
+            "valor_extraido": "1107874",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº do Cliente:",
+            "regex": "N[ºo][\\s\\n]+do[\\s\\n]+Cliente:[\\s\\n]*(\\d+)",
+            "valor_extraido": "56164590",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora:[\\s\\n]*(.*?)(?=[\\s\\n]*N[ºo])",
+            "valor_extraido": "RJ ENEL RJ",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Duração:",
+            "regex": "Duração:[\\s\\n]*(\\d+)[\\s\\n]*meses",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Quantidade de Cotas:",
+            "regex": "Quantidade[\\s\\n]+de[\\s\\n]+Cotas:[\\s\\n]*([\\d,.]+)",
+            "valor_extraido": "12,432",
+            "confianca": "media"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 6,
+            "ancora": "Piracicaba,",
+            "regex": "Piracicaba,[\\s\\n]*(\\d{1,2}[\\s\\n]+de[\\s\\n]+[a-zA-ZçÇ]+[\\s\\n]+de[\\s\\n]+\\d{4})",
+            "valor_extraido": "27 de Fevereiro de 2023",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[\\s\\n]*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "cristina.drogariafavorita@gmail.com",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 7,
+            "ancora": "Assinaturas",
+            "regex": "Assinaturas[\\s\\n]*(.*?)(?=[\\s\\n]*CPF:)",
+            "valor_extraido": "CRISTINA MOREIRA DE ALMEIDA ARAUJO",
+            "confianca": "alta"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CONSÓRCIO",
+            "regex": "CONSÓRCIO[\\s\\n]+Razão[\\s\\n]+Social:[\\s\\n]*(.*?)(?=[\\s\\n]*CNPJ)",
+            "valor_extraido": "Consórcio RZ Rio de Janeiro",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ nº",
+            "regex": "CONSÓRCIO[\\s\\n]+Razão[\\s\\n]+Social:.*?CNPJ[\\s\\n]+n[ºo][\\s\\n]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "36.094.223/0001-02",
+            "confianca": "alta"
+        }
+    }
+}

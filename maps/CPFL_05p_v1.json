@@ -49,7 +49,7 @@
         "representante_nome": {
             "valor_encontrado": "RODRIGO MUNHOZ LINO DE ALMEIDA",
             "ancora": "Assinado por:",
-            "regex": "Assinado\\s*por[:\\s]*([A-ZÁÉÍÓÚÃÕÂÊÎÔÛÇ\\s]+)",
+            "regex": "Assinado\\s*(?:digitalmente\\s*)?por[:\\s]*([A-Z][A-Za-zÁÉÍÓÚÃÕÂÊÎÔÛÇáéíóúãõâêîôûç\\s]+?)(?=\\s*(?:Data|CPF|em\\s*\\d|$))",
             "pagina": 5,
             "confianca": "alta"
         },
@@ -76,8 +76,8 @@
         },
         "num_cliente": {
             "valor_encontrado": "710528438",
-            "ancora": "consumidora (UC):",
-            "regex": "(?:consumidora\\s*\\(UC\\)|UC|Conta\\s*Contrato)[:\\s]*(\\d{6,12})",
+            "ancora": "Conta Contrato (UC)",
+            "regex": "(?:N[uú]mero\\s*)?(?:Conta\\s*Contrato\\s*)?\\(?UC\\)?[:\\s]*(\\d{6,12})",
             "pagina": 1,
             "confianca": "alta"
         },

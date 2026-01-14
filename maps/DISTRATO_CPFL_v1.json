@@ -1,0 +1,55 @@
+{
+    "modelo_identificado": "Termo de Distrato - Consórcio RZ São Paulo",
+    "distribuidora_principal": "CPFL PAULISTA",
+    "campos": {
+        "razao_social": {
+            "valor_encontrado": "Auto Posto Lider Araraquara LTDA",
+            "ancora": "Denominação social:",
+            "regex": "Denominação\\s*social:\\s*([A-Za-z0-9\\s\\.]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "valor_encontrado": "04.490.125/0001-06",
+            "ancora": "CNPJ/MF nº:",
+            "regex": "CNPJ/MF\\s*nº:\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "sic_ec_cliente": {
+            "valor_encontrado": "13433",
+            "ancora": "Fluxo:",
+            "regex": "Fluxo:\\s*(\\d+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "data_adesao": {
+            "valor_encontrado": "13/05/2022",
+            "ancora": "celebrado pelas partes em",
+            "regex": "celebrado\\s*pelas\\s*partes\\s*em\\s*(\\d{2}/\\d{2}/\\d{4})",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "valor_encontrado": "José Claudio Modolo",
+            "ancora": "Representante legal abaixo assinado:",
+            "regex": "Representante\\s*legal\\s*abaixo\\s*assinado:\\s*\\n\\s*([A-Za-z\\s]+)",
+            "pagina": 1,
+            "confianca": "alta"
+        },
+        "email": {
+            "valor_encontrado": "postodabasebauru@hotmail.com",
+            "ancora": "adicionou à Lista de Assinatura:",
+            "regex": "([a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,})\\s*para\\s*assinar\\s*como\\s*contratante",
+            "pagina": 3,
+            "confianca": "alta"
+        }
+    },
+    "campos_nao_encontrados": [
+        "num_instalacao",
+        "num_cliente",
+        "distribuidora",
+        "participacao_percentual",
+        "duracao_meses"
+    ]
+}

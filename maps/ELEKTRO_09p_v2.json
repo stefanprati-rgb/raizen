@@ -1,0 +1,104 @@
+{
+    "modelo_identificado": "Raízen Power - Termo de Adesão ao Consórcio",
+    "distribuidora_principal": "ELEKTRO",
+    "paginas_analisadas": 9,
+    "fonte": "Gemini Vision - 2026-01-14",
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Razão Social:",
+            "regex": "Razão[\\s\\n]+Social:[\\s\\n]*(.*?)[\\s\\n]*–",
+            "valor_extraido": "COMITAS COMERCIO DE ALIMENTOS LTDA",
+            "confianca": "alta"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CNPJ nº",
+            "regex": "CNPJ[\\s\\n]+nº[\\s\\n]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "02.335.831/0001-40",
+            "confianca": "alta"
+        },
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº da Instalação da Unidade Consumidora:",
+            "regex": "Instalação[\\s\\n]+da[\\s\\n]+Unidade[\\s\\n]+Consumidora:[\\s\\n]*(\\d+)",
+            "valor_extraido": "31116655",
+            "confianca": "alta"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Nº do Cliente:",
+            "regex": "Nº[\\s\\n]+do[\\s\\n]+Cliente:[\\s\\n]*(.*?)(?=[\\s\\n]+Valor)",
+            "valor_extraido": "3T3270653",
+            "confianca": "alta"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Distribuidora:",
+            "regex": "Distribuidora:[\\s\\n]*(.*?)(?=[\\s\\n]+Nº)",
+            "valor_extraido": "SP ELEKTRO",
+            "confianca": "alta"
+        },
+        "duracao_meses": {
+            "encontrado": true,
+            "pagina": 2,
+            "ancora": "Duração:",
+            "regex": "Duração:[\\s\\n]*(\\d+)[\\s\\n]+meses",
+            "valor_extraido": "60",
+            "confianca": "alta"
+        },
+        "participacao_percentual": {
+            "encontrado": false,
+            "pagina": null,
+            "ancora": "N/A",
+            "regex": "N/A",
+            "valor_extraido": null,
+            "confianca": "baixa"
+        },
+        "data_adesao": {
+            "encontrado": true,
+            "pagina": 6,
+            "ancora": "Piracicaba,",
+            "regex": "Piracicaba,[\\s\\n]*(\\d{2}[\\s\\n]+de[\\s\\n]+[a-zA-Z]+[\\s\\n]+de[\\s\\n]+\\d{4})",
+            "valor_extraido": "31 de Janeiro de 2024",
+            "confianca": "alta"
+        },
+        "email": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "E-mail:",
+            "regex": "E-mail:[\\s\\n]*([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "valor_extraido": "michel.mrb@hotmail.com",
+            "confianca": "alta"
+        },
+        "representante_nome": {
+            "encontrado": true,
+            "pagina": 7,
+            "ancora": "Assinaturas",
+            "regex": "Assinaturas[\\s\\n]+(.*?)(?=[\\s\\n]+CPF:)",
+            "valor_extraido": "Michel Ricardo Buso",
+            "confianca": "media"
+        },
+        "consorcio_nome": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "CONSÓRCIO Razão Social:",
+            "regex": "CONSÓRCIO[\\s\\n]+Razão[\\s\\n]+Social:[\\s\\n]*(.*?)[\\s\\n]*–",
+            "valor_extraido": "Consórcio RZ SP IV",
+            "confianca": "alta"
+        },
+        "consorcio_cnpj": {
+            "encontrado": true,
+            "pagina": 1,
+            "ancora": "Consórcio RZ SP IV - CNPJ nº",
+            "regex": "CNPJ[\\s\\n]+nº[\\s\\n]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "valor_extraido": "41.668.273/0001-96",
+            "confianca": "alta"
+        }
+    }
+}

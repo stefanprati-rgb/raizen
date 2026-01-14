@@ -1,0 +1,158 @@
+[
+  {
+    "map": "DISTRATO_CPFL_v1.json",
+    "modelo": "Termo de Distrato - Consórcio RZ São Paulo",
+    "status": "OK",
+    "matches": [
+      {
+        "file": "SOLAR - 13433 - AUTO POSTO LIDER ARARAQUARA LTDA - 04490125000106 - Clicksign.pdf",
+        "fields_found": 6,
+        "data": {
+          "razao_social": "Auto Posto Lider Araraquara LTDA\nSede",
+          "cnpj": "04.490.125/0001-06",
+          "sic_ec_cliente": "13433",
+          "data_adesao": "13/05/2022",
+          "representante_nome": "Jos",
+          "email": "postodabasebauru@hotmail.com"
+        }
+      }
+    ]
+  },
+  {
+    "map": "DISTRATO_CEMIG_v1.json",
+    "modelo": "Termo de Distrato - Consórcio RZ (CEMIG)",
+    "status": "OK",
+    "matches": [
+      {
+        "file": "SOLAR 9119 - AUTO POSTO A2 LTDA - 19439445000109.pdf",
+        "fields_found": 5,
+        "data": {
+          "sic_ec_cliente": "8893",
+          "razao_social": "AUTO POSTO A2 LTDA",
+          "cnpj": "19.439.445/0001-09",
+          "data_adesao": "14/05/2021",
+          "representante_nome": "LEANDRO LOPES LIVRERI"
+        }
+      }
+    ]
+  },
+  {
+    "map": "CEMIG_Aditivo_Condicoes_Comerciais_v1.json",
+    "modelo": "Aditivo ao Termo de Condições Comerciais - CEMIG",
+    "status": "OK",
+    "matches": [
+      {
+        "file": "SOLAR 70235 - TEREZA CRISTINA_ADT CONDICOES - 00416967000159 - Qualisign.pdf",
+        "fields_found": 5,
+        "data": {
+          "cnpj": "35.299.982/0001-49",
+          "participacao_percentual": "0,477",
+          "duracao_meses": "60",
+          "data_adesao": "24/06/2021",
+          "representante_nome": "LARISSA COUTO FARIA"
+        }
+      },
+      {
+        "file": "SOLAR 70244 - SALQUER_ADT 2 CONDICOES - 22680979000129 - Qualisign.pdf",
+        "fields_found": 4,
+        "data": {
+          "cnpj": "35.299.982/0001-49",
+          "participacao_percentual": "0,38",
+          "duracao_meses": "60",
+          "data_adesao": "20/07/2021"
+        }
+      },
+      {
+        "file": "SOLAR 9144 - POSTO ESTANCIA REAL LTDA_CONDICOES - 14141582000130.pdf",
+        "fields_found": 5,
+        "data": {
+          "cnpj": "35.299.982/0001-49",
+          "participacao_percentual": "0.331",
+          "duracao_meses": "60",
+          "data_adesao": "21/06/2021",
+          "representante_nome": "ERNANI MAURICIO GUERRA MENDES"
+        }
+      }
+    ]
+  },
+  {
+    "map": "CEMIG_Aditivo_Condicoes_V2_v1.json",
+    "modelo": "Aditivo ao Termo de Condições Comerciais - Raízen GD (V2)",
+    "status": "OK",
+    "matches": [
+      {
+        "file": "SOLAR 70235 - TEREZA CRISTINA_ADT CONDICOES - 00416967000159 - Qualisign.pdf",
+        "fields_found": 7,
+        "data": {
+          "razao_social": "POSTO DE COMBUSTIVEL TEREZA CRISTINA LTDA",
+          "cnpj": "35.299.982/0001-49",
+          "participacao_percentual": "0,477%",
+          "duracao_meses": "60",
+          "data_adesao": "24/06/2021",
+          "representante_nome": "LARISSA COUTO FARIA",
+          "sic_ec_cliente": "70235"
+        }
+      },
+      {
+        "file": "SOLAR 70244 - SALQUER_ADT 2 CONDICOES - 22680979000129 - Qualisign.pdf",
+        "fields_found": 6,
+        "data": {
+          "razao_social": "COMERCIAL SA",
+          "cnpj": "35.299.982/0001-49",
+          "participacao_percentual": "0,38%",
+          "duracao_meses": "60",
+          "data_adesao": "20/07/2021",
+          "sic_ec_cliente": "70244"
+        }
+      },
+      {
+        "file": "SOLAR 9144 - POSTO ESTANCIA REAL LTDA_CONDICOES - 14141582000130.pdf",
+        "fields_found": 6,
+        "data": {
+          "razao_social": "POSTO ESTANCIA REAL LTDA",
+          "cnpj": "35.299.982/0001-49",
+          "duracao_meses": "60",
+          "data_adesao": "21/06/2021",
+          "representante_nome": "ERNANI MAURICIO GUERRA MENDES",
+          "sic_ec_cliente": "9144"
+        }
+      }
+    ]
+  },
+  {
+    "map": "CEMIG_Aditivo_2_Termo_v1.json",
+    "modelo": "2º Termo de Aditivo Contratual - Raízen GD / Consórcio RZ Minas Gerais I",
+    "status": "OK",
+    "matches": [
+      {
+        "file": "SOLAR 70235 - TEREZA CRISTINA_ADT CONDICOES - 00416967000159 - Qualisign.pdf",
+        "fields_found": 4,
+        "data": {
+          "participacao_percentual": "0,477%",
+          "duracao_meses": "60",
+          "data_adesao": "24 de junho de 2021",
+          "representante_nome": "LARISSA COUTO FARIA"
+        }
+      },
+      {
+        "file": "SOLAR 70244 - SALQUER_ADT 2 CONDICOES - 22680979000129 - Qualisign.pdf",
+        "fields_found": 4,
+        "data": {
+          "participacao_percentual": "0,38%",
+          "duracao_meses": "60",
+          "data_adesao": "20 de julho de 2021",
+          "representante_nome": "RUY SERGIO D'ANGELIS"
+        }
+      },
+      {
+        "file": "SOLAR 9144 - POSTO ESTANCIA REAL LTDA_CONDICOES - 14141582000130.pdf",
+        "fields_found": 3,
+        "data": {
+          "duracao_meses": "60",
+          "data_adesao": "21 de junho de 2021",
+          "representante_nome": "ERNANI MAURICIO GUERRA MENDES"
+        }
+      }
+    ]
+  }
+]
