@@ -86,9 +86,9 @@ def select_best_map(text: str, pages: int, distributor: str, maps: dict) -> tupl
             else:
                 score -= 5  # Penalizar mapas não-aditivo
         else:
-            # Documento normal (adesão), penalizar mapas de aditivo/distrato
+            # Documento normal (adesão), penalizar mapas de aditivo/distrato MUITO FORTE
             if "aditivo" in map_name_lower or "distrato" in map_name_lower:
-                score -= 15  # Penalizar fortemente
+                score -= 30  # Penalizar MUITO fortemente
             if "adesão" in map_model or "adesao" in map_model:
                 score += 5
         
