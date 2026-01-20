@@ -1,5 +1,5 @@
 """
-Extrator de tabelas de PDFs usando pdfplumber.
+Extrator de tabelas de PDFs usando PyMuPDF (fitz).
 Especializado em extrair dados do Anexo I e tabelas de instalações.
 
 OTIMIZADO: Usa context manager único para evitar múltiplas aberturas do PDF.
@@ -9,11 +9,13 @@ CONFIGURAÇÃO DE WORKERS (Previne OOM):
 - TEXT_MAX_WORKERS: 8 (extração de texto nativo - leve)
 - OCR_MAX_WORKERS: 2 (OCR EasyOCR - pesado, consome muita RAM)
 - OCR_TIMEOUT_SECONDS: 30 (timeout por página para evitar travamento)
+
+MIGRADO: pdfplumber -> PyMuPDF para melhor performance
 """
-import pdfplumber
+import fitz  # PyMuPDF
 import re
 import logging
-import signal
+import io
 from typing import List, Dict, Any, Optional, Union, Iterator
 from pathlib import Path
 from contextlib import contextmanager
@@ -68,17 +70,12 @@ class OCRTimeoutError(Exception):
     pass
 
 
-def _ocr_timeout_handler(signum, frame):
-    """Handler para timeout de OCR."""
-    raise OCRTimeoutError("OCR excedeu o tempo limite")
-
-
-def _extract_text_with_ocr(page, timeout: int = OCR_TIMEOUT_SECONDS) -> str:
+def _extract_text_with_ocr(page: fitz.Page, timeout: int = OCR_TIMEOUT_SECONDS) -> str:
     """
     Extrai texto de uma página usando OCR (para PDFs escaneados).
     
     Args:
-        page: Objeto pdfplumber.Page
+        page: Objeto fitz.Page
         timeout: Tempo máximo em segundos para OCR
         
     Returns:
@@ -89,12 +86,18 @@ def _extract_text_with_ocr(page, timeout: int = OCR_TIMEOUT_SECONDS) -> str:
         return ""
     
     try:
-        # Converter página para imagem
-        img = page.to_image(resolution=OCR_RESOLUTION).original
+        # Converter página para imagem usando PyMuPDF
+        zoom = OCR_RESOLUTION / 72  # 72 é DPI padrão
+        mat = fitz.Matrix(zoom, zoom)
+        pix = page.get_pixmap(matrix=mat)
         
-        # Executar OCR (com timeout em sistemas Unix)
-        # No Windows, timeout é implementado de forma diferente
+        # Converter para bytes PNG para EasyOCR
+        img_bytes = pix.tobytes("png")
+        
+        # Executar OCR
         try:
+            from PIL import Image
+            img = Image.open(io.BytesIO(img_bytes))
             results = reader.readtext(img)
         except Exception as e:
             logger.warning(f"Erro durante OCR: {e}")
@@ -113,19 +116,21 @@ def _extract_text_with_ocr(page, timeout: int = OCR_TIMEOUT_SECONDS) -> str:
 
 
 @contextmanager
-def open_pdf(pdf_path: str) -> Iterator[pdfplumber.PDF]:
+def open_pdf(pdf_path: str) -> Iterator[fitz.Document]:
     """
     Context manager para abrir PDF uma única vez.
     Permite reutilizar o objeto PDF entre múltiplas funções.
     """
+    doc = None
     try:
-        pdf = pdfplumber.open(pdf_path)
-        yield pdf
+        doc = fitz.open(pdf_path)
+        yield doc
     finally:
-        pdf.close()
+        if doc:
+            doc.close()
 
 
-def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10, use_ocr_fallback: bool = True) -> str:
+def extract_all_text_from_pdf(pdf: fitz.Document, max_pages: int = 10, use_ocr_fallback: bool = True) -> str:
     """
     Extrai todo o texto de um PDF já aberto.
     
@@ -133,14 +138,14 @@ def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10, use_ocr_
     assume que o PDF é baseado em imagem e tenta OCR automaticamente.
     
     Args:
-        pdf: Objeto pdfplumber.PDF já aberto
+        pdf: Objeto fitz.Document já aberto
         max_pages: Número máximo de páginas a processar
         use_ocr_fallback: Se True, tenta OCR quando texto normal falha
     
     Returns:
         Texto extraído concatenado com marcadores de página
     """
-    total_pages = len(pdf.pages)
+    total_pages = len(pdf)
     pages_to_process = min(max_pages, total_pages)
     
     if total_pages > max_pages:
@@ -149,8 +154,9 @@ def extract_all_text_from_pdf(pdf: pdfplumber.PDF, max_pages: int = 10, use_ocr_
     text = ""
     ocr_used = False
     
-    for i, page in enumerate(pdf.pages[:pages_to_process]):
-        page_text = page.extract_text() or ""
+    for i in range(pages_to_process):
+        page = pdf[i]
+        page_text = page.get_text() or ""
         
         # Verificar se precisa de OCR (texto muito curto nas primeiras 2 páginas)
         if use_ocr_fallback and i < 2 and len(page_text.strip()) < 100:
@@ -181,16 +187,17 @@ def extract_all_text(pdf_path: str, max_pages: int = 10) -> str:
         Texto extraído concatenado com marcadores de página
     """
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with open_pdf(pdf_path) as pdf:
             return extract_all_text_from_pdf(pdf, max_pages)
     except Exception as e:
         return f"ERRO: {e}"
 
 
-def find_anexo_i_page_from_pdf(pdf: pdfplumber.PDF) -> Optional[int]:
+def find_anexo_i_page_from_pdf(pdf: fitz.Document) -> Optional[int]:
     """Encontra a página que contém o Anexo I em um PDF já aberto."""
-    for i, page in enumerate(pdf.pages):
-        text = page.extract_text() or ""
+    for i in range(len(pdf)):
+        page = pdf[i]
+        text = page.get_text() or ""
         if re.search(r'ANEXO\s+I|UNIDADE\(S\)\s+CONSUMIDORA\(S\)', text, re.IGNORECASE):
             return i
     return None
@@ -199,33 +206,53 @@ def find_anexo_i_page_from_pdf(pdf: pdfplumber.PDF) -> Optional[int]:
 def find_anexo_i_page(pdf_path: str) -> Optional[int]:
     """Encontra a página que contém o Anexo I."""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with open_pdf(pdf_path) as pdf:
             return find_anexo_i_page_from_pdf(pdf)
     except Exception:
         pass
     return None
 
 
-def extract_tables_from_page_pdf(pdf: pdfplumber.PDF, page_num: int) -> List[List[List[str]]]:
+def _extract_tables_pymupdf(page: fitz.Page) -> List[List[List[str]]]:
+    """
+    Extrai tabelas de uma página usando PyMuPDF find_tables().
+    Disponível a partir de PyMuPDF 1.24.0.
+    """
+    tables = []
+    try:
+        # find_tables() retorna um objeto TableFinder
+        table_finder = page.find_tables()
+        
+        for table in table_finder.tables:
+            # extract() retorna lista de listas (linhas x colunas)
+            extracted = table.extract()
+            if extracted:
+                cleaned_table = []
+                for row in extracted:
+                    cleaned_row = [
+                        (cell or '').strip() if cell else ''
+                        for cell in row
+                    ]
+                    if any(cleaned_row):  # Ignorar linhas vazias
+                        cleaned_table.append(cleaned_row)
+                if cleaned_table:
+                    tables.append(cleaned_table)
+    except AttributeError:
+        # find_tables() não disponível em versões antigas do PyMuPDF
+        logger.warning("find_tables() não disponível. Atualize PyMuPDF para >= 1.24.0")
+    except Exception as e:
+        logger.warning(f"Erro ao extrair tabelas: {e}")
+    
+    return tables
+
+
+def extract_tables_from_page_pdf(pdf: fitz.Document, page_num: int) -> List[List[List[str]]]:
     """Extrai todas as tabelas de uma página específica de um PDF já aberto."""
     tables = []
     try:
-        if page_num < len(pdf.pages):
-            page = pdf.pages[page_num]
-            extracted = page.extract_tables()
-            if extracted:
-                # Limpar células vazias e normalizar
-                for table in extracted:
-                    cleaned_table = []
-                    for row in table:
-                        cleaned_row = [
-                            (cell or '').strip() 
-                            for cell in row
-                        ]
-                        if any(cleaned_row):  # Ignorar linhas vazias
-                            cleaned_table.append(cleaned_row)
-                    if cleaned_table:
-                        tables.append(cleaned_table)
+        if page_num < len(pdf):
+            page = pdf[page_num]
+            tables = _extract_tables_pymupdf(page)
     except Exception as e:
         logger.warning(f"Erro ao extrair tabelas da página {page_num}: {e}")
     
@@ -235,7 +262,7 @@ def extract_tables_from_page_pdf(pdf: pdfplumber.PDF, page_num: int) -> List[Lis
 def extract_tables_from_page(pdf_path: str, page_num: int) -> List[List[List[str]]]:
     """Extrai todas as tabelas de uma página específica."""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with open_pdf(pdf_path) as pdf:
             return extract_tables_from_page_pdf(pdf, page_num)
     except Exception as e:
         logger.warning(f"Erro ao extrair tabelas: {e}")
@@ -308,7 +335,7 @@ def parse_installation_table(table: List[List[str]]) -> List[Dict[str, Any]]:
     return installations
 
 
-def extract_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
+def extract_installations_from_pdf(pdf: fitz.Document) -> List[Dict[str, Any]]:
     """
     Extrai lista de instalações do Anexo I de um PDF já aberto.
     Retorna lista de dicionários com dados de cada instalação.
@@ -325,7 +352,7 @@ def extract_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
     current_page = anexo_page
     
     # Continua enquanto houver páginas no PDF
-    while current_page < len(pdf.pages):
+    while current_page < len(pdf):
         # Tenta extrair tabelas da página atual
         tables = extract_tables_from_page_pdf(pdf, current_page)
         
@@ -353,14 +380,14 @@ def extract_installations_from_anexo(pdf_path: str) -> List[Dict[str, Any]]:
     NOTA: Para melhor performance, use open_pdf() + extract_installations_from_pdf().
     """
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with open_pdf(pdf_path) as pdf:
             return extract_installations_from_pdf(pdf)
     except Exception as e:
         logger.warning(f"Erro ao extrair instalações: {e}")
         return []
 
 
-def extract_modelo_2_data_from_pdf(pdf: pdfplumber.PDF) -> Dict[str, Any]:
+def extract_modelo_2_data_from_pdf(pdf: fitz.Document) -> Dict[str, Any]:
     """
     Extrai dados estruturados do Modelo 2 (tabular/Docusign) de um PDF já aberto.
     Usa extração de tabelas para campos que estão em formato tabular.
@@ -369,8 +396,9 @@ def extract_modelo_2_data_from_pdf(pdf: pdfplumber.PDF) -> Dict[str, Any]:
     
     try:
         # Primeira página geralmente tem os dados principais
-        if pdf.pages:
-            tables = pdf.pages[0].extract_tables()
+        if len(pdf) > 0:
+            page = pdf[0]
+            tables = _extract_tables_pymupdf(page)
             
             for table in tables:
                 for row in table:
@@ -422,7 +450,7 @@ def extract_modelo_2_data(pdf_path: str) -> Dict[str, Any]:
     NOTA: Para melhor performance, use open_pdf() + extract_modelo_2_data_from_pdf().
     """
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with open_pdf(pdf_path) as pdf:
             return extract_modelo_2_data_from_pdf(pdf)
     except Exception as e:
         logger.warning(f"Erro ao extrair dados do Modelo 2: {e}")
@@ -432,8 +460,8 @@ def extract_modelo_2_data(pdf_path: str) -> Dict[str, Any]:
 def get_pdf_page_count(pdf_path: str) -> int:
     """Retorna o número de páginas de um PDF."""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
-            return len(pdf.pages)
+        with open_pdf(pdf_path) as pdf:
+            return len(pdf)
     except Exception:
         return 0
 
@@ -443,7 +471,7 @@ def extract_compact_installations(text: str) -> List[str]:
     Extrai instalações do formato compactado (múltiplas UCs em uma única string).
     
     Detecta padrões como:
-    - "610524197\n610524163\n611509155" (separado por quebra de linha)
+    - "610524197\\n610524163\\n611509155" (separado por quebra de linha)
     - "610524197, 610524163, 611509155" (separado por vírgula)
     - "610524197 610524163 611509155" (separado por espaço)
     
@@ -468,7 +496,7 @@ def extract_compact_installations(text: str) -> List[str]:
     return installations
 
 
-def extract_compact_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
+def extract_compact_installations_from_pdf(pdf: fitz.Document) -> List[Dict[str, Any]]:
     """
     Extrai instalações compactadas de TODAS as páginas do PDF.
     
@@ -481,12 +509,13 @@ def extract_compact_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str
     seen_installations = set()
     
     try:
-        if not pdf.pages:
+        if len(pdf) == 0:
             return []
         
         # Varrer TODAS as páginas
-        for page_num, page in enumerate(pdf.pages):
-            tables = page.extract_tables()
+        for page_num in range(len(pdf)):
+            page = pdf[page_num]
+            tables = _extract_tables_pymupdf(page)
             
             if not tables:
                 continue
@@ -521,7 +550,7 @@ def extract_compact_installations_from_pdf(pdf: pdfplumber.PDF) -> List[Dict[str
                                 })
         
         if installations_data:
-            logger.info(f"Encontradas {len(installations_data)} instalações compactadas em {len(pdf.pages)} páginas")
+            logger.info(f"Encontradas {len(installations_data)} instalações compactadas em {len(pdf)} páginas")
     
     except Exception as e:
         logger.warning(f"Erro ao extrair instalações compactadas: {e}")

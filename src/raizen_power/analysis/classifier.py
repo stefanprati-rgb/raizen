@@ -1,7 +1,7 @@
 import re
 import unicodedata
 import pandas as pd
-import pdfplumber
+import fitz  # PyMuPDF
 from pathlib import Path
 from enum import Enum, auto
 from typing import Optional, List, Dict, Tuple, Set, Any
@@ -180,10 +180,10 @@ def identify_distributor_from_text(text: str) -> str:
 def identify_distributor(pdf_path: str) -> str:
     """Identifica distribuidora abrindo o PDF (método legado/conveniente)."""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with fitz.open(pdf_path) as pdf:
             text = ""
-            for page in pdf.pages[:4]:
-                t = page.extract_text()
+            for i in range(min(4, len(pdf))):
+                t = pdf[i].get_text()
                 if t: text += t + "\n"
         return identify_distributor_from_text(text)
     except Exception as e:
@@ -193,11 +193,11 @@ def identify_distributor(pdf_path: str) -> str:
 def classify_contract(pdf_path: str) -> ContractClassification:
     """Classifica contrato por categoria (páginas) e distribuidora."""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
-            pages = len(pdf.pages)
+        with fitz.open(pdf_path) as pdf:
+            pages = len(pdf)
             text = ""
-            for page in pdf.pages[:4]:
-                t = page.extract_text()
+            for i in range(min(4, pages)):
+                t = pdf[i].get_text()
                 if t: text += t + "\n"
     except:
         pages = 0

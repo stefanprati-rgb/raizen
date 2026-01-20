@@ -1,6 +1,6 @@
 import yaml
 import re
-import pdfplumber
+import fitz  # PyMuPDF
 import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -13,8 +13,8 @@ class SignatureDetector:
     """Detecta páginas de assinatura baseada em heurísticas visuais e textuais."""
     
     @staticmethod
-    def is_signature_page(page) -> bool:
-        text = page.extract_text() or ""
+    def is_signature_page(page: fitz.Page) -> bool:
+        text = page.get_text() or ""
         text_upper = text.upper()
         
         # Heurística 1: Palavras-chave de assinatura
@@ -50,13 +50,17 @@ class TableExtractor:
         Retorna o maior valor percentual encontrado (assumindo que seja o do cliente) ou a soma se for quebrado.
         Simplificação: Retorna uma string descritiva ou o valor principal.
         """
-        for page in pdf.pages:
+        for page in pdf:
             # Verificar se a página tem palavras-chave de tabela relevante
-            text = page.extract_text() or ""
+            text = page.get_text() or ""
             if not re.search(r'(?i)(cota|rateio|percentual|participação|quadro\s+societário)', text):
                 continue
 
-            tables = page.extract_tables()
+            try:
+                table_finder = page.find_tables()
+                tables = [t.extract() for t in table_finder.tables]
+            except AttributeError:
+                continue
             for table in tables:
                 # Converter para texto para buscar headers
                 table_str = str(table).lower()
@@ -95,13 +99,13 @@ class ContractFieldExtractor:
         doc_id = Path(pdf_path).stem
         
         try:
-            with pdfplumber.open(pdf_path) as pdf:
+            with fitz.open(pdf_path) as pdf:
                 full_text = ""
                 signature_text = ""
                 
                 # 1. Extração de Texto e Identificação de Seções
-                for page in pdf.pages:
-                    text = page.extract_text() or ""
+                for page in pdf:
+                    text = page.get_text() or ""
                     full_text += text + "\n"
                     
                     # Se for página de assinatura, guardar em variável separada para busca de CPF

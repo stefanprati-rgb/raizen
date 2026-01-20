@@ -21,14 +21,6 @@ from collections import Counter
 
 import fitz  # PyMuPDF
 
-# Tentar importar pdfplumber (opcional mas recomendado)
-try:
-    import pdfplumber
-    HAS_PDFPLUMBER = True
-except ImportError:
-    HAS_PDFPLUMBER = False
-    print("⚠️ pdfplumber não instalado. Tabelas podem não ser extraídas corretamente.")
-
 
 @dataclass
 class UCExtractionResult:
@@ -96,20 +88,19 @@ class UCMultiExtractor:
             if pymupdf_ucs:
                 method_used = "pymupdf"
             
-            # Fase 2: pdfplumber para tabelas (se disponível)
-            if HAS_PDFPLUMBER:
-                try:
-                    plumber_ucs, plumber_pages = self._extract_with_pdfplumber(pdf_path)
-                    all_ucs.update(plumber_ucs)
-                    pages_with_ucs.update(plumber_pages)
+            # Fase 2: Extração de tabelas usando PyMuPDF find_tables()
+            try:
+                table_ucs, table_pages = self._extract_from_tables(pdf_path)
+                all_ucs.update(table_ucs)
+                pages_with_ucs.update(table_pages)
+                
+                if table_ucs and not pymupdf_ucs:
+                    method_used = "pymupdf_tables"
+                elif table_ucs:
+                    method_used = "pymupdf+tables"
                     
-                    if plumber_ucs and not pymupdf_ucs:
-                        method_used = "pdfplumber"
-                    elif plumber_ucs:
-                        method_used = "pymupdf+pdfplumber"
-                        
-                except Exception as e:
-                    errors.append(f"pdfplumber error: {str(e)[:50]}")
+            except Exception as e:
+                errors.append(f"table error: {str(e)[:50]}")
             
         except Exception as e:
             errors.append(f"Extraction error: {str(e)[:100]}")
@@ -175,26 +166,24 @@ class UCMultiExtractor:
         doc.close()
         return ucs, pages
     
-    def _extract_with_pdfplumber(self, pdf_path: str) -> Tuple[Set[str], Set[int]]:
-        """Extração de tabelas usando pdfplumber"""
+    def _extract_from_tables(self, pdf_path: str) -> Tuple[Set[str], Set[int]]:
+        """Extração de tabelas usando PyMuPDF find_tables()"""
         ucs: Set[str] = set()
         pages: Set[int] = set()
         
-        with pdfplumber.open(pdf_path) as pdf:
-            for page_num, page in enumerate(pdf.pages):
-                # Tentar extrair tabelas com diferentes estratégias
-                tables = page.extract_tables(table_settings={
-                    "vertical_strategy": "lines",
-                    "horizontal_strategy": "lines",
-                    "snap_tolerance": 3,
-                })
+        doc = fitz.open(pdf_path)
+        
+        try:
+            for page_num in range(len(doc)):
+                page = doc[page_num]
                 
-                if not tables:
-                    # Fallback: tabelas implícitas (sem linhas)
-                    tables = page.extract_tables(table_settings={
-                        "vertical_strategy": "text",
-                        "horizontal_strategy": "text",
-                    })
+                # Usar find_tables() do PyMuPDF (disponível a partir de 1.24.0)
+                try:
+                    table_finder = page.find_tables()
+                    tables = [t.extract() for t in table_finder.tables]
+                except AttributeError:
+                    # find_tables() não disponível em versões antigas
+                    continue
                 
                 for table in tables:
                     for row in table:
@@ -213,6 +202,8 @@ class UCMultiExtractor:
                                             'pattern': 'table_cell',
                                             'context': str(cell)[:50]
                                         })
+        finally:
+            doc.close()
         
         return ucs, pages
     

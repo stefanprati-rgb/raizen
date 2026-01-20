@@ -7,7 +7,7 @@ OTIMIZADO: Abre cada PDF apenas uma vez para melhor performance.
 import re
 import logging
 import traceback
-import pdfplumber
+import fitz  # PyMuPDF
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 from dataclasses import dataclass, field
@@ -161,10 +161,10 @@ class ContractExtractor:
         )
         
         try:
-            # Abrir PDF UMA ÚNICA VEZ
-            with pdfplumber.open(str(pdf_path)) as pdf:
+            # Abrir PDF UMA ÚNICA VEZ (usando PyMuPDF)
+            with fitz.open(str(pdf_path)) as pdf:
                 # Obter número de páginas
-                result.paginas = len(pdf.pages)
+                result.paginas = len(pdf)
                 
                 # Extrair texto completo (até 10 páginas)
                 text = extract_all_text_from_pdf(pdf, max_pages=10)
