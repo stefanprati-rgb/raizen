@@ -64,6 +64,16 @@ parallel:
   ocr_max_workers: 2               # Workers para OCR (pesado)
 
 # =============================================================================
+# Monitoramento de Memória (Prevenção de OOM)
+# =============================================================================
+memory:
+  warning_percent: 70              # Alerta quando uso de RAM > 70%
+  critical_percent: 85             # Crítico quando uso de RAM > 85%
+  reserve_gb: 2.0                  # GB de RAM a reservar para o sistema
+  estimate_per_pdf_mb: 300         # MB estimados por worker PDF
+  estimate_per_ocr_mb: 1500        # MB estimados por worker OCR
+
+# =============================================================================
 # Logs
 # =============================================================================
 logging:
