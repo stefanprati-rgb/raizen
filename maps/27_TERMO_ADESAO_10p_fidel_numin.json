@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº da Instalação (Unidade\n Consumidora):\",\n\"6627234\"",
+            "regex": "Nº da Instalação \\(Unidade\\s+Consumidora\\):\",\\s*\"(\\d+)\"",
+            "exemplo_valor": "6627234"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial:\",\n\"60 meses, com renovação automática se não denunciado por uma das\n Partes com 180 dias de antecedência do término.\"",
+            "regex": "Vigência Inicial:\",\\s*\"(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "27_TERMO_ADESAO_10p_fidel_numin"
+}

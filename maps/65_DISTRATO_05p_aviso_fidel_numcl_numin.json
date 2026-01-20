@@ -1,0 +1,33 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "SIC-EC Cliente: 8396",
+            "regex": "Cliente:\\s*(\\d+)",
+            "exemplo_valor": "8396"
+        },
+        "num_instalacao": {
+            "encontrado": false,
+            "pagina": "N/A",
+            "trecho_original": "Informação não disponível no Termo de Distrato",
+            "regex": "(?:Instalação|UC):?\\s*(\\d+)",
+            "exemplo_valor": null
+        },
+        "fidelidade": {
+            "encontrado": false,
+            "pagina": "N/A",
+            "trecho_original": "Informação não disponível no Termo de Distrato",
+            "regex": "(?:fidelidade|prazo de vigência).*?(\\d+)\\s*(?:meses|anos)",
+            "exemplo_valor": null
+        },
+        "aviso_previo_dias": {
+            "encontrado": false,
+            "pagina": "N/A",
+            "trecho_original": "Informação não disponível no Termo de Distrato",
+            "regex": "aviso prévio de.*?(\\d+)\\s*dias",
+            "exemplo_valor": null
+        }
+    },
+    "modelo_identificado": "65_DISTRATO_05p_aviso_fidel_numcl_numin"
+}

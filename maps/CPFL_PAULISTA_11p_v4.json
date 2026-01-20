@@ -1,0 +1,41 @@
+{
+    "modelo_identificado": "CPFL Paulista - Híbrido (Tabela/Visual/Aditivo) - 11p Otimizado",
+    "distribuidora_principal": "CPFL_PAULISTA",
+    "paginas_analisadas": 11,
+    "campos": {
+        "razao_social": {
+            "regex": "(?:Razão\\s+Social:(?!\\s*CNPJ)|CONSORCIADA\\s*\\(VOCÊ\\)[\\s\\n]*Razão\\s+Social:|[Ee]ntre:|[Pp]ela\\s+CONSORCIADA:)[\\s\\n]*(?:DADOS\\s+DA\\s+CONSORCIADA[\\s\\n]*)?([^\\n\\r\\t:]+?)(?=[\\s\\n]*(?:CNPJ|Endereço|CPF|\\d{2}\\.\\d{3}))",
+            "grupo": 1,
+            "comentario": "Usa Lookahead negativo para não pegar a palavra CNPJ como nome"
+        },
+        "cnpj": {
+            "regex": "(?:CNPJ(?:\\s*[/nNºo.]+)?|MF\\s+sob\\s+o\\s+nº)[\\s\\n:.]*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "grupo": 1
+        },
+        "distribuidora": {
+            "regex": "(?:Distribuidora|Concessionária):[\\s\\n]*([^\\n\\r]+?)(?=[\\s\\n]|$)",
+            "grupo": 1
+        },
+        "duracao_meses": {
+            "regex": "(?:Duração:|Vigência\\s+Inicial:|Período\\s+de\\s+Adesão:|Prazo:)[\\s\\n]*(\\d+)[\\s\\n]*meses",
+            "grupo": 1
+        },
+        "email": {
+            "regex": "(?:E-mail|Email):[\\s\\n]*([\\w\\.\\-]+@[\\w\\.\\-]+\\.[a-zA-Z]{2,})",
+            "grupo": 1
+        },
+        "representante_nome": {
+            "regex": "(?:Nome:|Representante\\s+Legal:|Representante\\s+legal\\s+abaixo\\s+assinado:|representada\\s+por)[\\s\\n]*([A-ZÀ-Ú\\s]+?)(?=[\\s\\n]*(?:CPF|End\\.|RG|\\-|\\,|\\n))",
+            "grupo": 1
+        },
+        "num_instalacao": {
+            "regex": "(?:Nº\\s+da\\s+Instalação|Instalação|Unidade\\s+Consumidora)[^:]*:[\\s\\n]*(\\d+)",
+            "grupo": 1
+        },
+        "num_cliente": {
+            "regex": "(?:Nº\\s+do\\s+Cliente|Cliente|Seu\\s+Código):[\\s\\n]*(\\d+)",
+            "grupo": 1
+        }
+    },
+    "notas": "Otimizado com lookahead negativo para evitar contaminação de rótulos (problema arquivo 1270)"
+}

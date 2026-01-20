@@ -1,0 +1,53 @@
+{
+    "modelo_identificado": "CPFL_PAULISTA_MODERNO_RAIZEN",
+    "distribuidora_principal": "CPFL_PAULISTA",
+    "paginas_analisadas": 11,
+    "campos": {
+        "razao_social": {
+            "regex": "(?i)(?:Contratante:|Razão\\s+Social:)\\s*([^–\\n]{5,80})",
+            "grupo": 1,
+            "descricao": "Extrai o nome da empresa ignorando o hífen de separação de CNPJ."
+        },
+        "cnpj": {
+            "regex": "CNPJ\\s*(?:nº|:)?\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "grupo": 1,
+            "descricao": "Captura o CNPJ no cabeçalho moderno."
+        },
+        "num_instalacao": {
+            "regex": "(?i)N°\\s+da\\s+Instalação\\s+da\\s+Unidade\\s+Consumidora:?[\\s\\n]+(\\d+)",
+            "grupo": 1,
+            "descricao": "Captura a primeira UC listada no ANEXO I."
+        },
+        "num_cliente": {
+            "regex": "(?i)N°\\s+do\\s+Cliente:?[\\s\\n]+(\\d+)",
+            "grupo": 1,
+            "descricao": "Número do cliente extraído da tabela do ANEXO I."
+        },
+        "distribuidora": {
+            "regex": "(?i)Distribuidora:\\s*(CPFL[\\s\\-_]PAULISTA)",
+            "grupo": 1,
+            "descricao": "Identificação da concessionária."
+        },
+        "duracao_meses": {
+            "regex": "(?i)Duração:\\s*(\\d+)\\s*meses",
+            "grupo": 1,
+            "descricao": "Prazo de vigência (geralmente 60 meses neste modelo)."
+        },
+        "email": {
+            "regex": "(?i)E-mail:\\s*([a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,})",
+            "grupo": 1,
+            "descricao": "E-mail localizado no topo da primeira página."
+        },
+        "representante_nome": {
+            "regex": "(?i)OUTORGANTE:\\s*([^,\\n]{5,60})",
+            "grupo": 1,
+            "descricao": "Captura o nome do representante no Anexo de Procuração."
+        },
+        "desconto_percentual": {
+            "regex": "(?i)(?:desconto|benefício):?[\\s\\n]+(\\d+)\\s*%",
+            "grupo": 1,
+            "descricao": "Percentual de economia mencionado nas condições comerciais."
+        }
+    },
+    "notas": "Variante 2: Layout moderno com CONSORCIADA (VOCÊ) e dados em colunas"
+}

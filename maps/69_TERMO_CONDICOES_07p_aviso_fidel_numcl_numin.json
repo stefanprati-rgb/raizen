@@ -1,0 +1,33 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": false,
+            "pagina": null,
+            "trecho_original": null,
+            "regex": null,
+            "exemplo_valor": null
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1, 2, 3, 4, 5, 6",
+            "trecho_original": "SIC-EC Cliente: 76570",
+            "regex": "SIC-EC\\s+Cliente:\\s+(\\d+)",
+            "exemplo_valor": "76570"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Período de Adesão: 60 meses contados a partir da assinatura deste Termo.",
+            "regex": "Período\\s+de\\s+Adesão:\\s+(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "Informar eventuais alterações societárias ou nas estruturas das unidades consumidoras sempre que tais alterações impactarem no objeto do presente instrumento, com no mínimo 120 (cento e vinte) dias de antecedência.",
+            "regex": "com\\s+no\\s+mínimo\\s+(\\d+)\\s+\\(.*?\\)\\s+dias\\s+de\\s+antecedência",
+            "exemplo_valor": "120"
+        }
+    },
+    "modelo_identificado": "69_TERMO_CONDICOES_07p_aviso_fidel_numcl_numin"
+}

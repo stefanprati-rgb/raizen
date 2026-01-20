@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "SIC-EC Cliente: 1064",
+            "regex": "SIC-EC Cliente:\\s*(\\d+)",
+            "exemplo_valor": "1064"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Tempo de Vigência 60 meses",
+            "regex": "Tempo de Vigência\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": false,
+            "pagina": "N/A",
+            "trecho_original": "Informação não encontrada explicitamente nos documentos fornecidos.",
+            "regex": "N/A",
+            "exemplo_valor": "N/A"
+        }
+    },
+    "modelo_identificado": "14_SOLAR_05p_aviso_fidel_numcl"
+}

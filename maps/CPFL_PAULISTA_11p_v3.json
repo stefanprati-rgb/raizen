@@ -1,0 +1,75 @@
+{
+    "modelo_identificado": "Multimodelo Raízen (Visual, Tabela e SIC-EC)",
+    "distribuidora_principal": "CPFL_PAULISTA",
+    "paginas_analisadas": 9,
+    "campos": {
+        "razao_social": {
+            "regex": "(?:Razão\\s+Social:|CONSORCIADA\\s*\\(VOCÊ\\)[\\s\\n]*Razão\\s+Social:|[Ee]ntre:|[Pp]ela\\s+CONSORCIADA:)[\\s\\n]*([^\\n\\-\\r\\t]+)",
+            "grupo": 1,
+            "descricao": "Nome da empresa, capturando tanto em rótulos simples quanto em textos de qualificação"
+        },
+        "cnpj": {
+            "regex": "CNPJ[\\s\\n]*(?:nº|MF[\\s\\n]+sob[\\s\\n]+o[\\s\\n]+nº)?(?:\\s+sob\\s+o\\s+n\\s+)?(?:nº)?\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "grupo": 1,
+            "descricao": "Captura o CNPJ em diversos formatos de rótulo"
+        },
+        "distribuidora": {
+            "regex": "Distribuidora:[\\s\\n]*([^\\n\\r]+)",
+            "grupo": 1,
+            "descricao": "Nome da distribuidora (ex: SP CPFL PAULISTA)"
+        },
+        "duracao_meses": {
+            "regex": "(?:Duração:|Vigência\\s+Inicial:|Período\\s+de\\s+Adesão:)[\\s\\n]*(\\d+)[\\s\\n]*meses",
+            "grupo": 1,
+            "descricao": "Prazos de 36 ou 60 meses conforme o modelo"
+        },
+        "email": {
+            "regex": "E-mail:[\\s\\n]*([\\w\\.\\-]+@[\\w\\.\\-]+\\.[a-zA-Z]{2,})",
+            "grupo": 1,
+            "descricao": "E-mail da consorciada"
+        },
+        "representante_nome": {
+            "regex": "(?:Nome:|Representante\\s+Legal:|representada\\s+por)[\\s\\n]*([A-ZÀ-Ú\\s]+?)(?=[\\s\\n]*(?:CPF|\\-|\\,|\\n))",
+            "grupo": 1,
+            "descricao": "Nome do representante legal ou titular"
+        },
+        "num_instalacao": {
+            "regex": "(?:Nº\\s+da\\s+Instalação|Instalação)[^:]*:[\\s\\n]*(\\d+)",
+            "grupo": 1,
+            "descricao": "Número da primeira Unidade Consumidora"
+        },
+        "num_cliente": {
+            "regex": "(?:Nº\\s+do\\s+Cliente|Cliente):[\\s\\n]*(\\d+)",
+            "grupo": 1,
+            "descricao": "Número do cliente na distribuidora"
+        }
+    },
+    "campos_opcionais": {
+        "endereco": {
+            "regex": "Endereço:[\\s\\n]*(.*?)(?=[\\s\\n]*(?:CEP:|Titular|CONSÓRCIO|inscrita|$))",
+            "grupo": 1,
+            "descricao": "Endereço completo"
+        },
+        "vencimento_dia": {
+            "regex": "Vencimento(?:\\s+do\\s+Pagamento\\s+Mensal)?:\\s*(?:todo\\s+dia\\s+)?(\\d{2})",
+            "grupo": 1,
+            "descricao": "Dia de vencimento (geralmente dia 22)"
+        },
+        "data_assinatura": {
+            "regex": "(?:Piracicaba|Bauru|Paulínia|Campinas),[\\s\\n]*(\\d{2}\\s+de\\s+\\w+\\s+(?:de\\s+)?\\d{4})",
+            "grupo": 1,
+            "descricao": "Data de assinatura no final do termo"
+        },
+        "telefone": {
+            "regex": "Telefone:[\\s\\n]*(\\(?\\d{2}\\)?[\\s\\n]*\\d{4,5}[\\-\\s]?\\d{4})",
+            "grupo": 1,
+            "descricao": "Telefone de contato"
+        },
+        "desconto_percentual": {
+            "regex": "(?:Desconto|Economia)[\\s\\n]*de[\\s\\n]*(\\d+(?:[,\\.]\\d+)?)\\s*%",
+            "grupo": 1,
+            "descricao": "Percentual de desconto ou economia"
+        }
+    },
+    "notas": "Multimodelo: cobre Visual/Infográfico, Tabela Estruturada (Fortbras) e Formal SIC-EC"
+}

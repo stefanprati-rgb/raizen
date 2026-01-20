@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Nº da Instalação (Unidade\n Consumidora):\",\"8456402\"",
+            "regex": "Nº\\s*da\\s*Instalação\\s*\\(Unidade\\s*Consumidora\\):\\s*[\",\\s]*(\\d+)",
+            "exemplo_valor": "8456402"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Vigência Inicial:\",\"60 meses, com renovação automática se não denunciado por uma das\n Partes com 180 dias de antecedência do término\"",
+            "regex": "Vigência\\s*Inicial:\\s*[\",\\s]*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "71_TERMO_CONDICOES_11p_fidel_numin"
+}

@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Nº da Instalação (Unidade\n Consumidora):\n\",\"7888970\n\"",
+            "regex": "(?i)Instalação\\s*\\(Unidade\\s*Consumidora\\)[:]\\s*\\\\?\"?\\s*(\\d+)",
+            "exemplo_valor": "7888970"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Vigência Inicial:\n\",\"60 meses, com renovação automática",
+            "regex": "(?i)Vigência\\s*Inicial[:]\\s*\\\\?\"?\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "43_SOLAR_13p_fidel_numin"
+}

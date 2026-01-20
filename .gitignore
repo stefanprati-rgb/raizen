@@ -95,3 +95,5 @@ dmypy.json
 # JUPYTER
 # =============================================================================
 .ipynb_checkpoints/
+contratos_organizados/
+cpfl_paulista_por_tipo/

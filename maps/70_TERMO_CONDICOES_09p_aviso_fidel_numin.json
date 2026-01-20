@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": false,
+            "pagina": "N/A",
+            "trecho_original": "N/A",
+            "regex": "N/A",
+            "exemplo_valor": "Não localizado no documento fornecido"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Período de Adesão: 60 meses contados a partir da assinatura deste Termo.",
+            "regex": "(?i)Período\\s+de\\s+Adesão:\\s*(\\d+)\\s*meses",
+            "exemplo_valor": "60"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "b) Informar eventuais alterações societárias ou nas estruturas das unidades consumidoras sempre que tais alterações impactarem no objeto do presente instrumento, com no mínimo 120 (cento e vinte) dias de antecedência.",
+            "regex": "(?i)com\\s+no\\s+mínimo\\s*(\\d+)\\s*\\(.*\\)\\s*dias\\s+de\\s+antecedência",
+            "exemplo_valor": "120"
+        }
+    },
+    "modelo_identificado": "70_TERMO_CONDICOES_09p_aviso_fidel_numin"
+}

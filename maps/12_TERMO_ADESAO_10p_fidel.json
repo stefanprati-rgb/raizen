@@ -1,0 +1,12 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial:\",\"60 meses, com renovação automática se não denunciado por uma das Partes\"",
+            "regex": "(?i)Vigência\\s+Inicial:.*?(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "12_TERMO_ADESAO_10p_fidel"
+}

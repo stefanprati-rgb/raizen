@@ -1,0 +1,12 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Nº da Instalação da Unidade Consumidora: 560499",
+            "regex": "N[º|\\u00ba]\\s+da\\s+Instala[\\u00e7|c][\\u00e3|a]o\\s+da\\s+Unidade\\s+Consumidora:\\s*(\\d+)",
+            "exemplo_valor": "560499"
+        }
+    },
+    "modelo_identificado": "22_TERMO_ADESAO_10p_numin"
+}

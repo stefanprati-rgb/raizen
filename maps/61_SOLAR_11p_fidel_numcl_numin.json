@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº da Instalação (Unidade\\n Consumidora):\\n\",\\\"Nº do Cliente:\\\"\\n\\\"56.018.088/0001-23\\\",\\\"36585017\\\",\\\"701902639\\\"",
+            "regex": "Nº da Instalação.*?\\n.*?\\\",\\\"(\\d+)\\\"",
+            "exemplo_valor": "36585017"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº do Cliente:\\\"\\n\\\"56.018.088/0001-23\\\",\\\"36585017\\\",\\\"701902639\\\"",
+            "regex": "Nº do Cliente:.*?\\n.*?\\\",\\\"\\d+\\\",\\\"(\\d+)\\\"",
+            "exemplo_valor": "701902639"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial:\\\",\\\"60 meses, com renovação automática",
+            "regex": "Vigência Inicial:\\\",\\\"(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "61_SOLAR_11p_fidel_numcl_numin"
+}

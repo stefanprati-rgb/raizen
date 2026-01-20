@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº da Instalação (Unidade\\n Consumidora):\\n\",\"8439133\"",
+            "regex": "Nº da Instalação \\(Unidade\\s+Consumidora\\):\\s*\"?,?\\s*\"(\\d+)\"",
+            "exemplo_valor": "8439133"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial:\\n\",\"60 meses, com renovação automática",
+            "regex": "Vigência Inicial:\\s*\"?,?\\s*\"(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "64_REEMISSAO_13p_fidel_numin"
+}

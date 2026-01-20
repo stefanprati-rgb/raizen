@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "SIC-EC Cliente: 81553",
+            "regex": "Cliente:\\s*(\\d+)",
+            "exemplo_valor": "81553"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "\"Tempo de Vigência \",\"60 meses \"",
+            "regex": "Tempo de Vigência\\s*\",\\s*\"(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": false,
+            "pagina": "N/A",
+            "trecho_original": "Informação não encontrada explicitamente com a contagem de dias de aviso prévio nos trechos fornecidos.",
+            "regex": "N/A",
+            "exemplo_valor": "N/A"
+        }
+    },
+    "modelo_identificado": "44_REEMISSAO_05p_aviso_fidel_numcl"
+}

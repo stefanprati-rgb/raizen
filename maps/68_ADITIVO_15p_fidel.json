@@ -1,0 +1,12 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "Vigência Inicial:\n60 meses, com renovação automática se não denunciado por uma das Partes com 180 dias de antecedência do término",
+            "regex": "Vigência\\s+Inicial:\\s*\\n?(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "68_ADITIVO_15p_fidel"
+}

@@ -1,0 +1,37 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1 ou Anexo I",
+            "trecho_original": "CÓDIGO DA INSTALAÇÃO (UC): 17113911 - ENDEREÇO:",
+            "regex": "(?i)INSTALAÇÃO\\s*\\(UC\\):?\\s*(\\d{6,12})",
+            "grupo_captura": 1,
+            "exemplo_valor": "17113911",
+            "observacoes": "Pode aparecer como 'Nº da Instalação' ou apenas 'UC'. A regex cobre variações de espaços e pontuação."
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "Seção 'Prazo e Rescisão'",
+            "trecho_original": "PERÍODO DE FIDELIDADE: 12 meses, contados a partir de",
+            "regex": "(?i)FIDELIDADE:?\\s*([^\\n,.;]+)",
+            "grupo_captura": 1,
+            "exemplo_valor": "12 meses",
+            "observacoes": "Captura termos como 'ISENTO', '90 dias' ou '12 meses'. Para capturar apenas o número, use (\\d+)."
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "Cláusula de Rescisão",
+            "trecho_original": "mediante aviso prévio de 180 (cento e oitenta) dias de antecedência",
+            "regex": "(?i)aviso\\s+prévio\\s+de\\s+(\\d+)\\s*(?:\\s*\\([^)]*\\))?\\s*dias",
+            "grupo_captura": 1,
+            "exemplo_valor": "180",
+            "observacoes": "A regex ignora o numeral por extenso entre parênteses para extrair apenas os dígitos."
+        }
+    },
+    "meta": {
+        "total_paginas": "Variável",
+        "tipo_contrato": "TERMO_ADESAO_GERACAO_DISTRIBUIDA",
+        "observacoes_gerais": "As regex foram otimizadas para ignorar case-sensitivity e lidar com caracteres especiais comuns em OCR de PDFs."
+    },
+    "modelo_identificado": "05_TERMO_ADESAO_09p_aviso_fidel_numin"
+}

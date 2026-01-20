@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº da Instalação (Unidade\n Consumidora):\",\n\"38739321\"",
+            "regex": "Consumidora\\):\",\\s*\"(\\d+)\"",
+            "exemplo_valor": "38739321"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº do Cliente:\",\n\"701943823\"",
+            "regex": "Nº do Cliente:\",\\s*\"(\\d+)\"",
+            "exemplo_valor": "701943823"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial:\",\n\"60 meses, com renovação automática",
+            "regex": "Vigência Inicial:\",\\s*\"(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "57_TERMO_ADESAO_12p_fidel_numcl_numin"
+}

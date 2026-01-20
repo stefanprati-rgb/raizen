@@ -1,0 +1,12 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial:\",\"60 meses, com renovação automática se não denunciado por uma\n das Partes com 90 dias de antecedência do término\n\"",
+            "regex": "(?i)Vigência\\s+Inicial[:\\s\"]+(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "20_SOLAR_13p_fidel"
+}

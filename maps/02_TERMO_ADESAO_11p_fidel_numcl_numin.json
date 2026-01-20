@@ -1,0 +1,46 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": 1,
+            "trecho_original": "Nº da Instalação (Unidade Consumidora):\",,\"Nº do Cliente:\",\"35.568.727/0001-54\",\"4003158105\"",
+            "regex": "(?i)N[º°]\\s*da\\s*Instala[çç]ao\\s*\\(Unidade\\s*Consumidora\\)[\"\\s,:]+([0-9]{6,12})",
+            "grupo_captura": 1,
+            "exemplo_valor": "4003158105",
+            "observacoes": "O valor geralmente aparece após a quebra de linha ou delimitadores de CSV/Tabela no PDF. A regex considera variações de OCR para o caractere de número e cedilha."
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": 1,
+            "trecho_original": "Nº do Cliente:\",\"35.568.727/0001-54\",\"4003158105\",,\"716111732\"",
+            "regex": "(?i)N[º°]\\s*do\\s*Cliente:[\"\\s,:]+([0-9]{5,12})",
+            "grupo_captura": 1,
+            "exemplo_valor": "716111732",
+            "observacoes": "Localizado no quadro de Dados Referentes à Participação no Consórcio. Pode haver outros números (como CNPJ) próximos, por isso a âncora no termo 'Cliente' é essencial."
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": 1,
+            "trecho_original": "Vigência Inicial:\",\"60 meses, com renovação automática se não denunciado",
+            "regex": "(?i)Vig[êe]ncia\\s*Inicial:[\"\\s,:]+([^\\\"\\n,]+)",
+            "grupo_captura": 1,
+            "exemplo_valor": "60 meses",
+            "observacoes": "Neste contrato, o período de fidelidade/vigência inicial é de 60 meses. A regex captura o texto até a primeira vírgula ou quebra de linha significativa."
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": 1,
+            "trecho_original": "Rescisão:\",\"Sem multa com aviso prévio de 90 (noventa) dias",
+            "regex": "(?i)aviso\\s*pr[ée]vio\\s*de\\s*(\\d+)\\s*\\(",
+            "grupo_captura": 1,
+            "exemplo_valor": "90",
+            "observacoes": "O valor numérico é seguido pela representação por extenso entre parênteses. A regex foca no dígito antes do parênteses."
+        }
+    },
+    "meta": {
+        "total_paginas": "5",
+        "tipo_contrato": "TERMO_ADESAO_CONSORCIO",
+        "observacoes_gerais": "Os documentos seguem um padrão de tabela/CSV exportado. Os campos num_instalacao e num_cliente estão dispostos horizontalmente no PDF original, mas o OCR pode apresentá-los em linhas subsequentes. As regex foram otimizadas para lidar com espaços e aspas extras comuns em extrações de PDFs de energia da Raízen/CPFL."
+    },
+    "modelo_identificado": "02_TERMO_ADESAO_11p_fidel_numcl_numin"
+}

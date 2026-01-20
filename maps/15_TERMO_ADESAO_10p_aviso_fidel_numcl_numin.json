@@ -1,0 +1,33 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "7",
+            "trecho_original": "Nº da Instalação da Unidade Consumidora:\n4000629403",
+            "regex": "(?i)Nº\\s+da\\s+Instalação\\s+da\\s+Unidade\\s+Consumidora:\\s*(\\d+)",
+            "exemplo_valor": "4000629403"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "7",
+            "trecho_original": "Nº do Cliente:\n701785131",
+            "regex": "(?i)Nº\\s+do\\s+Cliente:\\s*(\\d+)",
+            "exemplo_valor": "701785131"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente",
+            "regex": "(?i)Duração:\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "não denunciado até 180 dias antes do término",
+            "regex": "(?i)denunciado\\s+até\\s+(\\d+)\\s+dias\\s+antes",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "15_TERMO_ADESAO_10p_aviso_fidel_numcl_numin"
+}

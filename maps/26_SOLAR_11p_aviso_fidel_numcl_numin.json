@@ -1,0 +1,33 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "7",
+            "trecho_original": "Nº da Instalação da\n Unidade Consumidora:\n\",\"16632621\"",
+            "regex": "Nº da Instalação da\\s+Unidade Consumidora:\\s*\",\\s*\"(\\d+)\"",
+            "exemplo_valor": "16632621"
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "7",
+            "trecho_original": "Nº do Cliente:\n\",\"703873118\"",
+            "regex": "Nº do Cliente:\\s*\",\\s*\"(\\d+)\"",
+            "exemplo_valor": "703873118"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Duração: 60 (sessenta) meses, renovando-se automaticamente por igual período.",
+            "regex": "Duração:\\s*(\\d+\\s*\\([^)]+\\)\\s*meses)",
+            "exemplo_valor": "60 (sessenta) meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "sem motivo, por qualquer dos PARCEIROS, mediante notificação escrita com 180 dias de antecedência",
+            "regex": "notificação escrita com\\s*(\\d+)\\s*dias de antecedência",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "26_SOLAR_11p_aviso_fidel_numcl_numin"
+}

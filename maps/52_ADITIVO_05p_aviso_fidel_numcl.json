@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Número Conta Contrato (UC)\",\"714745282\"",
+            "regex": "Número Conta Contrato \\(UC\\)\",\"(\\d+)\"",
+            "exemplo_valor": "714745282"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Tempo de Vigência\",\"60 meses\"",
+            "regex": "Tempo de Vigência\",\"(\\d+\\s\\w+)\"",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": false,
+            "pagina": "n/a",
+            "trecho_original": "Informação não consta explicitamente nos aditivos fornecidos.",
+            "regex": "n/a",
+            "exemplo_valor": "n/a"
+        }
+    },
+    "modelo_identificado": "52_ADITIVO_05p_aviso_fidel_numcl"
+}

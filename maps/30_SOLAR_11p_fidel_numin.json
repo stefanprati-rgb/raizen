@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Nº da Instalação (Unidade\n Consumidora): \",\"8387788\n\"",
+            "regex": "Nº da Instalação \\(Unidade\\s+Consumidora\\):\\s*\",\\s*\"(\\d+)",
+            "exemplo_valor": "8387788"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "\"Vigência Inicial: \",\"60 meses, com renovação automática",
+            "regex": "Vigência Inicial:\\s*\",\\s*\"(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        }
+    },
+    "modelo_identificado": "30_SOLAR_11p_fidel_numin"
+}

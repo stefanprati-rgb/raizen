@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": false,
+            "pagina": null,
+            "trecho_original": null,
+            "regex": null,
+            "exemplo_valor": null
+        },
+        "aviso_previo_dias": {
+            "encontrado": false,
+            "pagina": null,
+            "trecho_original": null,
+            "regex": null,
+            "exemplo_valor": null
+        }
+    },
+    "modelo_identificado": "53_ADITIVO_06p_aviso_fidel"
+}

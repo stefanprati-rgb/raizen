@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "SIC-EC Cliente: 65661",
+            "regex": "Cliente:\\s*(\\d+)",
+            "exemplo_valor": "65661"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "\"Tempo de Vigência\\n\",\"60 meses\\n\"",
+            "regex": "Tempo de Vigência\\s*\\\\n\\\",\\\"(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": false,
+            "pagina": null,
+            "trecho_original": null,
+            "regex": null,
+            "exemplo_valor": null
+        }
+    },
+    "modelo_identificado": "47_SOLAR_06p_aviso_fidel_numcl"
+}

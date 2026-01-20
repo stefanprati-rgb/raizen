@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "1 (Amostra 01) / 2 (Amostra 02)",
+            "trecho_original": "Nº da Instalação (Unidade Consumidora): 1250221",
+            "regex": "(?:Nº\\s+da\\s+Instalação\\s+(?:da\\s+)?Unidade\\s+Consumidora:)\\s*(\\d+)",
+            "exemplo_valor": "1250221"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2 (Amostra 02)",
+            "trecho_original": "Período de Fidelidade: VOCÊ deverá participar do CONSÓRCIO por no mínimo 24 meses",
+            "regex": "(?:Período\\s+de\\s+Fidelidade:.*?no\\s+mínimo\\s+)(\\d+\\s+meses)",
+            "exemplo_valor": "24 meses"
+        }
+    },
+    "modelo_identificado": "45_TERMO_ADESAO_12p_fidel_numin"
+}

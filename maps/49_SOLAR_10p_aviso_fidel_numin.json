@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "7",
+            "trecho_original": "Nº da Instalação da Unidade Consumidora: ... 8260907",
+            "regex": "(?:N[º°]\\s+da\\s+Instala[çc][ãa]o\\s+da\\s+Unidade\\s+Consumidora[:\\s]+)([\\d\\s\\n]+)",
+            "exemplo_valor": "8260907"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente",
+            "regex": "Dura[çc][ãa]o:\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "mediante notificação escrita com 180 dias de antecedência",
+            "regex": "notifica[çc][ãa]o\\s+escrita\\s+com\\s+(\\d+)\\s+dias\\s+de\\s+anteced[êe]ncia",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "49_SOLAR_10p_aviso_fidel_numin"
+}

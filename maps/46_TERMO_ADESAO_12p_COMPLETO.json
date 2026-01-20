@@ -1,0 +1,61 @@
+{
+    "campos": {
+        "razao_social": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Razão Social: REI TELAS INDUSTRIA E COMERCIO LTDA -",
+            "regex": "Razão Social:\\s*(.*?)\\s*-",
+            "exemplo_valor": "REI TELAS INDUSTRIA E COMERCIO LTDA"
+        },
+        "cnpj": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "CNPJ nº 47.278.950/0001-46",
+            "regex": "CNPJ nº\\s*(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})",
+            "exemplo_valor": "47.278.950/0001-46"
+        },
+        "titular_conta_luz": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Nome: JOSE LUIS BACEGA-CPF nº 132.956.038-80",
+            "regex": "Nome:\\s*(.*?)-CPF",
+            "exemplo_valor": "JOSE LUIS BACEGA"
+        },
+        "cpf_titular": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "CPF nº 132.956.038-80",
+            "regex": "CPF nº\\s*(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})",
+            "exemplo_valor": "132.956.038-80"
+        },
+        "distribuidora": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Distribuidora: SP CPFL PAULISTA",
+            "regex": "Distribuidora:\\s*(.*)",
+            "exemplo_valor": "SP CPFL PAULISTA"
+        },
+        "unidade_consumidora": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Nº da Instalação da Unidade Consumidora: 4001998491",
+            "regex": "Unidade Consumidora:\\s*(\\d+)",
+            "exemplo_valor": "4001998491"
+        },
+        "numero_cliente": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Nº do Cliente: 702966027",
+            "regex": "Nº do Cliente:\\s*(\\d+)",
+            "exemplo_valor": "702966027"
+        },
+        "email_contratante": {
+            "encontrado": true,
+            "pagina": "6",
+            "trecho_original": "CONTATO vinicius@reitelas.com.br",
+            "regex": "CONTATO\\s+([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})",
+            "exemplo_valor": "vinicius@reitelas.com.br"
+        }
+    },
+    "modelo_identificado": "46_TERMO_ADESAO_12p_COMPLETO"
+}

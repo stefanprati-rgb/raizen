@@ -1,0 +1,12 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "2.1. A Parte Consorciada obriga-se a permanecer no Consórcio por 12 (doze) meses (\"Primeiro Prazo de Vigência de Participação\")",
+            "regex": "(?i)permanecer\\s+no\\s+Consórcio\\s+por\\s+(\\d+\\s+\\([^\\)]+\\)\\s+\\w+)",
+            "exemplo_valor": "12 (doze) meses"
+        }
+    },
+    "modelo_identificado": "48_SOLAR_08p_fidel"
+}

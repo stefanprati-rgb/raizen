@@ -1,0 +1,12 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Período de Fidelidade: VOCÊ deverá participar do CONSÓRCIO por no mínimo 24 meses contados da data de conexão do Empreendimento.",
+            "regex": "Período de Fidelidade:.*?(\\d+)\\s*meses",
+            "exemplo_valor": "24 meses"
+        }
+    },
+    "modelo_identificado": "58_TERMO_ADESAO_12p_fidel"
+}

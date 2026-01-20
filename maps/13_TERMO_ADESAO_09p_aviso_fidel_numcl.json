@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Nº do Cliente: B04607400",
+            "regex": "Nº do Cliente:\\s*([A-Z0-9]+)",
+            "exemplo_valor": "B04607400"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente",
+            "regex": "Duração:\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "mediante notificação escrita com 180 dias de antecedência",
+            "regex": "notificação escrita com\\s*(\\d+)\\s*dias de antecedência",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "13_TERMO_ADESAO_09p_aviso_fidel_numcl"
+}

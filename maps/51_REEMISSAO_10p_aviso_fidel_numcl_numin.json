@@ -1,0 +1,34 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": false,
+            "pagina": null,
+            "trecho_original": null,
+            "regex": null,
+            "exemplo_valor": null,
+            "observacao": "O número da UC/Instalação não consta no corpo deste Termo de Condições Comerciais. Geralmente aparece em um 'Anexo de Unidades Consumidoras' não presente nestes arquivos."
+        },
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "SIC-EC Cliente: 81553",
+            "regex": "(?i)Cliente:\\s*(\\d+)",
+            "exemplo_valor": "81553"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Período de Adesão: 60 meses contados a partir da assinatura deste Termo.",
+            "regex": "(?i)Período\\s+de\\s+Adesão:\\s*(\\d+\\s+meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "qualquer uma das Partes poderá denunciar o presente Contrato mediante notificação a parte contrária com 90 (noventa) dias de antecedência",
+            "regex": "(\\d+)\\s*\\(\\w+\\)\\s*dias\\s+de\\s+antecedência",
+            "exemplo_valor": "90"
+        }
+    },
+    "modelo_identificado": "51_REEMISSAO_10p_aviso_fidel_numcl_numin"
+}

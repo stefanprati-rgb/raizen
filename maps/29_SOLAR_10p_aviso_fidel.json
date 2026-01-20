@@ -1,0 +1,19 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Período Mínimo de Adesão: 6 meses contados da data de conexão do Empreendimento.",
+            "regex": "(?i)Período\\s+Mínimo\\s+de\\s+Adesão:\\s*(\\d+\\s*(?:meses|mês))",
+            "exemplo_valor": "6 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente se não denunciado até 180 dias antes do término.",
+            "regex": "(?i)denunciado\\s+até\\s+(\\d+)\\s+dias\\s+antes\\s+do\\s+término",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "29_SOLAR_10p_aviso_fidel"
+}

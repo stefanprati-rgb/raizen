@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "Nº da Instalação da Unidade Consumidora: 5407044",
+            "regex": "Instalação da Unidade Consumidora:\\s*(\\d+)",
+            "exemplo_valor": "5407044"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente",
+            "regex": "Duração:\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "denunciado até 180 dias antes do término.",
+            "regex": "denunciado até\\s*(\\d+)\\s*dias antes do término",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "67_ADITIVO_11p_aviso_fidel_numin"
+}

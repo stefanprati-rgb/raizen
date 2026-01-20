@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_instalacao": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Nº da Instalação da Unidade Consumidora: 4574060",
+            "regex": "Nº da Instalação da Unidade Consumidora:\\s*(\\d+)",
+            "exemplo_valor": "4574060"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "2",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente se não denunciado até 180 dias antes do término.",
+            "regex": "Duração:\\s*(\\d+\\s*meses)",
+            "exemplo_valor": "60 meses"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "4",
+            "trecho_original": "e) sem motivo, por qualquer dos PARCEIROS, mediante notificação escrita com 180 dias de antecedência",
+            "regex": "notificação escrita com\\s*(\\d+)\\s*dias de antecedência",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "72_TERMO_ADESAO_08p_aviso_fidel_numin"
+}

@@ -1,0 +1,73 @@
+{
+    "meta_info": {
+        "modelo_identificado": "Raízen Power - CPFL Paulista (V6.2 - Name Refine)",
+        "versao_mapa": "6.2.0",
+        "autor": "Gemini AI (Web Vision V2 + Refine)",
+        "data_atualizacao": "2026-01-15",
+        "historico": "V6.1 + Regex de nome baseada em 'assinou como contratante'"
+    },
+    "configuracoes_globais": {
+        "flags_regex": "IGNORECASE | MULTILINE | DOTALL",
+        "tratamento_ocr": true
+    },
+    "campos": {
+        "razao_social": {
+            "regex": "(?:Razão Social|Contratante|Consorciada|VOCÊ)[\\s\\.:\\n-]*([A-ZÀ-Ú0-9\\.&\\s-]{4,100}?)(?=\\s*(?:-|–)\\s*CNPJ|\\s*CNPJ|\\n|$)",
+            "grupo": 1
+        },
+        "cnpj": {
+            "regex": "(?:CNPJ|Inscrição)[\\s\\.:nº°]*(\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}-\\d{2})",
+            "grupo": 1
+        },
+        "cpf": {
+            "regex": "CPF[\\s\\.:nº°]*(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})",
+            "grupo": 1,
+            "condicional": "apenas se cnpj estiver vazio"
+        },
+        "data_adesao": {
+            "regex": "(?i)(\\d{1,2}\\s+de\\s+[a-zç]+\\s+de\\s+\\d{4}|\\d{2}\\/\\d{2}\\/\\d{4})",
+            "grupo": 1,
+            "descricao": "Correção Geral V2: Captura data completa ignorando cidade e forçando formato 'de Mês de'"
+        },
+        "representante_nome": {
+            "regex": "(?i)(?:neste\\s+ato\\s+representad[ao]\\s+por\\s+|Representante\\s*[:\\n]\\s*|Nome[^A-Za-z0-9]*)([A-ZÀ-Ú\\s]{5,80}?)(?=\\s*[,:]\\s*(?:brasileir|empresári|casad|solteir|inscrit|portador)|\\s*(?:\\n|CPF|\\d{3}\\.\\d{3}))",
+            "grupo": 1,
+            "descricao": "Correção V6.3 (Gemini Vision): Captura Multimoldal (Cabeçalho 'neste ato...', Tabela 'Representante', Log e OCR)"
+        },
+        "representante_cpf": {
+            "regex": "(?i)CPF[^0-9]*([\\d\\.]{3}\\.?[\\d\\.]{3}\\.?[\\d\\.]{3}-?[\\d]{2})",
+            "grupo": 1,
+            "descricao": "Correção Grupo 09p V2: Regex robusta contra formatação Clicksign"
+        },
+        "num_instalacao": {
+            "regex": "(?i)(?:N[ºo0]|N\\^\\{0\\}|Instalação)[^0-9\\n]{0,30}?Instalação[\".,\\s\\n]*(\\d{4,12})|(?:Unidade\\s*Consumidora|Instalação)[^0-9]*(\\d{4,12})",
+            "grupo": 1,
+            "descricao": "V6.4: Aceita 4+ dígitos, lida com formato CSV/LaTeX ($N^{0}$)"
+        },
+        "num_conta_contrato": {
+            "regex": "(?i)Conta\\s+Contrato\\s*\\(UC\\)[\".,\\s\\n]+((?:\\d+(?:\\s+e\\s+\\d+)?))",
+            "grupo": 1,
+            "descricao": "V6.4 NEW: Captura Conta Contrato (UC), inclui múltiplos valores separados por 'e'"
+        },
+        "num_cliente": {
+            "regex": "(?:Nº\\s+do\\s+Cliente|Cliente|Código)[^:]*:[\\s\\n]*(\\d{7,12})",
+            "grupo": 1
+        },
+        "distribuidora": {
+            "regex": "(?:Distribuidora|Concessionária)[\\s\\.:]*([A-Z\\s-]*CPFL\\s*PRATTI)",
+            "grupo": 1
+        },
+        "duracao_meses": {
+            "regex": "(?:Duração|Vigência Inicial)[\\s\\.:]*(\\d+)[\\s\\n]*meses",
+            "grupo": 1
+        },
+        "fidelidade": {
+            "regex": "(?:Fidelidade|Carência)[\\s\\.:]*([A-Z0-9\\s]+)(?=\\n|$)",
+            "grupo": 1
+        },
+        "aviso_previo_dias": {
+            "regex": "(?:aviso prévio|antecedência).{1,20}?(\\d+)\\s*(?:\\([a-z\\s]+\\))?\\s*dias",
+            "grupo": 1
+        }
+    }
+}

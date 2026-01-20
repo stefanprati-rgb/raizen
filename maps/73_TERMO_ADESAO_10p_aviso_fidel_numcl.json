@@ -1,0 +1,26 @@
+{
+    "campos": {
+        "num_cliente": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "Nº do Cliente: TD0019990",
+            "regex": "Nº do Cliente:\\s*([A-Z0-9]+)",
+            "exemplo_valor": "TD0019990"
+        },
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "1",
+            "trecho_original": "Sem fidelidade",
+            "regex": "(Sem fidelidade|Fidelidade:\\s*\\d+\\s*meses)",
+            "exemplo_valor": "Sem fidelidade"
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "Duração: 60 meses, renovando-se automaticamente se não denunciado até 180 dias antes do término.",
+            "regex": "denunciado até\\s*(\\d+)\\s*dias",
+            "exemplo_valor": "180"
+        }
+    },
+    "modelo_identificado": "73_TERMO_ADESAO_10p_aviso_fidel_numcl"
+}

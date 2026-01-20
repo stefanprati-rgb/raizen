@@ -1,0 +1,28 @@
+{
+    "campos": {
+        "fidelidade": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "Período de Fidelidade: 90 (noventa) dias contados do início da injeção",
+            "regex": "(?i)Fidelidade:\\s*([\\w\\s\\d\\(\\)]+?)(?:\\s*contados|\\.|$)",
+            "grupo_captura": 1,
+            "exemplo_valor": "90 (noventa) dias",
+            "observacoes": "O campo encontra-se no Anexo I (Condições Comerciais). A regex captura o valor numérico e por extenso até o delimitador 'contados'."
+        },
+        "aviso_previo_dias": {
+            "encontrado": true,
+            "pagina": "3",
+            "trecho_original": "Aviso Prévio (dias): 90 (noventa) dias",
+            "regex": "(?i)Aviso\\s*Prévio\\s*\\(dias\\):\\s*(\\d+)",
+            "grupo_captura": 1,
+            "exemplo_valor": "90",
+            "observacoes": "Localizado no Anexo I. A regex foca especificamente no dígito numérico inicial, que é o padrão para o campo 'aviso_previo_dias' solicitado no schema."
+        }
+    },
+    "meta": {
+        "total_paginas": "9",
+        "tipo_contrato": "TERMO_ADESAO_CONSORCIO",
+        "observacoes_gerais": "Os dados de fidelidade e aviso prévio não aparecem na primeira página (capa), mas sim no 'Anexo I - Quadro Resumo e Condições Comerciais'. O padrão é consistente em ambos os documentos analisados (amostra_01 e amostra_02)."
+    },
+    "modelo_identificado": "03_SOLAR_09p_aviso_fidel"
+}
