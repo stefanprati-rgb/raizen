@@ -1,30 +1,71 @@
 # Configuração Centralizada - Extrator de Contratos Raízen
-# Use este arquivo para definir parâmetros sem precisar passar flags gigantescas na CLI.
+# Use este arquivo para definir parâmetros sem precisar alterar o código-fonte.
+# Útil para diferentes ambientes: dev vs prod
 
+# =============================================================================
 # Caminhos de Entrada e Saída
+# =============================================================================
 input:
-  path: "data/raw/contratos_por_paginas"  # Pasta padrão de entrada (pode ser sobrescrita via CLI -i)
+  path: "data/raw/contratos_por_paginas"
 
 output:
-  path: "data/output"                 # Pasta onde os relatórios e CSVs serão salvos
-  generate_html: true              # Gerar relatório visual bonito
-  generate_csv: true               # Gerar planilhas CSV para Excel
+  path: "data/output"
+  generate_html: true
+  generate_csv: true
 
-# Parâmetros de Extração
+# =============================================================================
+# Parâmetros de Extração de PDF
+# =============================================================================
 extraction:
-  max_pages: 10                    # Quantas páginas ler de cada PDF (otimização de performance)
-  batch_size: 50                   # Tamanho do lote para logs (não afeta performance real, apenas visual)
-  
-  # Filtros de Processamento (Opcional - deixe vazio para processar tudo)
-  # include_folders: ["RGE", "CEMIG"] 
-  
+  max_pages: 10                    # Páginas máximas a processar por PDF
+  batch_size: 50                   # Tamanho do lote para logs
+
+# =============================================================================
+# Configurações de OCR (EasyOCR)
+# =============================================================================
+ocr:
+  resolution_dpi: 200              # DPI para conversão de página para imagem
+  timeout_seconds: 30              # Timeout por página de OCR
+  max_workers: 2                   # Workers paralelos (baixo para evitar OOM)
+
+# =============================================================================
+# Configurações de Blacklist Dinâmica
+# =============================================================================
+blacklist:
+  threshold_percent: 80            # Códigos em >80% dos docs são considerados sistema
+  min_docs_for_analysis: 10        # Mínimo de docs para ativar blacklist
+  output_file: "output/blacklist_codigos.json"
+
+# =============================================================================
 # Configurações de Validação
+# =============================================================================
 validation:
   min_confidence_score: 70         # Contratos abaixo disso vão para revisão
   validate_cnpj: true
   validate_math: true
-  
+  tolerance_percent: 5             # Tolerância para validações numéricas
+
+# =============================================================================
+# Limites da API Gemini (Plano Gratuito)
+# =============================================================================
+gemini:
+  model: "gemini-2.0-flash"
+  rpm: 5                           # Requisições por minuto
+  rpd: 20                          # Requisições por dia
+  tpm: 250000                      # Tokens por minuto
+  delay_seconds: 15                # Delay entre requisições para segurança
+  max_text_length: 50000           # Limite de caracteres por requisição
+
+# =============================================================================
+# Processamento Paralelo
+# =============================================================================
+parallel:
+  text_max_workers: 8              # Workers para extração de texto (leve)
+  ocr_max_workers: 2               # Workers para OCR (pesado)
+
+# =============================================================================
 # Logs
+# =============================================================================
 logging:
   level: "INFO"                    # DEBUG, INFO, WARNING, ERROR
   file: "extractor.log"

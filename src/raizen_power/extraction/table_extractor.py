@@ -24,19 +24,20 @@ from contextlib import contextmanager
 logger = logging.getLogger(__name__)
 
 # =============================================================================
-# CONFIGURAÇÃO DE PERFORMANCE (AJUSTÁVEL)
+# CONFIGURAÇÃO DE PERFORMANCE (CARREGADA DO settings.yaml)
 # =============================================================================
-# Workers para extração de texto nativo (leve, pode ser alto)
-TEXT_MAX_WORKERS = 8
-
-# Workers para OCR (pesado, deve ser baixo para evitar OOM)
-OCR_MAX_WORKERS = 2
-
-# Timeout para OCR por página (segundos)
-OCR_TIMEOUT_SECONDS = 30
-
-# Resolução do OCR (DPI) - maior = melhor qualidade mas mais lento
-OCR_RESOLUTION = 200
+try:
+    from raizen_power.core.config import settings
+    TEXT_MAX_WORKERS = settings.parallel.text_max_workers
+    OCR_MAX_WORKERS = settings.ocr.max_workers
+    OCR_TIMEOUT_SECONDS = settings.ocr.timeout_seconds
+    OCR_RESOLUTION = settings.ocr.resolution_dpi
+except ImportError:
+    # Fallback para valores padrão se config não disponível
+    TEXT_MAX_WORKERS = 8
+    OCR_MAX_WORKERS = 2
+    OCR_TIMEOUT_SECONDS = 30
+    OCR_RESOLUTION = 200
 
 # =============================================================================
 # CACHE GLOBAL DO LEITOR OCR

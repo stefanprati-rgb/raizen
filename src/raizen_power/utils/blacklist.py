@@ -9,23 +9,35 @@ from pathlib import Path
 from typing import Dict, List, Set
 
 
+# Carregar configurações centralizadas
+try:
+    from raizen_power.core.config import settings
+    _DEFAULT_THRESHOLD = settings.blacklist.threshold_percent
+    _DEFAULT_MIN_DOCS = settings.blacklist.min_docs_for_analysis
+    _DEFAULT_BLACKLIST_FILE = Path(settings.blacklist.output_file)
+except ImportError:
+    _DEFAULT_THRESHOLD = 80
+    _DEFAULT_MIN_DOCS = 10
+    _DEFAULT_BLACKLIST_FILE = Path("output/blacklist_codigos.json")
+
+
 class DynamicBlacklist:
     """
     Detecta e filtra códigos que aparecem em mais de N% dos documentos.
     Esses são tipicamente códigos de sistema (usina, formulário, protocolo).
     """
     
-    DEFAULT_BLACKLIST_FILE = Path("output/blacklist_codigos.json")
-    THRESHOLD_PERCENT = 80  # Se aparece em >80% dos docs, é código de sistema
-    
-    def __init__(self, blacklist_file: Path = None):
+    def __init__(self, blacklist_file: Path = None, threshold_percent: int = None):
         """
         Inicializa a blacklist.
         
         Args:
             blacklist_file: Caminho para o arquivo de blacklist (opcional)
+            threshold_percent: Percentual de threshold (opcional, default do config)
         """
-        self.blacklist_file = blacklist_file or self.DEFAULT_BLACKLIST_FILE
+        self.blacklist_file = blacklist_file or _DEFAULT_BLACKLIST_FILE
+        self.threshold_percent = threshold_percent or _DEFAULT_THRESHOLD
+        self.min_docs = _DEFAULT_MIN_DOCS
         self.blacklist: Set[str] = set()
         self.frequency: Dict[str, int] = {}
         self.total_docs: int = 0
@@ -63,10 +75,10 @@ class DynamicBlacklist:
     
     def analyze_and_update_blacklist(self):
         """Analisa frequências e atualiza blacklist."""
-        if self.total_docs < 10:  # Precisa de pelo menos 10 docs
+        if self.total_docs < self.min_docs:
             return
         
-        threshold = self.total_docs * (self.THRESHOLD_PERCENT / 100)
+        threshold = self.total_docs * (self.threshold_percent / 100)
         
         new_blacklist = set()
         for num, count in self.frequency.items():

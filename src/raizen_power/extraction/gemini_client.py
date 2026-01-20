@@ -44,13 +44,27 @@ except ImportError:
     logger.warning("google-generativeai não instalado. Execute: pip install google-generativeai")
 
 
-# Limites da API (Plano Gratuito)
-API_LIMITS = {
-    "rpm": 5,           # Requisições por minuto
-    "rpd": 20,          # Requisições por dia
-    "tpm": 250_000,     # Tokens por minuto
-    "delay_seconds": 15 # Delay entre requisições para segurança
-}
+# Limites da API (carregados de settings.yaml)
+try:
+    from raizen_power.core.config import settings
+    API_LIMITS = {
+        "rpm": settings.gemini.rpm,
+        "rpd": settings.gemini.rpd,
+        "tpm": settings.gemini.tpm,
+        "delay_seconds": settings.gemini.delay_seconds,
+        "max_text_length": settings.gemini.max_text_length,
+        "model": settings.gemini.model,
+    }
+except ImportError:
+    # Fallback para valores padrão
+    API_LIMITS = {
+        "rpm": 5,
+        "rpd": 20,
+        "tpm": 250_000,
+        "delay_seconds": 15,
+        "max_text_length": 50000,
+        "model": "gemini-2.0-flash",
+    }
 
 # Prompt para mapeamento de contratos
 MAPPING_PROMPT = """
@@ -138,7 +152,7 @@ class GeminiClient:
         
         # Configurar API
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
+        self.model = genai.GenerativeModel(API_LIMITS["model"])
         
         logger.info("GeminiClient inicializado com sucesso")
     
