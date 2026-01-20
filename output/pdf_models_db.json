@@ -1,0 +1,107 @@
+{
+  "models": {
+    "CPFL_34p_439500ce": {
+      "model_id": "CPFL_34p_439500ce",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "data\\raw\\34_paginas\\ENERGISA_MT\\GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf",
+        "page_count": 34,
+        "visual_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "structure": {
+          "page_count": 34,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 15,
+          "has_tables": true,
+          "text_density": 0.3,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-20T20:44:34.555857"
+      },
+      "created_at": "2026-01-20T20:44:34.555907",
+      "usage_count": 0
+    },
+    "CPFL_28p_7da3209f": {
+      "model_id": "CPFL_28p_7da3209f",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "data\\raw\\28_paginas\\LIGHT\\SOLAR 15414 - CONDOMINIO DO EDIFICIO PALACIO ASTORIA - 28248581000102.pdf",
+        "page_count": 28,
+        "visual_hash": "77775f7f730f3f3b",
+        "structure_hash": "a97058c1",
+        "composite_id": "7da3209f",
+        "structure": {
+          "page_count": 28,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 24,
+          "has_tables": true,
+          "text_density": 0.44,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-20T20:44:34.870134"
+      },
+      "created_at": "2026-01-20T20:44:34.870341",
+      "usage_count": 0
+    },
+    "CPFL_19p_b5f0407f": {
+      "model_id": "CPFL_19p_b5f0407f",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "data\\raw\\19_paginas\\CEMIG\\GD - Fluxo 13313 - FORTBRAS AUTOPECAS S.A - 22761584001807.pdf",
+        "page_count": 19,
+        "visual_hash": "3f3b5b5f772d3b73",
+        "structure_hash": "3066c7e6",
+        "composite_id": "b5f0407f",
+        "structure": {
+          "page_count": 19,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 20,
+          "has_tables": true,
+          "text_density": 0.45,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-20T20:44:35.264911"
+      },
+      "created_at": "2026-01-20T20:44:35.265172",
+      "usage_count": 0
+    },
+    "CPFL_19p_7e75d8f8": {
+      "model_id": "CPFL_19p_7e75d8f8",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "data\\raw\\19_paginas\\CEMIG\\SOLAR 11953 - FORTBRAS AUTOPECAS S.A. - 22761584000150.pdf",
+        "page_count": 19,
+        "visual_hash": "3f3b5b594f2f2f33",
+        "structure_hash": "9e9164d9",
+        "composite_id": "7e75d8f8",
+        "structure": {
+          "page_count": 19,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 19,
+          "has_tables": true,
+          "text_density": 0.4,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-20T20:44:35.613300"
+      },
+      "created_at": "2026-01-20T20:44:35.613530",
+      "usage_count": 0
+    }
+  },
+  "metadata": {
+    "created": "2026-01-20T20:44:34.227529"
+  }
+}
