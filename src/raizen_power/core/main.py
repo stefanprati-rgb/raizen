@@ -21,13 +21,8 @@ import warnings
 warnings.filterwarnings('ignore')
 logging.getLogger('pdfminer').setLevel(logging.ERROR)
 
-# Adicionar diretório pai ao path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from extrator_contratos import (
-    ContractExtractor,
-    generate_html_report
-)
+from raizen_power.extraction.extractor import ContractExtractor
+from raizen_power.utils.report import generate_html_report
 
 
 # Campos do CSV
@@ -135,7 +130,7 @@ Exemplos:
     parser.add_argument(
         "--config", "-c",
         type=str,
-        default="config.yaml",
+        default="config/settings.yaml",
         help="Caminho do arquivo de configuração"
     )
     

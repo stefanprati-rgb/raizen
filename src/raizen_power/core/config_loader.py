@@ -13,7 +13,7 @@ DEFAULT_CONFIG = {
     "logging": {"level": "INFO"}
 }
 
-def load_config(config_path: str = "config.yaml") -> Dict[str, Any]:
+def load_config(config_path: str = "config/settings.yaml") -> Dict[str, Any]:
     """
     Carrega configuração de um arquivo YAML.
     Se o arquivo não existir, retorna a configuração padrão e loga um aviso.

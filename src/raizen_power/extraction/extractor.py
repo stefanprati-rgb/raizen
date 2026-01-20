@@ -17,13 +17,13 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 from .patterns import PatternsMixin, extract_field, FLAGS
-from .validators import (
+from raizen_power.utils.validators import (
     validate_record, 
     calculate_confidence_score, 
     is_umbrella_contract,
     normalize_cnpj
 )
-from .normalizers import normalize_all
+from raizen_power.utils.normalizers import normalize_all
 from .table_extractor import (
     extract_all_text,
     extract_all_text_from_pdf,
@@ -34,7 +34,7 @@ from .table_extractor import (
     extract_modelo_2_data_from_pdf,
     get_pdf_page_count
 )
-from . import classifier
+from raizen_power.analysis import classifier
 
 
 @dataclass

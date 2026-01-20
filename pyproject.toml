@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "extrator-contratos-raizen"
-version = "1.0.0"
+name = "raizen-power-extractor"
+version = "2.0.0"
 description = "Sistema para extração automatizada de dados de contratos PDF para CSV"
 readme = "README.md"
 license = {text = "Proprietary - Raízen"}
@@ -18,14 +18,12 @@ classifiers = [
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
 ]
 
 dependencies = [
     "pdfplumber>=0.10.0",
+    "pandas>=2.0.0",
+    "pymupdf>=1.20.0"
 ]
 
 [project.optional-dependencies]
@@ -35,7 +33,7 @@ dev = [
 ]
 
 [project.scripts]
-extrator-contratos = "extrator_contratos.main:main"
+raizen-extractor = "raizen_power.core.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -47,7 +45,7 @@ python_functions = ["test_*"]
 addopts = "-v --tb=short"
 
 [tool.coverage.run]
-source = ["src/extrator_contratos"]
+source = ["src/raizen_power"]
 branch = true
 
 [tool.coverage.report]

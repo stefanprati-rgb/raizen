@@ -26,9 +26,6 @@ from functools import partial
 warnings.filterwarnings('ignore')
 logging.getLogger('pdfplumber').setLevel(logging.ERROR)
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 # Paths
 SOURCE_DIR = Path("OneDrive_2026-01-06/TERMO DE ADESÃO")
 MAPS_DIR = Path("maps")
@@ -122,9 +119,9 @@ def process_single_pdf(pdf_path_str: str, maps: dict) -> dict:
     
     try:
         # Import dentro do processo
-        from src.extrator_contratos.table_extractor import open_pdf, extract_all_text_from_pdf
-        from src.extrator_contratos.classifier import identify_distributor_from_text
-        from scripts.apply_map import extract_with_map
+        from raizen_power.extraction.table_extractor import open_pdf, extract_all_text_from_pdf
+        from raizen_power.analysis.classifier import identify_distributor_from_text
+        from raizen_power.apply_map import extract_with_map
         
         with open_pdf(str(pdf_path)) as pdf:
             result["pages"] = len(pdf.pages)

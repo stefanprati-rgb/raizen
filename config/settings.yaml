@@ -3,10 +3,10 @@
 
 # Caminhos de Entrada e Saída
 input:
-  path: "./contratos_por_paginas"  # Pasta padrão de entrada (pode ser sobrescrita via CLI -i)
+  path: "data/raw/contratos_por_paginas"  # Pasta padrão de entrada (pode ser sobrescrita via CLI -i)
 
 output:
-  path: "./output"                 # Pasta onde os relatórios e CSVs serão salvos
+  path: "data/output"                 # Pasta onde os relatórios e CSVs serão salvos
   generate_html: true              # Gerar relatório visual bonito
   generate_csv: true               # Gerar planilhas CSV para Excel
 

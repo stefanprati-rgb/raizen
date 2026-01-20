@@ -15,10 +15,8 @@ from pathlib import Path
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from src.extrator_contratos.table_extractor import open_pdf, extract_all_text_from_pdf
-from src.extrator_contratos.normalizers import normalize_all
+from .table_extractor import open_pdf, extract_all_text_from_pdf
+from raizen_power.utils.normalizers import normalize_all
 
 
 def extract_with_map(text: str, mapa: dict) -> dict:
