@@ -2,11 +2,10 @@
 Pipeline Híbrido de Extração de Múltiplas UCs
 Baseado nas pesquisas: gemini.md + pipeline_ucs_2025.md
 
-Arquitetura em 4 camadas com fallback:
+Arquitetura em 3 camadas com fallback:
 1. PyMuPDF + Regex (rápido, 90% dos casos)
-2. pdfplumber (tabelas estruturadas)
-3. Docling (tabelas complexas - fallback)
-4. OCR (scans - último recurso)
+2. PyMuPDF find_tables() (tabelas estruturadas)
+3. OCR (scans - último recurso)
 """
 
 import re
@@ -30,7 +29,7 @@ class UCExtractionResult:
     ucs: List[str]  # Lista de UCs encontradas
     uc_count: int
     confidence: float
-    method: str  # pymupdf, pdfplumber, docling, ocr
+    method: str  # pymupdf, tables, ocr
     pages_with_ucs: List[int]
     duration: float
     errors: List[str]

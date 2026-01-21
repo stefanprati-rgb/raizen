@@ -9,8 +9,6 @@ CONFIGURAÇÃO DE WORKERS (Previne OOM):
 - TEXT_MAX_WORKERS: 8 (extração de texto nativo - leve)
 - OCR_MAX_WORKERS: 2 (OCR EasyOCR - pesado, consome muita RAM)
 - OCR_TIMEOUT_SECONDS: 30 (timeout por página para evitar travamento)
-
-MIGRADO: pdfplumber -> PyMuPDF para melhor performance
 """
 import fitz  # PyMuPDF
 import re

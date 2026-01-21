@@ -17,7 +17,7 @@ from pathlib import Path
 from datetime import datetime
 import warnings
 
-# Suprimir warnings do pdfplumber (CropBox missing, etc.)
+# Suprimir warnings
 warnings.filterwarnings('ignore')
 logging.getLogger('pdfminer').setLevel(logging.ERROR)
 
