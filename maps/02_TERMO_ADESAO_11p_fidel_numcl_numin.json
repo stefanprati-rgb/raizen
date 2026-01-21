@@ -40,7 +40,12 @@
     "meta": {
         "total_paginas": "5",
         "tipo_contrato": "TERMO_ADESAO_CONSORCIO",
-        "observacoes_gerais": "Os documentos seguem um padrão de tabela/CSV exportado. Os campos num_instalacao e num_cliente estão dispostos horizontalmente no PDF original, mas o OCR pode apresentá-los em linhas subsequentes. As regex foram otimizadas para lidar com espaços e aspas extras comuns em extrações de PDFs de energia da Raízen/CPFL."
+        "observacoes_gerais": "Os documentos seguem um padrão de tabela/CSV exportado. Os campos num_instalacao e num_cliente estão dispostos horizontalmente no PDF original, mas o OCR pode apresentá-los em linhas subsequentes. As regex foram otimizadas para lidar com espaços e aspas extras comuns em extrações de PDFs de energia da Raízen/CPFL.",
+        "layout_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "updated_at": "2026-01-20T21:50:25.647399",
+        "reference_pdf": "GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf"
     },
     "modelo_identificado": "02_TERMO_ADESAO_11p_fidel_numcl_numin"
 }

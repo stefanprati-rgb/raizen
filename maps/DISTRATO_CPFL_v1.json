@@ -51,5 +51,12 @@
         "distribuidora",
         "participacao_percentual",
         "duracao_meses"
-    ]
+    ],
+    "meta": {
+        "layout_hash": "0f3f370b0f3e6e05",
+        "structure_hash": "c86d7e8c",
+        "composite_id": "bd4a428e",
+        "updated_at": "2026-01-20T21:50:36.497900",
+        "reference_pdf": "SOLAR 8360 - ASSOCIACAO DOS MORADORES DO ACQUA GALLERIA CONDOMINIO RESORT_DISTRATO - 27102932000100.pdf"
+    }
 }

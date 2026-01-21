@@ -15,5 +15,12 @@
             "exemplo_valor": "180"
         }
     },
-    "modelo_identificado": "74_TERMO_ADESAO_10p_aviso_numin"
+    "modelo_identificado": "74_TERMO_ADESAO_10p_aviso_numin",
+    "meta": {
+        "layout_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "updated_at": "2026-01-20T21:50:27.379256",
+        "reference_pdf": "GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf"
+    }
 }

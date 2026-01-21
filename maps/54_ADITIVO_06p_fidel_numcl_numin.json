@@ -22,5 +22,12 @@
             "exemplo_valor": "48"
         }
     },
-    "modelo_identificado": "54_ADITIVO_06p_fidel_numcl_numin"
+    "modelo_identificado": "54_ADITIVO_06p_fidel_numcl_numin",
+    "meta": {
+        "layout_hash": "3f3f330d07684e10",
+        "structure_hash": "c8b26733",
+        "composite_id": "ad29025d",
+        "updated_at": "2026-01-20T21:50:26.812315",
+        "reference_pdf": "SOLAR 5139 - POSTO DOM PEDRO JUIZ DE FORA URBANO LTDA - ADITIVO - 20449997000179 - Clicksign.pdf"
+    }
 }

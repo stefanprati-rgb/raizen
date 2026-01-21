@@ -56,5 +56,12 @@
     "alertas": [
         "Modelo de ADITIVO de RETIRADA DE UC",
         "Os valores de UC capturados referem-se a unidades sendo removidas do consórcio"
-    ]
+    ],
+    "meta": {
+        "layout_hash": "3f3f330d07684e10",
+        "structure_hash": "c8b26733",
+        "composite_id": "ad29025d",
+        "updated_at": "2026-01-20T21:50:27.415743",
+        "reference_pdf": "SOLAR 5139 - POSTO DOM PEDRO JUIZ DE FORA URBANO LTDA - ADITIVO - 20449997000179 - Clicksign.pdf"
+    }
 }

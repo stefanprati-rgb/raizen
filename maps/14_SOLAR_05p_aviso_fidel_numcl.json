@@ -22,5 +22,12 @@
             "exemplo_valor": "N/A"
         }
     },
-    "modelo_identificado": "14_SOLAR_05p_aviso_fidel_numcl"
+    "modelo_identificado": "14_SOLAR_05p_aviso_fidel_numcl",
+    "meta": {
+        "layout_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "updated_at": "2026-01-20T21:50:25.696330",
+        "reference_pdf": "GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf"
+    }
 }

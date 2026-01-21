@@ -22,7 +22,12 @@
     "meta": {
         "total_paginas": "9",
         "tipo_contrato": "TERMO_ADESAO_CONSORCIO",
-        "observacoes_gerais": "Os dados de fidelidade e aviso prévio não aparecem na primeira página (capa), mas sim no 'Anexo I - Quadro Resumo e Condições Comerciais'. O padrão é consistente em ambos os documentos analisados (amostra_01 e amostra_02)."
+        "observacoes_gerais": "Os dados de fidelidade e aviso prévio não aparecem na primeira página (capa), mas sim no 'Anexo I - Quadro Resumo e Condições Comerciais'. O padrão é consistente em ambos os documentos analisados (amostra_01 e amostra_02).",
+        "layout_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "updated_at": "2026-01-20T21:50:25.655321",
+        "reference_pdf": "GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf"
     },
     "modelo_identificado": "03_SOLAR_09p_aviso_fidel"
 }

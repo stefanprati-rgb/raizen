@@ -15,5 +15,12 @@
             "exemplo_valor": "60 meses"
         }
     },
-    "modelo_identificado": "64_REEMISSAO_13p_fidel_numin"
+    "modelo_identificado": "64_REEMISSAO_13p_fidel_numin",
+    "meta": {
+        "layout_hash": "373b5f4f212f7b5f",
+        "structure_hash": "cca60039",
+        "composite_id": "39693b43",
+        "updated_at": "2026-01-20T21:50:26.926363",
+        "reference_pdf": "SOLAR 2734 - MOURA DUBEUX ENGENHARIA SA_REEMISSAO - 12049631000184.pdf"
+    }
 }

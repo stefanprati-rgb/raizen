@@ -22,7 +22,12 @@
     "meta": {
         "total_paginas": "9",
         "tipo_contrato": "TERMO_ADESAO",
-        "observacoes_gerais": "Os documentos analisados seguem o padrão de 'Termo de Adesão ao Consórcio' da Raízen. Foram encontradas variações nos prazos entre a amostra 01 (180 dias) e amostra 02 (90 dias para renovação, mas 180 para rescisão), o que torna a regex flexível para capturar apenas os dígitos essencial."
+        "observacoes_gerais": "Os documentos analisados seguem o padrão de 'Termo de Adesão ao Consórcio' da Raízen. Foram encontradas variações nos prazos entre a amostra 01 (180 dias) e amostra 02 (90 dias para renovação, mas 180 para rescisão), o que torna a regex flexível para capturar apenas os dígitos essencial.",
+        "layout_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "updated_at": "2026-01-20T21:49:51.238851",
+        "reference_pdf": "GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf"
     },
     "modelo_identificado": "01_TERMO_ADESAO_09p_aviso_fidel"
 }

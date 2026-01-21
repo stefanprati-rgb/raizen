@@ -31,7 +31,12 @@
     "meta": {
         "total_paginas": "5",
         "tipo_contrato": "TERMO_ADESAO_CONSORCIO_SOLAR",
-        "observacoes_gerais": "Os documentos são Termos de Adesão ao Consórcio RZ São Paulo (Raízen GD). O 'num_cliente' é uma chave externa do sistema SIC-EC. A 'fidelidade' está vinculada ao 'Tempo de Vigência' da adesão. Note que o documento amostra_01 possui múltiplas instalações na mesma tabela, o que pode exigir um `findall` para o campo `num_instalacao`."
+        "observacoes_gerais": "Os documentos são Termos de Adesão ao Consórcio RZ São Paulo (Raízen GD). O 'num_cliente' é uma chave externa do sistema SIC-EC. A 'fidelidade' está vinculada ao 'Tempo de Vigência' da adesão. Note que o documento amostra_01 possui múltiplas instalações na mesma tabela, o que pode exigir um `findall` para o campo `num_instalacao`.",
+        "layout_hash": "377f5d1c1c18101c",
+        "structure_hash": "685b6d9d",
+        "composite_id": "439500ce",
+        "updated_at": "2026-01-20T21:50:25.673362",
+        "reference_pdf": "GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf"
     },
     "modelo_identificado": "11_TERMO_ADESAO_05p_aviso_fidel_numcl"
 }
