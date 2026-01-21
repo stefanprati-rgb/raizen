@@ -21,14 +21,46 @@ classifiers = [
 ]
 
 dependencies = [
+    # Core - mínimo para funcionar
     "pandas>=2.0.0",
     "pymupdf>=1.24.0",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+# Performance - monitoramento de memória
+performance = [
     "psutil>=5.9.0",
+]
+
+# Visual - fingerprinting de PDFs
+visual = [
     "imagehash>=4.3.0",
     "Pillow>=10.0.0",
 ]
 
-[project.optional-dependencies]
+# OCR - fallback para PDFs escaneados
+ocr = [
+    "easyocr>=1.7.0",
+]
+
+# Gemini - geração de mapas via IA
+gemini = [
+    "google-generativeai>=0.3.0",
+    "python-dotenv>=1.0.0",
+]
+
+# Full - todas as funcionalidades
+full = [
+    "psutil>=5.9.0",
+    "imagehash>=4.3.0",
+    "Pillow>=10.0.0",
+    "easyocr>=1.7.0",
+    "google-generativeai>=0.3.0",
+    "python-dotenv>=1.0.0",
+]
+
+# Dev - testes
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
