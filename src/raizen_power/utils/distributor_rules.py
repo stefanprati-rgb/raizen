@@ -117,22 +117,97 @@ _RULES_REGISTRY = {
     'CPFL': CPFLRules,
     'CPFL_PAULISTA': CPFLRules,
     'CPFL_PIRATININGA': CPFLRules,
+    'CPFL_SANTA_CRUZ': CPFLRules,
+    'CPFL_SUL_PAULISTA': CPFLRules,
     'CEMIG': CEMIGRules,
+    'CEMIG_D': CEMIGRules,
 }
+
+
+def _normalize_key(distributor: str) -> str:
+    """
+    Normaliza nome de distribuidora para matching robusto.
+    
+    - Remove acentos
+    - Converte para uppercase
+    - Substitui espaços por underscores
+    - Remove caracteres especiais
+    
+    Ex: "Enel Distribuição Rio" -> "ENEL_DISTRIBUICAO_RIO"
+    """
+    if not distributor:
+        return ""
+    
+    # Mapa de acentos para remoção
+    accents = {
+        'á': 'a', 'à': 'a', 'ã': 'a', 'â': 'a', 'ä': 'a',
+        'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e',
+        'í': 'i', 'ì': 'i', 'î': 'i', 'ï': 'i',
+        'ó': 'o', 'ò': 'o', 'õ': 'o', 'ô': 'o', 'ö': 'o',
+        'ú': 'u', 'ù': 'u', 'û': 'u', 'ü': 'u',
+        'ç': 'c', 'ñ': 'n',
+    }
+    
+    # Lowercase primeiro para mapa de acentos
+    result = distributor.lower()
+    
+    # Remover acentos
+    for accented, plain in accents.items():
+        result = result.replace(accented, plain)
+    
+    # Uppercase e substituir espaços
+    result = result.upper().strip()
+    result = '_'.join(result.split())  # Múltiplos espaços -> único underscore
+    
+    # Remover caracteres especiais (manter apenas A-Z, 0-9, _)
+    result = ''.join(c for c in result if c.isalnum() or c == '_')
+    
+    return result
 
 
 def get_rules(distributor: str) -> type[DistributorRules]:
     """
     Factory para obter regras de uma distribuidora.
     
+    Faz matching robusto com normalização e busca parcial.
+    
     Args:
-        distributor: Nome da distribuidora (ex: 'CPFL', 'CEMIG')
+        distributor: Nome da distribuidora (ex: 'CPFL', 'Cemig', 'cpfl paulista')
         
     Returns:
         Classe de regras para a distribuidora (default: CPFLRules)
+        
+    Examples:
+        get_rules("CPFL")              -> CPFLRules
+        get_rules("cpfl paulista")     -> CPFLRules
+        get_rules("CEMIG Distribuição") -> CEMIGRules
+        get_rules("")                   -> CPFLRules (default)
     """
-    distributor_upper = distributor.upper().replace(' ', '_')
-    return _RULES_REGISTRY.get(distributor_upper, CPFLRules)
+    if not distributor:
+        return CPFLRules
+    
+    # Normalizar entrada
+    key = _normalize_key(distributor)
+    
+    if not key:
+        return CPFLRules
+    
+    # Match exato primeiro
+    if key in _RULES_REGISTRY:
+        return _RULES_REGISTRY[key]
+    
+    # Busca parcial por palavra-chave (flexibilidade)
+    if 'CPFL' in key:
+        return CPFLRules
+    if 'CEMIG' in key:
+        return CEMIGRules
+    if 'ENEL' in key:
+        return CPFLRules  # TODO: criar ENELRules quando disponível
+    if 'ENERGISA' in key:
+        return CPFLRules  # TODO: criar ENERGISARules quando disponível
+    
+    # Default
+    return CPFLRules
 
 
 # Aliases para compatibilidade com código existente
