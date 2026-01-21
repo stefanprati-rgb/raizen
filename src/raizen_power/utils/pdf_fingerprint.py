@@ -65,27 +65,40 @@ class PDFModelIdentifier:
     - Perceptual Hash (dHash) das primeiras 2 páginas
     - Análise estrutural (colunas, tabelas, densidade)
     - Similarity scoring (70% visual + 30% estrutural)
+    
+    CACHE: Fingerprints são cacheados por arquivo (mtime + size).
+    Se o arquivo não mudou, usa cache em vez de recalcular o hash visual.
     """
     
     def __init__(
         self,
         db_path: str = "output/pdf_models_db.json",
+        cache_path: str = "output/fingerprint_cache.json",
         pages_to_hash: int = 2,
         visual_threshold: int = 8,  # Hamming distance
-        similarity_threshold: float = 0.85
+        similarity_threshold: float = 0.85,
+        use_cache: bool = True
     ):
         """
         Args:
             db_path: Caminho para banco de dados de modelos
+            cache_path: Caminho para cache de fingerprints
             pages_to_hash: Páginas a usar para hash (default: 2)
             visual_threshold: Max hamming distance para considerar similar
             similarity_threshold: Min similarity score (0-1)
+            use_cache: Se True, usa cache de fingerprints (default: True)
         """
         self.db_path = Path(db_path)
+        self.cache_path = Path(cache_path)
         self.pages_to_hash = pages_to_hash
         self.visual_threshold = visual_threshold
         self.similarity_threshold = similarity_threshold
+        self.use_cache = use_cache
+        
         self.models_db = self._load_db()
+        self._fingerprint_cache = self._load_cache() if use_cache else {}
+        self._cache_hits = 0
+        self._cache_misses = 0
     
     def _load_db(self) -> Dict:
         """Carrega banco de dados de modelos."""
@@ -102,6 +115,69 @@ class PDFModelIdentifier:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.db_path, 'w', encoding='utf-8') as f:
             json.dump(self.models_db, f, indent=2, ensure_ascii=False)
+    
+    def _load_cache(self) -> Dict:
+        """Carrega cache de fingerprints."""
+        if self.cache_path.exists():
+            try:
+                with open(self.cache_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except:
+                pass
+        return {}
+    
+    def _save_cache(self):
+        """Persiste cache de fingerprints."""
+        if not self.use_cache:
+            return
+        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.cache_path, 'w', encoding='utf-8') as f:
+            json.dump(self._fingerprint_cache, f, ensure_ascii=False)
+    
+    def _get_file_key(self, pdf_path: str) -> str:
+        """Gera chave de cache baseada em path + mtime + size."""
+        try:
+            p = Path(pdf_path)
+            stat = p.stat()
+            # Chave: path canônico + mtime + size
+            return f"{p.resolve()}|{stat.st_mtime}|{stat.st_size}"
+        except:
+            return pdf_path
+    
+    def _get_cached_fingerprint(self, pdf_path: str) -> Optional[PDFFingerprint]:
+        """Busca fingerprint no cache se arquivo não mudou."""
+        if not self.use_cache:
+            return None
+        
+        key = self._get_file_key(pdf_path)
+        
+        if key in self._fingerprint_cache:
+            self._cache_hits += 1
+            cached = self._fingerprint_cache[key]
+            return PDFFingerprint(**cached)
+        
+        self._cache_misses += 1
+        return None
+    
+    def _cache_fingerprint(self, pdf_path: str, fingerprint: PDFFingerprint):
+        """Adiciona fingerprint ao cache."""
+        if not self.use_cache:
+            return
+        
+        key = self._get_file_key(pdf_path)
+        self._fingerprint_cache[key] = fingerprint.to_dict()
+    
+    def get_cache_stats(self) -> Dict:
+        """Retorna estatísticas de cache."""
+        total = self._cache_hits + self._cache_misses
+        hit_rate = (self._cache_hits / total * 100) if total > 0 else 0
+        return {
+            "hits": self._cache_hits,
+            "misses": self._cache_misses,
+            "total": total,
+            "hit_rate_percent": round(hit_rate, 1),
+            "cache_size": len(self._fingerprint_cache),
+        }
     
     # =========================================================================
     # STEP 1: Extract Visual Hash (usando PyMuPDF em vez de pdf2image)
@@ -297,8 +373,18 @@ class PDFModelIdentifier:
     # =========================================================================
     
     def _create_fingerprint(self, pdf_path: str, distributor: str) -> PDFFingerprint:
-        """Cria fingerprint completo do PDF."""
-        # Extrair hashes
+        """
+        Cria fingerprint completo do PDF.
+        
+        Usa cache se disponível para evitar recálculo do hash visual (operação lenta).
+        """
+        # Verificar cache primeiro
+        cached = self._get_cached_fingerprint(pdf_path)
+        if cached:
+            logger.debug(f"Cache hit para {Path(pdf_path).name}")
+            return cached
+        
+        # Cache miss - calcular fingerprint
         visual_hash = self._extract_visual_hash(pdf_path)
         structure = self._extract_structural_features(pdf_path)
         
@@ -310,7 +396,7 @@ class PDFModelIdentifier:
         composite_str = f"{visual_hash}{structure_hash}"
         composite_id = hashlib.sha256(composite_str.encode()).hexdigest()[:8]
         
-        return PDFFingerprint(
+        fingerprint = PDFFingerprint(
             pdf_path=str(pdf_path),
             page_count=structure.get("page_count", 0),
             visual_hash=visual_hash,
@@ -320,6 +406,11 @@ class PDFModelIdentifier:
             confidence=0.95 if IMAGEHASH_AVAILABLE else 0.70,
             created_at=datetime.now().isoformat()
         )
+        
+        # Salvar no cache
+        self._cache_fingerprint(pdf_path, fingerprint)
+        
+        return fingerprint
     
     # =========================================================================
     # STEP 4: Similarity Calculation
