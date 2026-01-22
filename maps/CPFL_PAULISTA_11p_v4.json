@@ -37,5 +37,11 @@
             "grupo": 1
         }
     },
-    "notas": "Otimizado com lookahead negativo para evitar contaminação de rótulos (problema arquivo 1270)"
+    "notas": "Otimizado com lookahead negativo para evitar contaminação de rótulos (problema arquivo 1270)",
+    "meta": {
+        "reference_pdf": "SOLAR - TERMO_DE_ADESAO - 51607 - GRUPO ADN S.A - 14189784000152 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

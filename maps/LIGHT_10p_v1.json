@@ -100,5 +100,11 @@
             "valor_extraido": "36.094.223/0001-02",
             "confianca": "alta"
         }
+    },
+    "meta": {
+        "reference_pdf": "SOLAR 1270 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

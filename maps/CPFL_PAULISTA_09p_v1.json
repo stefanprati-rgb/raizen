@@ -63,5 +63,11 @@
             "grupo": 1,
             "descricao": "Data de celebração do termo encontrada no rodapé ou encerramento"
         }
+    },
+    "meta": {
+        "reference_pdf": "SOLAR 0028971 - REDE LK DE POSTOS LTDA - 01820806000784 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

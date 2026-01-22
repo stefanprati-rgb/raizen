@@ -174,6 +174,531 @@
       },
       "created_at": "2026-01-20T21:50:27.281016",
       "usage_count": 0
+    },
+    "CELPE_5p_7616dd14": {
+      "model_id": "CELPE_5p_7616dd14",
+      "distributor": "CELPE",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\05_paginas\\CELPE\\SOLAR 69072 - CLAWAN_ADESAO - 004072527000182 - Qualisign.pdf",
+        "page_count": 5,
+        "visual_hash": "6b3f2b2b2b3b3710",
+        "structure_hash": "9836082d",
+        "composite_id": "7616dd14",
+        "structure": {
+          "page_count": 5,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 17,
+          "has_tables": true,
+          "text_density": 0.59,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:12.387855"
+      },
+      "created_at": "2026-01-21T00:02:12.389800",
+      "usage_count": 0
+    },
+    "CEMIG_2p_9665e9cb": {
+      "model_id": "CEMIG_2p_9665e9cb",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\02_paginas\\CEMIG\\SOLAR 70252 - AUTO POSTO PERO_ADESAO - 19622067000196 - Qualisigin.PDF",
+        "page_count": 2,
+        "visual_hash": "7b3f2b2b2b3b3310",
+        "structure_hash": "b96bb975",
+        "composite_id": "9665e9cb",
+        "structure": {
+          "page_count": 2,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 16,
+          "has_tables": true,
+          "text_density": 0.58,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:13.123402"
+      },
+      "created_at": "2026-01-21T00:02:13.124130",
+      "usage_count": 0
+    },
+    "CEMIG_5p_0455791b": {
+      "model_id": "CEMIG_5p_0455791b",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\05_paginas\\CEMIG\\SOLAR 1115 - POSTO DOM PEDRO DE POSTOS LTDA - 20415295000760 - Qualisign.pdf",
+        "page_count": 5,
+        "visual_hash": "773f2b2b2b2f3f33",
+        "structure_hash": "d282996f",
+        "composite_id": "0455791b",
+        "structure": {
+          "page_count": 5,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 22,
+          "has_tables": true,
+          "text_density": 0.57,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:13.952394"
+      },
+      "created_at": "2026-01-21T00:02:13.954614",
+      "usage_count": 0
+    },
+    "CEMIG_10p_dfdb48fa": {
+      "model_id": "CEMIG_10p_dfdb48fa",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\10_paginas\\CEMIG\\SOLAR 21326 - NEIDE ANTAO PINTO LEAO 02392314659 - 21014088000170 - Clicksign.pdf",
+        "page_count": 10,
+        "visual_hash": "3107c7875e232375",
+        "structure_hash": "7f97d6e8",
+        "composite_id": "dfdb48fa",
+        "structure": {
+          "page_count": 10,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 5,
+          "has_tables": false,
+          "text_density": 0.02,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:14.155999"
+      },
+      "created_at": "2026-01-21T00:02:14.156796",
+      "usage_count": 0
+    },
+    "CEMIG_11p_1a73b382": {
+      "model_id": "CEMIG_11p_1a73b382",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\11_paginas\\CEMIG\\SOLAR 10548 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834000190 - Clicksign.pdf",
+        "page_count": 11,
+        "visual_hash": "373f6f4f3d2d3f3b",
+        "structure_hash": "cf16c18a",
+        "composite_id": "1a73b382",
+        "structure": {
+          "page_count": 11,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 19,
+          "has_tables": true,
+          "text_density": 0.56,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:14.760229"
+      },
+      "created_at": "2026-01-21T00:02:14.761115",
+      "usage_count": 0
+    },
+    "CEMIG_12p_5bb94be1": {
+      "model_id": "CEMIG_12p_5bb94be1",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\12_paginas\\CEMIG\\SOLAR 10935 - CANOPUS DESENVOLVIMENTO IMOBILIARIO LTDA - 04505660000185 - Clicksign.pdf",
+        "page_count": 12,
+        "visual_hash": "3f3f5f4f612f3b71",
+        "structure_hash": "ce30d18c",
+        "composite_id": "5bb94be1",
+        "structure": {
+          "page_count": 12,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 23,
+          "has_tables": true,
+          "text_density": 0.48,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:15.262303"
+      },
+      "created_at": "2026-01-21T00:02:15.263189",
+      "usage_count": 0
+    },
+    "CEMIG_13p_f1407d03": {
+      "model_id": "CEMIG_13p_f1407d03",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\13_paginas\\CEMIG\\SOLAR 14360 - BTT TELECOMUNICACOES S.A - REEMISSÃO - 39565567000140 - Clicksign.pdf",
+        "page_count": 13,
+        "visual_hash": "3777595f473b3d61",
+        "structure_hash": "e5b76f7a",
+        "composite_id": "f1407d03",
+        "structure": {
+          "page_count": 13,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 19,
+          "has_tables": true,
+          "text_density": 0.38,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:15.741993"
+      },
+      "created_at": "2026-01-21T00:02:15.743018",
+      "usage_count": 0
+    },
+    "CEMIG_14p_f5b0f13f": {
+      "model_id": "CEMIG_14p_f5b0f13f",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\14_paginas\\CEMIG\\SOLAR 14016 - 99 TECNOLOGIA LTDA - 18033552000161 - Clicksign.pdf",
+        "page_count": 14,
+        "visual_hash": "377f5f57253b7371",
+        "structure_hash": "5410e458",
+        "composite_id": "f5b0f13f",
+        "structure": {
+          "page_count": 14,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 25,
+          "has_tables": true,
+          "text_density": 0.49,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:16.388429"
+      },
+      "created_at": "2026-01-21T00:02:16.389368",
+      "usage_count": 0
+    },
+    "CEMIG_16p_0eb9df4c": {
+      "model_id": "CEMIG_16p_0eb9df4c",
+      "distributor": "CEMIG",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\16_paginas\\CEMIG\\SOLAR 10841 - CODEMA COMERCIAL E IMPORTADORA LTDA - 60849197002022.pdf",
+        "page_count": 16,
+        "visual_hash": "67375f4f737b6f67",
+        "structure_hash": "c06f664a",
+        "composite_id": "0eb9df4c",
+        "structure": {
+          "page_count": 16,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 24,
+          "has_tables": true,
+          "text_density": 0.42,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:16.963412"
+      },
+      "created_at": "2026-01-21T00:02:16.964348",
+      "usage_count": 0
+    },
+    "CPFL_2p_ea9cc231": {
+      "model_id": "CPFL_2p_ea9cc231",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\02_paginas\\CPFL_PAULISTA\\SOLAR 68474 - CALIFORNIA_ADESAO - 086614765000137 - Qualisign.pdf",
+        "page_count": 2,
+        "visual_hash": "6f3f2b2b0b2f373b",
+        "structure_hash": "1376ac0f",
+        "composite_id": "ea9cc231",
+        "structure": {
+          "page_count": 2,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 22,
+          "has_tables": true,
+          "text_density": 0.55,
+          "columns": 3
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:17.674727"
+      },
+      "created_at": "2026-01-21T00:02:17.675901",
+      "usage_count": 0
+    },
+    "CPFL_5p_d5caea35": {
+      "model_id": "CPFL_5p_d5caea35",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\05_paginas\\CPFL\\SOLAR 1633 - MARTINS E KOHLE RESTAURANTE LTDA - 31145182000112.pdf",
+        "page_count": 5,
+        "visual_hash": "1b3b3f2b2b373b40",
+        "structure_hash": "453e57d5",
+        "composite_id": "d5caea35",
+        "structure": {
+          "page_count": 5,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 11,
+          "has_tables": true,
+          "text_density": 0.67,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:18.148412"
+      },
+      "created_at": "2026-01-21T00:02:18.149493",
+      "usage_count": 0
+    },
+    "CPFL_9p_66665130": {
+      "model_id": "CPFL_9p_66665130",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\09_paginas\\CPFL_PAULISTA\\SOLAR 0028971 - REDE LK DE POSTOS LTDA - 01820806000784 - Clicksign.pdf",
+        "page_count": 9,
+        "visual_hash": "5c03237572ba9f72",
+        "structure_hash": "0f02048f",
+        "composite_id": "66665130",
+        "structure": {
+          "page_count": 9,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 28,
+          "has_tables": false,
+          "text_density": 0.2,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:18.569835"
+      },
+      "created_at": "2026-01-21T00:02:18.570868",
+      "usage_count": 0
+    },
+    "CPFL_11p_ef5e7b4a": {
+      "model_id": "CPFL_11p_ef5e7b4a",
+      "distributor": "CPFL",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\11_paginas\\CPFL_PAULISTA\\SOLAR - TERMO_DE_ADESAO - 51607 - GRUPO ADN S.A - 14189784000152 - Clicksign.pdf",
+        "page_count": 11,
+        "visual_hash": "7c23237570ba8fb2",
+        "structure_hash": "eea67287",
+        "composite_id": "ef5e7b4a",
+        "structure": {
+          "page_count": 11,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 22,
+          "has_tables": false,
+          "text_density": 0.19,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:19.005272"
+      },
+      "created_at": "2026-01-21T00:02:19.006427",
+      "usage_count": 0
+    },
+    "ELEKTRO_5p_35136ec1": {
+      "model_id": "ELEKTRO_5p_35136ec1",
+      "distributor": "ELEKTRO",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\05_paginas\\ELEKTRO\\SOLAR 1493 - AUTO POSTO ITAGUA DE UBATUBA - 05212042000100.pdf",
+        "page_count": 5,
+        "visual_hash": "0b3b2b2b23373b40",
+        "structure_hash": "835835fd",
+        "composite_id": "35136ec1",
+        "structure": {
+          "page_count": 5,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 9,
+          "has_tables": true,
+          "text_density": 0.67,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:19.476937"
+      },
+      "created_at": "2026-01-21T00:02:19.477534",
+      "usage_count": 0
+    },
+    "ELEKTRO_9p_2f615dbb": {
+      "model_id": "ELEKTRO_9p_2f615dbb",
+      "distributor": "ELEKTRO",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\09_paginas\\ELEKTRO\\TERMO_ADESAO_0011962 - FORTBRAS AUTOPECAS S.A. - Clicksign.pdf",
+        "page_count": 9,
+        "visual_hash": "37775f4f393f7b5d",
+        "structure_hash": "c604f602",
+        "composite_id": "2f615dbb",
+        "structure": {
+          "page_count": 9,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 24,
+          "has_tables": true,
+          "text_density": 0.49,
+          "columns": 3
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:20.064215"
+      },
+      "created_at": "2026-01-21T00:02:20.064983",
+      "usage_count": 0
+    },
+    "ELEKTRO_10p_7f57fe11": {
+      "model_id": "ELEKTRO_10p_7f57fe11",
+      "distributor": "ELEKTRO",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\10_paginas\\ELEKTRO\\SOLAR 3235 - POSTO DOM PEDRO DE MIRACATU ROTA SUL - 54212592000134 - Clicksign.pdf",
+        "page_count": 10,
+        "visual_hash": "377f5f453d3b7f77",
+        "structure_hash": "b00e9692",
+        "composite_id": "7f57fe11",
+        "structure": {
+          "page_count": 10,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 25,
+          "has_tables": true,
+          "text_density": 0.49,
+          "columns": 3
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:20.811533"
+      },
+      "created_at": "2026-01-21T00:02:20.812337",
+      "usage_count": 0
+    },
+    "ENEL_5p_88c2c8e4": {
+      "model_id": "ENEL_5p_88c2c8e4",
+      "distributor": "ENEL",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\05_paginas\\ENEL\\SOLAR 1536 - AUTO POSTO DO ARARIPE LIMITADA - 06191384000153.pdf",
+        "page_count": 5,
+        "visual_hash": "2b333f0b37373b40",
+        "structure_hash": "6c2de78d",
+        "composite_id": "88c2c8e4",
+        "structure": {
+          "page_count": 5,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 3,
+          "has_tables": true,
+          "text_density": 0.68,
+          "columns": 1
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:21.304344"
+      },
+      "created_at": "2026-01-21T00:02:21.305015",
+      "usage_count": 0
+    },
+    "LIGHT_9p_feddae03": {
+      "model_id": "LIGHT_9p_feddae03",
+      "distributor": "LIGHT",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\09_paginas\\LIGHT\\SOLAR 19352 - ULISSES P DE SOUSA FILHO CHOPERIA - REEMISSÃO - 24897849000178.docx - Clicksign.pdf",
+        "page_count": 9,
+        "visual_hash": "5c03237572bab732",
+        "structure_hash": "da2ca676",
+        "composite_id": "feddae03",
+        "structure": {
+          "page_count": 9,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 29,
+          "has_tables": false,
+          "text_density": 0.2,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:21.699306"
+      },
+      "created_at": "2026-01-21T00:02:21.699933",
+      "usage_count": 0
+    },
+    "LIGHT_10p_c9a24977": {
+      "model_id": "LIGHT_10p_c9a24977",
+      "distributor": "LIGHT",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\10_paginas\\LIGHT\\SOLAR 1270 - ASSOCIACAO DOS PROPRIETARIOS DO RESIDENCIAL RECANTO REAL_CONDICOES - 02230947000114 - Qualisign.pdf",
+        "page_count": 10,
+        "visual_hash": "2323372d2b3f2b23",
+        "structure_hash": "8fdc8366",
+        "composite_id": "c9a24977",
+        "structure": {
+          "page_count": 10,
+          "width": 595,
+          "height": 841,
+          "aspect_ratio": 0.71,
+          "text_block_count": 13,
+          "has_tables": true,
+          "text_density": 0.64,
+          "columns": 3
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:22.267856"
+      },
+      "created_at": "2026-01-21T00:02:22.268636",
+      "usage_count": 0
+    },
+    "LIGHT_11p_36c30233": {
+      "model_id": "LIGHT_11p_36c30233",
+      "distributor": "LIGHT",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\11_paginas\\LIGHT\\SOLAR 13635 - CLINICA E CIRURGIA DE OLHOS DR.ARMANDO AUGUSTO GUEDES LTDA - 00181085000232 - Clicksign.pdf",
+        "page_count": 11,
+        "visual_hash": "373f53794f6f2b33",
+        "structure_hash": "ce307d20",
+        "composite_id": "36c30233",
+        "structure": {
+          "page_count": 11,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 20,
+          "has_tables": true,
+          "text_density": 0.37,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:22.624139"
+      },
+      "created_at": "2026-01-21T00:02:22.625298",
+      "usage_count": 0
+    },
+    "NEOENERGIA_10p_d4cabc9e": {
+      "model_id": "NEOENERGIA_10p_d4cabc9e",
+      "distributor": "NEOENERGIA",
+      "fingerprint": {
+        "pdf_path": "C:\\Projetos\\Raizen\\data\\raw\\10_paginas\\NEOENERGIA\\05 07 2024 SOLAR 40908 - CORPOREOS - SERVICOS TERAPEUTICOS SA.pdf",
+        "page_count": 10,
+        "visual_hash": "5c07617d72ba9f72",
+        "structure_hash": "74304dd5",
+        "composite_id": "d4cabc9e",
+        "structure": {
+          "page_count": 10,
+          "width": 594,
+          "height": 842,
+          "aspect_ratio": 0.71,
+          "text_block_count": 25,
+          "has_tables": false,
+          "text_density": 0.22,
+          "columns": 2
+        },
+        "confidence": 0.95,
+        "created_at": "2026-01-21T00:02:23.128060"
+      },
+      "created_at": "2026-01-21T00:02:23.128697",
+      "usage_count": 0
     }
   },
   "metadata": {

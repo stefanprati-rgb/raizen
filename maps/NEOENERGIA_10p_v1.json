@@ -117,5 +117,11 @@
         "O documento está marcado como 'DOCUMENTO CANCELADO' na página 9, o que pode indicar que não está mais válido.",
         "O campo 'nire' não foi encontrado para a Consorciada. O NIRE presente na página 3 (35235116334) refere-se à Consorciada Líder (Raízen GD LTDA), não à Consorciada (EDVALDO MARTINS DE OLIVEIRA JUNIOR).",
         "O campo 'sic_ec_cliente' não foi encontrado. O documento utiliza 'Nº da Instalação' e 'N° do Cliente' como identificadores."
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "05 07 2024 SOLAR 40908 - CORPOREOS - SERVICOS TERAPEUTICOS SA.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

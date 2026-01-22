@@ -3,8 +3,8 @@ from pathlib import Path
 import json
 from dataclasses import asdict
 
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-from src.extrator_contratos.extractor import ContractExtractor
+# Import do módulo raizen_power
+from raizen_power.extraction.extractor import ContractExtractor
 
 files = [
     r"C:\Projetos\Raizen\contratos_por_paginas\11_paginas\RGE\SOLAR 22787 - NYC GASTRONOMIA LTDA - 10877790000141 - Clicksign.pdf",

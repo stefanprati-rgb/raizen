@@ -100,5 +100,11 @@
             "valor_extraido": "35.299.982/0001-49",
             "confianca": "alta"
         }
+    },
+    "meta": {
+        "reference_pdf": "SOLAR 10935 - CANOPUS DESENVOLVIMENTO IMOBILIARIO LTDA - 04505660000185 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

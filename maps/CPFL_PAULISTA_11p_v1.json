@@ -49,5 +49,11 @@
             "descricao": "Endereço completo da sede ou unidade."
         }
     },
-    "notas": "Variante 1: Layout tabelado com seções DA QUALIFICAÇÃO DA CONSORCIADA"
+    "notas": "Variante 1: Layout tabelado com seções DA QUALIFICAÇÃO DA CONSORCIADA",
+    "meta": {
+        "reference_pdf": "SOLAR - TERMO_DE_ADESAO - 51607 - GRUPO ADN S.A - 14189784000152 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

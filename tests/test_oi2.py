@@ -8,7 +8,7 @@ spec = importlib.util.spec_from_file_location('organizer', 'scripts/super_organi
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 
-pdf_path = r'C:\Projetos\Raizen\contratos_por_paginas\17_paginas\OUTRAS_DESCONHECIDAS\SOLAR 16885 - OI S.A. – EM RECUPERAÇÃO JUDICIAL - 76535764032509.pdf'
+pdf_path = r'C:\Projetos\Raizen\data\processed\17_paginas\ENERGISA\SOLAR 16885 - OI S.A. – EM RECUPERAÇÃO JUDICIAL - 76535764032509.pdf'
 
 result = mod.identify_distributor(pdf_path)
 print(f'Resultado: {result}')

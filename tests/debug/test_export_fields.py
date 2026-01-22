@@ -7,10 +7,8 @@ import sys
 import json
 from pathlib import Path
 
-# Adicionar src ao path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
-from src.extrator_contratos.extractor import ContractExtractor
+# Import do módulo raizen_power
+from raizen_power.extraction.extractor import ContractExtractor
 
 # Campos que o usuário precisa exportar
 CAMPOS_EXPORTACAO = [

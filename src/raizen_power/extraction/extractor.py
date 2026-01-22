@@ -35,6 +35,7 @@ from .table_extractor import (
     get_pdf_page_count
 )
 from raizen_power.analysis import classifier
+from raizen_power.utils.city_distributor_map import get_distributor_by_city
 
 
 @dataclass
@@ -322,10 +323,27 @@ class ContractExtractor:
                     base_data['modelo_detectado'] = result.modelo_detectado
                     base_data['data_extracao'] = datetime.now().isoformat()
                     
-                    # Se não encontrou distribuidora no texto, usar a classificada
-                    if not base_data.get('distribuidora') and result.distribuidora_classificada not in ['OUTRAS_DESCONHECIDAS', 'ERRO_LEITURA', 'ERRO_OCR']:
-                         base_data['distribuidora'] = result.distribuidora_classificada
-                         base_data['metodo_distribuidora'] = 'CLASSIFICADOR_AUTO'
+                    # Refinamento por Cidade/UF
+                    dist_regex = base_data.get('distribuidora')
+                    refined_dist = None
+                    
+                    if base_data.get('cidade'):
+                        refined_dist = get_distributor_by_city(base_data['cidade'], base_data.get('uf'))
+                    
+                    # 1. Priorizar refinamento se regex for muito genérico
+                    if dist_regex and refined_dist:
+                        if dist_regex in ["CPFL", "ENEL", "NEOENERGIA", "CEMIG", "EQUATORIAL", "EDP"] and dist_regex in refined_dist:
+                             base_data['distribuidora'] = refined_dist
+                             base_data['metodo_distribuidora'] = 'CIDADE_REFINE'
+                    
+                    # 2. Preencher vazios
+                    if not base_data.get('distribuidora'):
+                        if refined_dist:
+                            base_data['distribuidora'] = refined_dist
+                            base_data['metodo_distribuidora'] = 'CIDADE_LOOKUP'
+                        elif result.distribuidora_classificada not in ['OUTRAS_DESCONHECIDAS', 'ERRO_LEITURA', 'ERRO_OCR']:
+                             base_data['distribuidora'] = result.distribuidora_classificada
+                             base_data['metodo_distribuidora'] = 'CLASSIFICADOR_AUTO'
                     
                     # Normalizar dados antes da validação
                     base_data = normalize_all(base_data)

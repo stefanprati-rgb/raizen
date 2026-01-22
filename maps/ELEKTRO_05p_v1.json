@@ -105,5 +105,11 @@
     },
     "campos_nao_encontrados": [
         "aviso_previo"
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "SOLAR 1493 - AUTO POSTO ITAGUA DE UBATUBA - 05212042000100.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

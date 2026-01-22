@@ -321,3 +321,66 @@ def validate_cep(cep: Optional[str]) -> bool:
         return False
     clean_cep = re.sub(r'[^\d]', '', cep)
     return len(clean_cep) == 8
+
+
+def validate_dates_order(
+    emissao: Optional[str],
+    vencimento: Optional[str],
+    allow_same_day: bool = True
+) -> bool:
+    """
+    Valida que data_emissao <= data_vencimento.
+    
+    Args:
+        emissao: Data de emissão em formato DD/MM/AAAA ou AAAA-MM-DD
+        vencimento: Data de vencimento em formato DD/MM/AAAA ou AAAA-MM-DD
+        allow_same_day: Se True, permite emissão == vencimento
+        
+    Returns:
+        bool: True se ordem está correta, False caso contrário
+        
+    Examples:
+        >>> validate_dates_order("01/01/2024", "31/01/2024")
+        True
+        >>> validate_dates_order("31/01/2024", "01/01/2024")
+        False
+        >>> validate_dates_order("2024-01-01", "2024-01-31")
+        True
+    """
+    if not emissao or not vencimento:
+        return True  # Se alguma data ausente, não validar (não é erro de ordem)
+    
+    from datetime import datetime
+    
+    def parse_date(date_str: str) -> Optional[datetime]:
+        """Parser flexível para datas BR (DD/MM/AAAA) e ISO (AAAA-MM-DD)."""
+        date_str = str(date_str).strip()
+        
+        # Tentar formato brasileiro DD/MM/AAAA
+        for fmt in ['%d/%m/%Y', '%d-%m-%Y', '%d.%m.%Y']:
+            try:
+                return datetime.strptime(date_str, fmt)
+            except ValueError:
+                continue
+        
+        # Tentar formato ISO AAAA-MM-DD
+        for fmt in ['%Y-%m-%d', '%Y/%m/%d']:
+            try:
+                return datetime.strptime(date_str, fmt)
+            except ValueError:
+                continue
+        
+        return None
+    
+    dt_emissao = parse_date(emissao)
+    dt_vencimento = parse_date(vencimento)
+    
+    if not dt_emissao or not dt_vencimento:
+        logger.warning(f"Falha ao parsear datas: emissao='{emissao}', vencimento='{vencimento}'")
+        return False
+    
+    if allow_same_day:
+        return dt_emissao <= dt_vencimento
+    else:
+        return dt_emissao < dt_vencimento
+

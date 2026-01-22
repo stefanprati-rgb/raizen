@@ -138,5 +138,11 @@
     "alertas": [
         "Contrato de 2 páginas - modelo simplificado",
         "Dois representantes legais identificados"
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "SOLAR 70252 - AUTO POSTO PERO_ADESAO - 19622067000196 - Qualisigin.PDF",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

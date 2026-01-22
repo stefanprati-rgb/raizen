@@ -2,12 +2,10 @@
 import sys
 from pathlib import Path
 
-# Adicionar src ao path para encontrar o módulo
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
-
-from extrator_contratos import ContractExtractor
-from extrator_contratos.validators import parse_currency, is_umbrella_contract, validate_cep
-from extrator_contratos.patterns import extract_field
+# Imports do módulo raizen_power
+from raizen_power.extraction.extractor import ContractExtractor
+from raizen_power.utils.validators import parse_currency, is_umbrella_contract, validate_cep
+from raizen_power.extraction.patterns import extract_field
 
 print("=" * 60)
 print("TESTE DAS CORREÇÕES")

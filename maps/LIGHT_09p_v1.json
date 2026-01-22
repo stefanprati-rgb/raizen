@@ -107,5 +107,11 @@
     "alertas": [
         "Contrato de 9 páginas - modelo expandido LIGHT",
         "Data de adesão está na página 3"
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "SOLAR 19352 - ULISSES P DE SOUSA FILHO CHOPERIA - REEMISSÃO - 24897849000178.docx - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

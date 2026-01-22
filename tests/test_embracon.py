@@ -8,7 +8,7 @@ spec = importlib.util.spec_from_file_location('organizer', 'scripts/super_organi
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 
-pdf_path = r'C:\Projetos\Raizen\contratos_por_paginas\18_paginas\INADIMPLEMENTO_DO_PAGAMENTO_MU\SOLAR 41372 - EMBRACON ADM DE CONSORCIO LTDA - 58113812000123 - Clicksign.pdf'
+pdf_path = r'C:\Projetos\Raizen\data\processed\18_paginas\ELEKTRO\SOLAR 41372 - EMBRACON ADM DE CONSORCIO LTDA - 58113812000123 - Clicksign.pdf'
 
 # Testar identificação
 result = mod.identify_distributor(pdf_path)

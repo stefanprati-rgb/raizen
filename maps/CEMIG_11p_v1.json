@@ -101,5 +101,11 @@
             "confianca": "alta"
         }
     },
-    "campos_nao_encontrados": []
+    "campos_nao_encontrados": [],
+    "meta": {
+        "reference_pdf": "SOLAR 10548 - ARTHUR LUNDGREN TECIDOS S A CASAS PERNAMBUCANAS - 61099834000190 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

@@ -71,5 +71,11 @@
             "descricao": "Percentual de desconto ou economia"
         }
     },
-    "notas": "Multimodelo: cobre Visual/Infográfico, Tabela Estruturada (Fortbras) e Formal SIC-EC"
+    "notas": "Multimodelo: cobre Visual/Infográfico, Tabela Estruturada (Fortbras) e Formal SIC-EC",
+    "meta": {
+        "reference_pdf": "SOLAR - TERMO_DE_ADESAO - 51607 - GRUPO ADN S.A - 14189784000152 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

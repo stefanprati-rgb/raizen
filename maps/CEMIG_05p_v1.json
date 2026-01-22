@@ -108,5 +108,11 @@
             "valor_extraido": "35.299.982/0001-49",
             "confianca": "alta"
         }
+    },
+    "meta": {
+        "reference_pdf": "SOLAR 1115 - POSTO DOM PEDRO DE POSTOS LTDA - 20415295000760 - Qualisign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

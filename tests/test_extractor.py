@@ -7,10 +7,8 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
-# Adicionar src ao path para encontrar o módulo
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
-
-from extrator_contratos import ContractExtractor
+# Import do módulo raizen_power
+from raizen_power.extraction.extractor import ContractExtractor
 import json
 
 PDF_DIR = Path(r"c:\Projetos\Raizen\OneDrive_2026-01-06\TERMO DE ADESÃO")

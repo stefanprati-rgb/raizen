@@ -100,5 +100,11 @@
             "valor_extraido": "41.668.273/0001-96",
             "confianca": "alta"
         }
+    },
+    "meta": {
+        "reference_pdf": "TERMO_ADESAO_0011962 - FORTBRAS AUTOPECAS S.A. - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

@@ -105,5 +105,11 @@
     },
     "campos_nao_encontrados": [
         "aviso_previo"
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "SOLAR 1633 - MARTINS E KOHLE RESTAURANTE LTDA - 31145182000112.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

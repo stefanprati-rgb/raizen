@@ -6,7 +6,7 @@ Limites do tier gratuito:
 - gemini-2.5-flash: 5 RPM, 20 RPD
 
 Uso:
-    python scripts/analyze_pdf_gemini.py --api-key AIzaSyC0SOZ9tSYLRt14N61kK9R-dxijfcMebUI
+    python scripts/analyze_pdf_gemini.py --api-key YOUR_API_KEY
     python scripts/analyze_pdf_gemini.py --list-priority  # Lista combinações prioritárias
     python scripts/analyze_pdf_gemini.py --combo "NEOENERGIA_ELEKTRO_9p"  # Analisa combo específico
 """

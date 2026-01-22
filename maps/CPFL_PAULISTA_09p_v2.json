@@ -71,5 +71,11 @@
             "descricao": "Percentual de desconto ou economia"
         }
     },
-    "notas": "Multimodelo: cobre Visual/Infográfico, Tabela Estruturada (Fortbras) e Formal SIC-EC"
+    "notas": "Multimodelo: cobre Visual/Infográfico, Tabela Estruturada (Fortbras) e Formal SIC-EC",
+    "meta": {
+        "reference_pdf": "SOLAR 0028971 - REDE LK DE POSTOS LTDA - 01820806000784 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

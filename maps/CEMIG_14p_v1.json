@@ -100,5 +100,11 @@
             "valor_extraido": "35.299.982/0001-49",
             "confianca": "alta"
         }
+    },
+    "meta": {
+        "reference_pdf": "SOLAR 14016 - 99 TECNOLOGIA LTDA - 18033552000161 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

@@ -3,10 +3,10 @@ import sys
 import warnings
 warnings.filterwarnings('ignore')
 
-sys.path.insert(0, 'src')
-from extrator_contratos import ContractExtractor
+# Import do módulo raizen_power
+from raizen_power.extraction.extractor import ContractExtractor
 
-pdf_path = r'C:\Projetos\Raizen\OneDrive_2026-01-06\TERMO DE ADESÃO\GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf'
+pdf_path = r'C:\Projetos\Raizen\data\processed\34_paginas\ENERGISA_MT\GD - TERMO DE ADESÃO - SOLAR 17486 - OI SA EM RECUPERACAO JUDICIAL - 76535764032932.pdf.pdf'
 
 extractor = ContractExtractor()
 result = extractor.extract_from_pdf(pdf_path)

@@ -136,5 +136,11 @@
     "alertas": [
         "Contrato de 2 páginas - modelo simplificado",
         "CPFL Paulista - subgrupo da CPFL"
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "SOLAR 68474 - CALIFORNIA_ADESAO - 086614765000137 - Qualisign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }

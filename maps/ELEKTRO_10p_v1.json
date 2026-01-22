@@ -100,5 +100,11 @@
             "valor_extraido": "41.668.273/0001-96",
             "confianca": "alta"
         }
+    },
+    "meta": {
+        "reference_pdf": "SOLAR 3235 - POSTO DOM PEDRO DE MIRACATU ROTA SUL - 54212592000134 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
     }
 }

@@ -122,5 +122,11 @@
     ],
     "alertas": [
         "O campo 'sic_ec_cliente' não foi encontrado no formato de 5-6 dígitos. Os números de instalação e cliente presentes no documento possuem 9 e 8 dígitos, respectivamente, e não são identificados como SIC ou EC."
-    ]
+    ],
+    "meta": {
+        "reference_pdf": "SOLAR 13635 - CLINICA E CIRURGIA DE OLHOS DR.ARMANDO AUGUSTO GUEDES LTDA - 00181085000232 - Clicksign.pdf",
+        "layout_hash": "",
+        "structure_hash": "",
+        "updated_at": "2026-01-21"
+    }
 }
