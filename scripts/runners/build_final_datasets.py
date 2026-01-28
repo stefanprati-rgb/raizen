@@ -14,12 +14,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from raizen_power.extraction.extractor import ContractExtractor
 
+# Definir raiz do projeto dinamicamente
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+
 # Configurações
 SOURCE_DIRS = [
-    Path("data/processed"),
+    PROJECT_ROOT / "data" / "processed",
     # Adicionar outras origens se necessário
 ]
-OUTPUT_DIR = Path("output/datasets_finais")
+OUTPUT_DIR = PROJECT_ROOT / "output" / "datasets_finais"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Logging

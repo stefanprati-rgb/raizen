@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path.cwd()))
 
 from src.extrator_contratos.table_extractor import open_pdf, extract_all_text_from_pdf
 
-PDF_PATH = Path("OneDrive_2026-01-06/TERMO DE ADESÃO/TERMO_ADESAO_0016105 - CASA FONSECA MATERIAIS DE CONSTRUCAO LTDA - Clicksign.pdf")
+PDF_PATH = Path("data/raw/OneDrive_2026-01-06/TERMO DE ADESÃO/TERMO_ADESAO_0016105 - CASA FONSECA MATERIAIS DE CONSTRUCAO LTDA - Clicksign.pdf")
 
 print("🔍 INSPECTING TEXT")
 with open_pdf(str(PDF_PATH)) as pdf:

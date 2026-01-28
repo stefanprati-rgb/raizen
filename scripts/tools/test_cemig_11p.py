@@ -7,7 +7,7 @@ from pathlib import Path
 
 def test_map():
     map_path = "maps/CEMIG_11p_v1.json"
-    pdf_path = "OneDrive_2026-01-06/TERMO DE ADESÃO/TERMO_ADESAO_0016105 - CASA FONSECA MATERIAIS DE CONSTRUCAO LTDA - Clicksign.pdf"
+    pdf_path = "data/raw/OneDrive_2026-01-06/TERMO DE ADESÃO/TERMO_ADESAO_0016105 - CASA FONSECA MATERIAIS DE CONSTRUCAO LTDA - Clicksign.pdf"
     
     with open(map_path, 'r', encoding='utf-8') as f:
         mapa = json.load(f)

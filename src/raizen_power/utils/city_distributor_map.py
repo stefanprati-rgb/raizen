@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 _CITY_MAP: Dict[str, List[str]] = {}
 
 # Caminho do Excel
-EXCEL_PATH = Path("data/reference/PAINEL DE DESEMPENHO DAS DISTRIBUIDORAS POR MUNICÍPIO.xlsx")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+EXCEL_PATH = PROJECT_ROOT / "data/reference/PAINEL DE DESEMPENHO DAS DISTRIBUIDORAS POR MUNICÍPIO.xlsx"
 
 # Mapeamento auxiliar de Distribuidora -> UFs de atuação
 # Baseado nas principais concessionárias do Brasil

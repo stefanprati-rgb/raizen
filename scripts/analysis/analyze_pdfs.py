@@ -8,7 +8,7 @@ import re
 import warnings
 warnings.filterwarnings('ignore')
 
-PDF_DIR = r"c:\Projetos\Raizen\OneDrive_2026-01-06\TERMO DE ADESÃO"
+PDF_DIR = r"c:\Projetos\Raizen\data\raw\OneDrive_2026-01-06\TERMO DE ADESÃO"
 
 def extract_text_from_pdf(pdf_path, max_pages=2):
     """Extrai texto de um PDF."""

@@ -4,7 +4,7 @@ import pdfplumber
 import warnings
 warnings.filterwarnings('ignore')
 
-spec = importlib.util.spec_from_file_location('organizer', 'scripts/super_organizer_v4.py')
+spec = importlib.util.spec_from_file_location('organizer', 'scripts/legacy/super_organizer_v4.py')
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 

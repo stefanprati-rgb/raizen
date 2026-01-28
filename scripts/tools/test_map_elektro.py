@@ -9,7 +9,7 @@ from src.extrator_contratos.table_extractor import open_pdf, extract_all_text_fr
 from scripts.apply_map import extract_with_map
 
 MAP_PATH = Path("maps/NEOENERGIA_ELEKTRO_09p_v1.json")
-PDF_PATH = Path("OneDrive_2026-01-06/TERMO DE ADESÃO/TERMO_ADESAO_0037520 - Supermercado Assis e Vieira eirelli - epp - 28179005000142.docx - Clicksign.pdf")
+PDF_PATH = Path("data/raw/OneDrive_2026-01-06/TERMO DE ADESÃO/TERMO_ADESAO_0037520 - Supermercado Assis e Vieira eirelli - epp - 28179005000142.docx - Clicksign.pdf")
 
 print(f"VALIDANDO MAPA: {MAP_PATH.name}")
 print(f"PDF: {PDF_PATH.name}")

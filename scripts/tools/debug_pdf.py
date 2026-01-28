@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from extrator_contratos.table_extractor import extract_all_text
 import re
 
-PDF_DIR = Path(r"c:\Projetos\Raizen\OneDrive_2026-01-06\TERMO DE ADESÃO")
+PDF_DIR = Path(r"c:\Projetos\Raizen\data\raw\OneDrive_2026-01-06\TERMO DE ADESÃO")
 
 # Testar TERMO ADESAO específico
 pdf_path = PDF_DIR / "TERMO ADESAO 0013222 - AUTO POSTO E SERVICO MJM DE MARICA LTDA - 07604073Clicksign.pdf"

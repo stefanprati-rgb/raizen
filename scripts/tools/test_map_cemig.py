@@ -13,7 +13,7 @@ PDF_FILE = "TERMO_ADESAO_0016105 - CASA FONSECA MATERIAIS DE CONSTRUCAO LTDA - C
 
 MAP_PATH = Path(f"maps/{MAP_FILE}")
 # Caminho do PDF (ajuste se necessário)
-PDF_PATH = Path("OneDrive_2026-01-06/TERMO DE ADESÃO") / PDF_FILE
+PDF_PATH = Path("data/raw/OneDrive_2026-01-06/TERMO DE ADESÃO") / PDF_FILE
 
 print(f"VALIDANDO MAPA: {MAP_PATH.name}")
 print(f"PDF: {PDF_PATH.name}")

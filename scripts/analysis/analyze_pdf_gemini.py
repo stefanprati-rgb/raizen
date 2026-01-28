@@ -35,7 +35,7 @@ except ImportError:
 PROJECT_ROOT = Path(__file__).parent.parent
 MAPS_DIR = PROJECT_ROOT / "maps"
 OUTPUT_DIR = PROJECT_ROOT / "output"
-PDFS_DIR = PROJECT_ROOT / "OneDrive_2026-01-06" / "TERMO DE ADESÃO"
+PDFS_DIR = PROJECT_ROOT / "data" / "raw" / "OneDrive_2026-01-06" / "TERMO DE ADESÃO"
 
 
 # Prompt otimizado para gerar mapa de extração

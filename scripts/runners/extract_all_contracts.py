@@ -30,7 +30,7 @@ from src.extrator_contratos.classifier import identify_distributor_from_text
 from scripts.apply_map import extract_with_map
 
 # Paths
-SOURCE_DIR = Path("OneDrive_2026-01-06/TERMO DE ADESÃO")
+SOURCE_DIR = Path("data/raw/OneDrive_2026-01-06/TERMO DE ADESÃO")
 MAPS_DIR = Path("maps")
 OUTPUT_DIR = Path("output")
 

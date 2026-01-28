@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 # Caminhos para arquivos de referência
 # Ajustar conforme necessário ou mover para arquivo de configuração
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 EXCEL_BI = PROJECT_ROOT / "data/reference/AreaatuadistbaseBI.xlsx"
 EXCEL_MUNICIPIO = PROJECT_ROOT / "data/reference/PAINEL DE DESEMPENHO DAS DISTRIBUIDORAS POR MUNICÍPIO.xlsx"
 
