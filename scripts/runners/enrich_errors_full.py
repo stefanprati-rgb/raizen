@@ -34,12 +34,19 @@ logger = logging.getLogger(__name__)
 # --- Configurações Globais ---
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(BASE_DIR))
+sys.path.append(str(BASE_DIR / "src"))
+
+try:
+    from raizen_power.utils.text_sanitizer import TextSanitizer, NoiseFilter
+except ImportError:
+    logger.error("Falha ao importar TextSanitizer do diretório src.")
+    sys.exit(1)
 
 # Constantes de Arquivos
-FILE_ERROS = BASE_DIR / "docs/ERROS CADASTRO RZ 1.xlsx"
+FILE_ERROS = BASE_DIR / "docs/ERROS cadastros RAIZEN 1.xlsx"
 FILE_BASE_XLSX = BASE_DIR / "docs/BASE DE CLIENTES - Raizen.xlsx"
 FILE_BASE_CSV = BASE_DIR / "docs/BASE DE CLIENTES - Raizen.xlsx - base_clientes.csv"
-OUTPUT_FILE = BASE_DIR / "output/enrichment/ERROS_CADASTRO_ENRICHED_FULL.xlsx"
+OUTPUT_FILE = BASE_DIR / "output/enrichment/ERROS_CADASTRO_RAIZEN_1.xlsx"
 PARTIAL_FILE = OUTPUT_FILE.with_name("enrich_partial.json")
 
 # Constantes de Execução
@@ -58,11 +65,52 @@ def cleanup_temp_files():
     except Exception as e:
         logger.warning(f"Limpeza: Falha ao remover arquivos temporários: {e}")
 
+def apply_manual_patches(df: pd.DataFrame) -> pd.DataFrame:
+    """Aplica patches manuais para endereços conhecidos sem CEP/Cidade."""
+    patches = [
+        {"key": "OURIQUE", "cidade": "RIO DE JANEIRO", "cep": "21011130", "uf": "RJ"},
+        {"key": "JOAO LIERA", "cidade": "RIO DE JANEIRO", "cep": "22430210", "uf": "RJ"},
+        {"key": "JOAO LIRA", "cidade": "RIO DE JANEIRO", "cep": "22430210", "uf": "RJ"},
+        {"key": "RITA LUDOLF", "cidade": "RIO DE JANEIRO", "cep": "22440060", "uf": "RJ"},
+        {"key": "WASHINGTON LUIZ", "cidade": "DUQUE DE CAXIAS", "cep": "25085008", "uf": "RJ"},
+        {"key": "AVPRES KENNEDY", "cidade": "DUQUE DE CAXIAS", "cep": "25010001", "uf": "RJ"},
+        {"key": "AFONSO MORENO", "cidade": "FRANCISCO MORATO", "cep": "07906000", "uf": "SP"},
+        {"key": "CHICO DE PAULA", "cidade": "MOGI GUACU", "cep": "13840001", "uf": "SP"}
+    ]
+    
+    for p in patches:
+        # Filtra registros com a chave e sem CEP ou Cidade
+        mask = (
+            df['FINAL_LOGRADOURO'].astype(str).str.upper().str.contains(p['key'], na=False) & 
+            (df['FINAL_CEP'].isna() | df['FINAL_CIDADE'].isna() | df['FINAL_UF'].isna())
+        )
+        if mask.any():
+            logger.info(f"Patch aplicado para: {p['key']} ({mask.sum()} registros)")
+            df.loc[mask, 'FINAL_CIDADE'] = df.loc[mask, 'FINAL_CIDADE'].fillna(p['cidade'])
+            df.loc[mask, 'FINAL_CEP'] = df.loc[mask, 'FINAL_CEP'].fillna(p['cep'])
+            df.loc[mask, 'FINAL_UF'] = df.loc[mask, 'FINAL_UF'].fillna(p['uf'])
+            df.loc[mask, 'ORIGEM_DADO'] = "PATCH_MANUAL"
+            df.loc[mask, 'STATUS_ENRIQUECIMENTO'] = "ENRIQUECIDO_COMPLETO"
+            
+    return df
+
 def validate_columns(df: pd.DataFrame, required_columns: list, df_name: str) -> bool:
-    """Valida colunas obrigatórias."""
+    """Valida colunas obrigatórias com suporte a renomeação."""
+    # Renomeação automática de colunas conhecidas
+    col_map = {
+        'UNIDADE CONSUMIDORA': 'UC',
+        'NUMERO UC': 'UC',
+        'CNPJ/CPF': 'CNPJ' # Mapear original para CNPJ se necessário
+    }
+    
+    # Normalizar headers para UPPER para matching
+    df.columns = df.columns.astype(str).str.strip().str.upper()
+    df.rename(columns=col_map, inplace=True)
+
     missing = [col for col in required_columns if col not in df.columns]
     if missing:
-        logger.error(f"[{df_name}] Colunas obrigatórias ausentes: {missing}")
+        logger.error(f"[{df_name}] Colunas obrigatórias ausentes após normalização: {missing}")
+        logger.error(f"Colunas disponíveis: {df.columns.tolist()}")
         return False
     return True
 
@@ -92,6 +140,45 @@ def find_header_row(file_path, hints=['NUMERO UC', 'UC', 'CNPJ'], max_rows=30):
         except Exception:
             continue
     return 0
+
+def smart_clean_id(val: str) -> tuple[str, str]:
+    """Limpa e valida CPF/CNPJ, tentando recuperar zeros à esquerda."""
+    if pd.isna(val): return "", "VAZIO"
+    
+    clean = re.sub(r'\D', '', str(val))
+    if not clean: return "", "VAZIO"
+
+    # 1. Se já tem tamanho correto, valida
+    if len(clean) == 11:
+        if NoiseFilter.is_valid_cpf(clean): return clean, "VALIDO_CPF"
+    elif len(clean) == 14:
+        if NoiseFilter.is_valid_cnpj(clean): return clean, "VALIDO_CNPJ"
+
+    # 2. Tenta reparar zeros à esquerda
+    # Caso 10 -> 11 (CPF)
+    if len(clean) == 10:
+        test = clean.zfill(11)
+        if NoiseFilter.is_valid_cpf(test): return test, "VALIDO_CPF_REPARADO"
+    
+    # Caso 13 -> 14 (CNPJ)
+    if len(clean) == 13:
+        test = clean.zfill(14)
+        if NoiseFilter.is_valid_cnpj(test) or test.startswith('0'):
+            # Mesmo que não valide (OCR erro), o zfill para 14 é o padrão para CNPJ
+            if NoiseFilter.is_valid_cnpj(test): return test, "VALIDO_CNPJ_REPARADO"
+            return test, "INVALIDO_CNPJ_PROVAVEL"
+
+    # 3. Fallback: zfill padrão se for pequeno
+    if len(clean) < 11:
+        return clean.zfill(11), "TAMANHO_SUSPEITO_CPF"
+    if len(clean) < 14:
+        return clean.zfill(14), "TAMANHO_SUSPEITO_CNPJ"
+        
+    return clean, "VALOR_INVALIDO"
+
+def clean_cnpj(val):
+    id_val, status = smart_clean_id(val)
+    return id_val
 
 def query_brasil_api(cnpj):
     """Consulta BrasilAPI com backoff e tratamento de exceções."""
@@ -324,26 +411,28 @@ def main():
             df_merged['CNPJ_RAW'] = None
 
         if 'CNPJ_RAW' in df_merged.columns:
-             # Ensure string and remove non-digits
-            df_merged['CNPJ_RAW'] = df_merged['CNPJ_RAW'].astype(str).str.replace(r'\D', '', regex=True)
-            # Lógica vetorizada com numpy para performance
-            df_merged['CNPJ_CLEAN'] = np.where(
-                (df_merged['CNPJ_RAW'].str.len() <= 11) & (df_merged['CNPJ_RAW'] != ''),
-                df_merged['CNPJ_RAW'].str.zfill(11),
-                np.where(
-                    df_merged['CNPJ_RAW'] != '',
-                    df_merged['CNPJ_RAW'].str.zfill(14),
-                    None
-                )
-            )
+            # Aplica smart_clean_id para obter o valor e o status de validação
+            logger.info("Executando validação de CPFs/CNPJs...")
+            res = df_merged['CNPJ_RAW'].apply(smart_clean_id)
+            df_merged['CNPJ_CLEAN'] = res.apply(lambda x: x[0])
+            df_merged['VALIDACAO_ID'] = res.apply(lambda x: x[1])
         else:
             df_merged['CNPJ_CLEAN'] = None
+            df_merged['VALIDACAO_ID'] = "AUSENTE"
 
         # 5. API Loop
+        # Trigger API if:
+        # 1. CNPJ is valid
+        # 2. AND (Address is missing OR CEP is missing)
         mask_api = (
             (df_merged['CNPJ_CLEAN'].notna()) & 
             (df_merged['CNPJ_CLEAN'].str.len() == 14) & 
-            (df_merged['BASE_ENDERECO'].isna() | (df_merged['BASE_ENDERECO'] == ''))
+            (
+                df_merged['BASE_ENDERECO'].isna() | 
+                (df_merged['BASE_ENDERECO'] == '') |
+                df_merged['BASE_CEP'].isna() |
+                (df_merged['BASE_CEP'] == '')
+            )
         )
         cnpjs_to_search = df_merged[mask_api]['CNPJ_CLEAN'].unique()
         logger.info(f"CNPJs para API: {len(cnpjs_to_search)}")
@@ -404,7 +493,8 @@ def main():
             df_api.reset_index(inplace=True)
             df_merged = pd.merge(df_merged, df_api, on='CNPJ_CLEAN', how='left')
         else:
-            for col in ['API_LOGRADOURO', 'API_STATUS']: df_merged[col] = None
+            for col in ['API_LOGRADOURO', 'API_STATUS']:
+                if col not in df_merged.columns: df_merged[col] = None
 
         # Status Final (Vetorizado)
         conditions = [
@@ -415,11 +505,41 @@ def main():
         choices = ["ENRIQUECIDO_COMPLETO", "ENRIQUECIDO_PARCIAL", "DADOS_BASE_INCOMPLETOS"]
         df_merged['STATUS_ENRIQUECIMENTO'] = np.select(conditions, choices, default="NAO_ENCONTRADO_BASE")
 
-        # Limpeza Colunas
-        cols_drop = ['CNPJ_RAW']
-        df_merged.drop(columns=[c for c in cols_drop if c in df_merged.columns], inplace=True)
+        # Coalesce Address Fields (Priority: API > Base)
+        def coalesce(df, col1, col2):
+            c1 = df[col1] if col1 in df.columns else pd.Series([None]*len(df))
+            c2 = df[col2] if col2 in df.columns else pd.Series([None]*len(df))
+            return c1.fillna(c2)
 
-        df_merged.to_excel(OUTPUT_FILE, index=False)
+        df_merged['FINAL_LOGRADOURO'] = coalesce(df_merged, 'API_LOGRADOURO', 'BASE_ENDERECO')
+        df_merged['FINAL_BAIRRO'] = coalesce(df_merged, 'API_BAIRRO', 'BASE_BAIRRO')
+        df_merged['FINAL_CIDADE'] = coalesce(df_merged, 'API_MUNICIPIO', 'BASE_CIDADE')
+        df_merged['FINAL_UF'] = coalesce(df_merged, 'API_UF', 'BASE_UF')
+        df_merged['FINAL_CEP'] = coalesce(df_merged, 'API_CEP', 'BASE_CEP')
+        
+        # Determine Origin
+        df_merged['ORIGEM_DADO'] = np.where(df_merged['API_STATUS'] == 'SUCESSO', 'API', 
+                                   np.where(df_merged['STATUS_ENRIQUECIMENTO'] == 'ENRIQUECIDO_COMPLETO', 'BASE', 'N/A'))
+
+        # Define Logical Order
+        priority_cols = [
+            'STATUS_ENRIQUECIMENTO', 'ORIGEM_DADO', 'UC', 'CNPJ', 'VALIDACAO_ID', 'NOME', 
+            'FINAL_LOGRADOURO', 'FINAL_BAIRRO', 'FINAL_CIDADE', 'FINAL_UF', 'FINAL_CEP'
+        ]
+        
+        # Add remaining columns that are not in priority
+        remaining_cols = [c for c in df_merged.columns if c not in priority_cols and c != 'CNPJ_RAW']
+        final_order = priority_cols + remaining_cols
+        
+        # Validar se todas priority existem
+        final_order = [c for c in final_order if c in df_merged.columns]
+        
+        df_final = df_merged[final_order].copy()
+        
+        # Patch Final para os casos sem Cidade/CEP que inferimos
+        df_final = apply_manual_patches(df_final)
+
+        df_final.to_excel(OUTPUT_FILE, index=False)
         logger.info(f"Sucesso! Arquivo salvo em: {OUTPUT_FILE}")
         
         # Cleanup

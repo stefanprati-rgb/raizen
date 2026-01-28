@@ -130,6 +130,30 @@ class NoiseFilter:
             return int(cpf[10]) == d2
         except:
             return False
+
+    @staticmethod
+    def is_valid_cnpj(cnpj: str) -> bool:
+        """Valida CNPJ pelo Módulo 11."""
+        if len(cnpj) != 14 or cnpj == cnpj[0] * 14:
+            return False
+        
+        try:
+            # Primeiro dígito
+            pesos1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+            soma = sum(int(cnpj[i]) * pesos1[i] for i in range(12))
+            resto = soma % 11
+            d1 = 0 if resto < 2 else 11 - resto
+            if int(cnpj[12]) != d1:
+                return False
+            
+            # Segundo dígito
+            pesos2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+            soma = sum(int(cnpj[i]) * pesos2[i] for i in range(13))
+            resto = soma % 11
+            d2 = 0 if resto < 2 else 11 - resto
+            return int(cnpj[13]) == d2
+        except:
+            return False
     
     @staticmethod
     def is_noise(number: str, context: str = "", rules_class=None) -> Tuple[bool, str]:
