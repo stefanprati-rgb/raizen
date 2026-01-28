@@ -10,6 +10,7 @@ docs/*.pdf
 *.csv
 *.pdf
 checkpoint_*.pkl
+tests/debug/*.json
 *.json
 !requirements.json
 !package.json
