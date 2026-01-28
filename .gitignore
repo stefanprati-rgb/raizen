@@ -4,6 +4,17 @@
 data/
 !data/reference/
 output/
+docs/*.xlsx
+docs/*.pdf
+*.xlsx
+*.csv
+*.pdf
+checkpoint_*.pkl
+*.json
+!requirements.json
+!package.json
+!*config*.json
+!auth.json.template
 
 # =============================================================================
 # LOGS

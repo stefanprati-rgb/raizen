@@ -40,6 +40,38 @@ class TextSanitizer:
         
         return text, cnpjs_found
 
+    @staticmethod
+    def repair_id_zeros(value: str, id_type: str = 'CNPJ') -> str:
+        """
+        Adiciona zeros à esquerda até completar 11 (CPF) ou 14 (CNPJ) dígitos.
+        Útil para recuperar IDs truncados pelo Excel.
+        """
+        if not value: return ""
+        clean = re.sub(r'\D', '', str(value))
+        target_len = 14 if id_type.upper() == 'CNPJ' else 11
+        if len(clean) > 0 and len(clean) < target_len:
+            return clean.zfill(target_len)
+        return clean
+
+    @staticmethod
+    def fuzzy_fix_ocr(value: str) -> str:
+        """
+        Corrige trocas comuns de OCR que invalidam CNPJ/CPF.
+        Ex: 'O' -> '0', 'B' -> '8', 'I' -> '1'.
+        """
+        if not value: return ""
+        replacements = {
+            'O': '0', 'o': '0',
+            'B': '8',
+            'I': '1', 'i': '1', 'l': '1',
+            'S': '5', 's': '5',
+            'G': '6'
+        }
+        fixed = str(value)
+        for char, replacement in replacements.items():
+            fixed = fixed.replace(char, replacement)
+        return re.sub(r'\D', '', fixed)
+
 
 class NoiseFilter:
     """
